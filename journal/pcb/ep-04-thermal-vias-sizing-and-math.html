@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Thermal Vias — Sizing, Pattern, and the Math That Saves Parts — PCB & Signal Integrity · Nabil Karim</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<script src="../../image-slot.js"></script>
+<style>
+  :root{
+    --bg:#090909; --surface:#111111; --fg:#EDEDED; --muted:#666666;
+    --divider:#1C1C1C; --accent:#F05E1C; --accent-glow:rgba(240,94,28,0.35);
+    --mono:"IBM Plex Mono", ui-monospace, monospace;
+    --sans:"DM Sans", system-ui, sans-serif;
+    --gutter:clamp(20px, 5vw, 80px);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg); color:var(--fg);
+    font-family:var(--sans); line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+    background-image:
+      linear-gradient(rgba(237,237,237,0.018) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(237,237,237,0.018) 1px, transparent 1px);
+    background-size: 48px 48px;
+    background-attachment: fixed;
+  }
+  body::before{
+    content:""; position:fixed; inset:0;
+    pointer-events:none; z-index:9998;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.55 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.18'/></svg>");
+    mix-blend-mode:overlay; opacity:0.5;
+  }
+  ::selection{background:var(--accent); color:#000;}
+  nav.top{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    padding:18px 0;
+    background:rgba(9,9,9,0.72);
+    backdrop-filter:blur(14px) saturate(140%);
+    border-bottom:1px solid var(--divider);
+  }
+  nav.top .wrap{
+    max-width:1280px; margin:0 auto; padding:0 var(--gutter);
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .brand{
+    font-family:var(--mono); font-weight:700; font-size:18px;
+    color:var(--fg); text-decoration:none; display:inline-flex; align-items:baseline; gap:2px;
+  }
+  .brand .dot{
+    width:6px; height:6px; background:var(--accent); border-radius:50%;
+    display:inline-block; margin-left:3px; box-shadow:0 0 8px var(--accent-glow);
+  }
+  .back, .navlinks a{
+    font-family:var(--mono); font-size:11px; letter-spacing:0.18em; text-transform:uppercase;
+    color:var(--fg); text-decoration:none; padding:8px 0;
+  }
+  .navlinks{ display:flex; gap:28px; align-items:center; }
+  .back{ display:inline-flex; align-items:center; gap:8px; }
+  .back .arr{ color:var(--accent); transition:transform .2s ease; }
+  .back:hover .arr{ transform:translateX(-4px); }
+  @keyframes blink{ 0%,100%{opacity:1;} 50%{opacity:0.35;} }
+</style>
+<style>
+  article{ max-width:760px; margin:0 auto; padding:160px var(--gutter) 80px; }
+  .meta-strip{
+    display:flex; align-items:center; gap:16px; flex-wrap:wrap;
+    font-family:var(--mono); font-size:11px; letter-spacing:0.18em; text-transform:uppercase;
+    color:var(--muted); margin-bottom:36px; padding-bottom:24px;
+    border-bottom:1px solid var(--divider);
+  }
+  .meta-strip .ep{ color:var(--accent); opacity:0.8; }
+  .meta-strip .ch{ color:var(--fg); }
+  .meta-strip .tag{
+    color:var(--accent); border:1px solid var(--divider);
+    padding:4px 8px; letter-spacing:0.2em;
+  }
+  .meta-strip .live{ display:inline-flex; align-items:center; gap:6px; color:var(--fg); }
+  .meta-strip .live::before{
+    content:""; width:6px; height:6px; border-radius:50%;
+    background:var(--accent); box-shadow:0 0 8px var(--accent-glow);
+    animation:blink 1.6s ease-in-out infinite;
+  }
+  h1.entry-title{
+    font-family:var(--mono); font-weight:500;
+    font-size:clamp(32px, 5vw, 52px);
+    line-height:1.05; letter-spacing:-0.025em;
+    color:var(--fg); margin-bottom:14px; text-wrap:pretty;
+  }
+  h1.entry-title .glow{ color:var(--accent); text-shadow:0 0 18px rgba(240,94,28,0.35); }
+  .entry-sub{
+    font-family:var(--mono); font-size:13px; letter-spacing:0.04em;
+    color:var(--accent); opacity:0.85; margin-bottom:24px;
+  }
+  .entry-deck{
+    font-size:19px; color:var(--fg); opacity:0.82; line-height:1.55;
+    max-width:62ch; margin-bottom:40px; font-weight:400;
+  }
+  .cover{
+    width:100%; aspect-ratio:16/9;
+    border:1px solid var(--divider); margin-bottom:14px;
+    background:
+      repeating-linear-gradient(45deg, rgba(237,237,237,0.025) 0 1px, transparent 1px 10px),
+      #0d0d0d;
+    position:relative; overflow:hidden;
+  }
+  .cover image-slot{ width:100%; height:100%; --slot-bg:transparent; --slot-border:transparent; }
+  .figure-cap{
+    margin-top:6px; margin-bottom:48px;
+    font-family:var(--mono); font-size:11px; letter-spacing:0.04em;
+    color:var(--muted); line-height:1.6;
+    max-width:64ch;
+  }
+  .figure-cap b{ color:var(--accent); font-weight:500; margin-right:8px; }
+  article h2{
+    font-family:var(--mono); font-weight:600;
+    font-size:22px; line-height:1.3; letter-spacing:-0.01em;
+    color:var(--fg); margin:52px 0 18px;
+    display:flex; align-items:baseline; gap:14px;
+  }
+  article h2::before{
+    content:""; width:18px; height:1px; background:var(--accent);
+    flex-shrink:0; transform:translateY(-6px);
+  }
+  article p, article ol, article ul{
+    font-size:16.5px; color:var(--fg); margin-bottom:20px; line-height:1.75; max-width:64ch;
+  }
+  article p code, article li code{
+    font-family:var(--mono); font-size:0.92em;
+    background:#1a1a1a; padding:2px 6px;
+    color:var(--accent); border-radius:2px;
+  }
+  article em{ color:var(--fg); font-style:italic; }
+  article strong{ color:var(--accent); font-weight:600; }
+  article a{ color:var(--accent); text-decoration:none; border-bottom:1px solid rgba(240,94,28,0.4); }
+  article a:hover{ border-bottom-color:var(--accent); }
+  article ul, article ol{ padding-left:0; list-style:none; }
+  article li{ padding-left:24px; position:relative; margin-bottom:10px; }
+  article ul li::before{
+    content:"▸"; position:absolute; left:0; top:0;
+    color:var(--accent); font-family:var(--mono); font-size:13px;
+  }
+  article ol{ counter-reset:item; }
+  article ol li::before{
+    counter-increment:item;
+    content:counter(item, decimal-leading-zero);
+    position:absolute; left:0; top:1px;
+    font-family:var(--mono); font-size:11px; letter-spacing:0.1em;
+    color:var(--accent); opacity:0.75;
+  }
+  article pre{
+    background:#0a0a0a;
+    border:1px solid var(--divider);
+    border-left:2px solid var(--accent);
+    padding:18px 22px; overflow-x:auto; margin:18px 0 28px;
+    line-height:1.65; color:#cfcfcf;
+    font-family:var(--mono); font-size:13px;
+    max-width:64ch;
+  }
+  article pre code{ background:transparent; padding:0; color:inherit; font-size:13px; }
+  .inline-fig{ margin:32px 0 14px; }
+  .inline-fig .frame{
+    width:100%; aspect-ratio:16/10;
+    border:1px solid var(--divider);
+    background:
+      repeating-linear-gradient(45deg, rgba(237,237,237,0.025) 0 1px, transparent 1px 10px),
+      #0d0d0d;
+    position:relative; overflow:hidden;
+  }
+  .inline-fig image-slot{ width:100%; height:100%; --slot-bg:transparent; --slot-border:transparent; }
+  .reading-list{
+    margin-top:60px; padding-top:32px;
+    border-top:1px solid var(--divider);
+  }
+  .reading-list h3{
+    font-family:var(--mono); font-size:11px; letter-spacing:0.22em; text-transform:uppercase;
+    color:var(--accent); margin-bottom:18px;
+  }
+  .reading-list ul{ list-style:none; padding:0; max-width:64ch; }
+  .reading-list li{
+    padding:10px 0 10px 18px; position:relative; margin-bottom:0;
+    border-bottom:1px solid var(--divider);
+    font-size:14px; line-height:1.5;
+  }
+  .reading-list li::before{
+    content:"◇"; position:absolute; left:0; top:11px;
+    color:var(--accent); font-size:11px; opacity:0.7;
+  }
+  .reading-list a{ color:var(--fg); border-bottom:none; text-decoration:none; }
+  .reading-list a:hover{ color:var(--accent); }
+  .reading-list .ext{
+    font-family:var(--mono); font-size:10px; letter-spacing:0.16em; text-transform:uppercase;
+    color:var(--accent); opacity:0.7; margin-left:6px;
+  }
+  .entry-foot{
+    margin-top:48px; padding-top:32px;
+    border-top:1px solid var(--divider);
+    display:flex; flex-direction:column; gap:24px;
+  }
+  .author-line{
+    display:flex; align-items:center; gap:14px;
+    font-family:var(--mono); font-size:12px; color:var(--muted); letter-spacing:0.08em;
+  }
+  .author-line .pip{ width:6px; height:6px; background:var(--accent); border-radius:50%; box-shadow:0 0 6px var(--accent-glow); }
+  .next-prev{ display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+  .np-card{
+    border:1px solid var(--divider); padding:20px 22px;
+    text-decoration:none; color:var(--fg);
+    transition:border-color .25s ease, background .25s ease;
+    display:flex; flex-direction:column; gap:6px;
+  }
+  .np-card:hover{ border-color:var(--accent); background:#0d0d0d; }
+  .np-card .dir{
+    font-family:var(--mono); font-size:10px; letter-spacing:0.22em; text-transform:uppercase;
+    color:var(--accent); opacity:0.7;
+  }
+  .np-card .ttl{ font-family:var(--mono); font-size:14px; color:var(--fg); line-height:1.4; }
+  .np-card.next{ text-align:right; }
+  .np-card.disabled{ pointer-events:none; opacity:0.5; }
+  @media (max-width:760px){ .next-prev{ grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+
+<nav class="top">
+  <div class="wrap">
+    <a href="../../Portfolio.html" class="brand">Nabil Karim<span class="dot"></span></a>
+    <div class="navlinks">
+      <a href="index.html">All Episodes</a>
+      <a href="../../Portfolio.html#learning" class="back"><span class="arr">←</span> Journal</a>
+    </div>
+  </div>
+</nav>
+
+<article>
+  <div class="meta-strip">
+    <span class="ch">CH/03 · PCB</span>
+    <span class="ep">EP / 04</span>
+    <span>Field note · 2026</span>
+    <span class="tag">PCB</span>
+    <span class="live">Live</span>
+    <span>· 12 min read</span>
+  </div>
+
+  <h1 class="entry-title">Thermal Vias — Sizing, Pattern, and the Math That Saves Parts</h1>
+  <div class="entry-sub">// How many vias under an AMS1117?</div>
+
+  <p class="entry-deck">I burned an AMS1117 by giving it one thermal via under the tab. The math says I needed twelve. A walk through copper heat conduction, via thermal resistance, and a calculator-free way to estimate how many vias your power part needs.</p>
+
+  <div class="cover">
+    <image-slot id="pcb04-cover" shape="rect" placeholder="Drop cover image"></image-slot>
+  </div>
+  <div class="figure-cap"><b>The original sin</b>— AMS1117 with one thermal via. Top side hit 95 °C. Replacement board had 12 vias in a grid, ran at 48 °C.</div>
+
+
+  <h2>01 / The part that died</h2>
+  <p>The board was a battery-powered sensor with a 5 V to 3.3 V LDO regulator. Input current peaks around 250 mA when the radio transmits. AMS1117-3.3 with a 1.7 V drop dissipates about 425 mW under that load — well inside the chip's 800 mW maximum, in theory.</p>
+<p>It died in five minutes. I touched the chip and burned my fingertip. The fault was thermal: in my layout the chip's tab was connected to a small isolated copper region, with one 0.3 mm thermal via to the bottom pour. One via, in copper, was good for about 100 K/W of thermal resistance. With 425 mW of power, that's a 42 °C rise from the bottom pour to the tab. Add a 35 °C ambient pour temperature — the tab was at 77 °C and the junction inside the package was past 100 °C. Cooked.</p>
+
+  <h2>02 / Heat conduction in copper, the back-of-envelope</h2>
+  <p>You don't need a CFD course. Three numbers carry most of the design:</p>
+<ul>
+<li>Copper thermal conductivity: <code>k_Cu ≈ 400 W/m·K</code></li>
+<li>FR4 thermal conductivity: <code>k_FR4 ≈ 0.3 W/m·K</code></li>
+<li>1 oz copper thickness: <strong>35 µm</strong></li>
+</ul>
+<p>Copper conducts heat ~1300× better than FR4. That's why <em>vias</em> exist as a thermal path at all: they're cylinders of plated copper that punch through the insulating FR4 substrate, giving the heat a short copper-only path from top pour to bottom pour.</p>
+
+  <div class="inline-fig">
+    <div class="frame">
+      <image-slot id="pcb04-fig1" shape="rect" placeholder="Drop image"></image-slot>
+    </div>
+  </div>
+  <div class="figure-cap"><b>Fig. 01</b>— Saturn PCB Toolkit via thermal resistance calc. ~180 K/W for a standard 0.3 mm via in 1.6 mm FR4.</div>
+
+  <h2>03 / The thermal resistance of one via</h2>
+  <p>A plated-through via is approximately a thin-walled copper cylinder. Its thermal resistance from top end to bottom end is:</p>
+<pre><code>R_via = L / (k_Cu &middot; A_cross)</code></pre>
+<p>For a standard hobbyist via: 0.3 mm drill, 25 µm copper plating, 1.6 mm thick FR4 board:</p>
+<pre><code>A_cross = &pi; &middot; ((0.15)&sup2; &minus; (0.125)&sup2;) = 0.022 mm&sup2; = 2.2e-8 m&sup2;
+R_via = 0.0016 / (400 &middot; 2.2e-8) = 180 K/W</code></pre>
+<p>180 K/W per via. That's an enormous number — it means 1 W of heat through a single via would raise the top side 180 °C above the bottom. You almost never use just one.</p>
+<p>If you parallel <code>N</code> vias (ignoring spreading resistance for now): <code>R_total ≈ R_via / N</code>. So twelve vias is 15 K/W. For my AMS1117 dissipating 0.425 W, that's a 6 °C rise — much more comfortable.</p>
+
+  <h2>04 / The number that gets people: 12 vias, not 4</h2>
+  <p>Forum advice for thermal vias usually says "4 in a square pattern." That works for parts dissipating &lt; 100 mW. For real power parts (LDOs handing &gt; 250 mW, MOSFET-Q parts, DC-DC modules) you typically need 9-16 vias arranged in a grid.</p>
+<p>A reasonable starting point:</p>
+<pre><code>N_vias = (P &middot; R_via_single) / &Delta;T_acceptable</code></pre>
+<p>For <code>P = 500 mW</code>, <code>R_via = 180 K/W</code>, <code>ΔT = 10 °C</code> (a tight budget): <code>N = (0.5 × 180) / 10 = 9 vias</code>.</p>
+<p>For the same power with a 5 °C budget: 18 vias. For 1 W: double everything. The number scales linearly, which is why "more vias than you think" is the right reflex.</p>
+
+  <h2>05 / The pattern matters less than the count</h2>
+  <p>Two common patterns:</p>
+<ul>
+<li><strong>Grid array</strong> — vias on a 0.8 mm or 1.0 mm pitch, filling the part's thermal pad. This is what every TI/STM thermal datasheet shows. Robust, easy to inspect, predictable.</li>
+<li><strong>Edge ring</strong> — vias around the perimeter of the tab. Worse thermally because heat in the middle of the tab has to travel laterally through the thin tab copper before reaching a via.</li>
+</ul>
+<p>If your power part has an exposed thermal pad (most modern packages — DPAK, SOT-223, QFN with EP), use grid array on a 0.8 mm pitch. Don't fill the vias with solder mask — leave them open or "tented" (some PCB houses charge extra for non-tented vias; check before you submit). Solder-filled vias are best but cost more.</p>
+
+  <div class="inline-fig">
+    <div class="frame">
+      <image-slot id="pcb04-fig2" shape="rect" placeholder="Drop image"></image-slot>
+    </div>
+  </div>
+  <div class="figure-cap"><b>Fig. 02</b>— IR thermometer side-by-side of the 4-via and 12-via test boards under identical load.</div>
+
+  <h2>06 / Try this in Saturn PCB Toolkit (free)</h2>
+  <p>Saturn has a "Via Properties" calculator that computes thermal resistance from your geometry. Walk through it:</p>
+<ol>
+<li>Open Saturn PCB Toolkit (Windows, free download from saturnpcb.com).</li>
+<li>Go to <strong>Via Properties</strong> tab.</li>
+<li>Enter your drill (e.g. 0.3 mm), finished hole (after plating, e.g. 0.25 mm), board thickness (1.6 mm), plating thickness (25 µm or 1 mil).</li>
+<li>Read the "Thermal Resistance" output.</li>
+<li>Compare to the formula in §03 above. You'll get within 10–20% — Saturn includes second-order effects.</li>
+</ol>
+<p>For full thermal modeling, FreeCAD has an FEM module that does heat conduction. KiCad doesn't simulate thermals natively but exports STEP for handoff to FreeCAD. Most hobbyists never get this far — the formula above is good enough for first-pass design.</p>
+
+  <h2>07 / Bench test with an IR thermometer</h2>
+  <p>If you have a $20 IR thermometer (HARBOR-FREIGHT or AliExpress), this becomes a learnable experiment:</p>
+<ol>
+<li>Build two identical small boards. Same LDO, same load (a 50 Ω power resistor). One with 4 thermal vias, one with 12.</li>
+<li>Power both, wait 5 minutes, point the IR gun at each LDO tab.</li>
+<li>Note the temperature difference. With the same dissipation, you should see 10–20 °C lower on the 12-via board.</li>
+</ol>
+<p>This is the kind of measurement that turns "more vias" from a vague rule into something you have personal evidence for.</p>
+
+  <h2>08 / What I haven't figured out yet</h2>
+  <p>Spreading resistance — heat moving sideways through the copper pour after exiting the via array — is the second-order effect I haven't built intuition for. Real boards have it, and it dominates when your pour is small (less than ~25 cm²). I'd love a simple rule-of-thumb for "minimum pour area" given a power dissipation budget. If you have one, send it.</p>
+
+
+  <div class="reading-list">
+    <h3>Further Reading</h3>
+    <ul>
+      <li><a href="https://saturnpcb.com/saturn-pcb-toolkit/" target="_blank" rel="noopener">Saturn PCB Toolkit — free thermal & via calculator</a> <span class="ext">↗</span></li>
+      <li><a href="https://www.ti.com/lit/an/slpa009a/slpa009a.pdf" target="_blank" rel="noopener">TI AN SLPA009A — Thermal design for SOT-223 and similar packages</a> <span class="ext">↗</span></li>
+      <li><a href="https://www.onsemi.com/pub/collateral/and8222-d.pdf" target="_blank" rel="noopener">ON Semi AND8222 — Thermal vias calculation guide</a> <span class="ext">↗</span></li>
+      <li><a href="https://www.ultracad.com/articles/thermalvias.pdf" target="_blank" rel="noopener">Doug Brooks — Thermal Vias in Printed Circuit Boards (free article)</a> <span class="ext">↗</span></li>
+      <li><a href="https://wiki.freecad.org/FEM_tutorial" target="_blank" rel="noopener">FreeCAD FEM module — thermal simulation for hobbyists</a> <span class="ext">↗</span></li>
+    </ul>
+  </div>
+
+  <div class="entry-foot">
+    <div class="author-line">
+      <span class="pip"></span>
+      <span>Logged by Nabil Karim · Bandung, ID · Field note · 2026</span>
+    </div>
+
+    <div class="next-prev">
+      <a class="np-card" href="index.html">
+        <span class="dir">← Back to Channel Index</span>
+        <span class="ttl">All PCB & Signal Integrity episodes</span>
+      </a>
+      <a class="np-card next disabled" href="#">
+        <span class="dir">Next Episode — Draft</span>
+        <span class="ttl">— in progress —</span>
+      </a>
+    </div>
+  </div>
+</article>
+
+</body>
+</html>

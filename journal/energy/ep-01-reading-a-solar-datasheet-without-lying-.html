@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Reading a Solar Datasheet Without Lying to Yourself — Renewable Energy · Nabil Karim</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<script src="../../image-slot.js"></script>
+<style>
+  :root{
+    --bg:#090909; --surface:#111111; --fg:#EDEDED; --muted:#666666;
+    --divider:#1C1C1C; --accent:#F05E1C; --accent-glow:rgba(240,94,28,0.35);
+    --mono:"IBM Plex Mono", ui-monospace, monospace;
+    --sans:"DM Sans", system-ui, sans-serif;
+    --gutter:clamp(20px, 5vw, 80px);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg); color:var(--fg);
+    font-family:var(--sans); line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+    background-image:
+      linear-gradient(rgba(237,237,237,0.018) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(237,237,237,0.018) 1px, transparent 1px);
+    background-size: 48px 48px;
+    background-attachment: fixed;
+  }
+  body::before{
+    content:""; position:fixed; inset:0;
+    pointer-events:none; z-index:9998;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.55 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.18'/></svg>");
+    mix-blend-mode:overlay; opacity:0.5;
+  }
+  ::selection{background:var(--accent); color:#000;}
+  nav.top{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    padding:18px 0;
+    background:rgba(9,9,9,0.72);
+    backdrop-filter:blur(14px) saturate(140%);
+    border-bottom:1px solid var(--divider);
+  }
+  nav.top .wrap{
+    max-width:1280px; margin:0 auto; padding:0 var(--gutter);
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .brand{
+    font-family:var(--mono); font-weight:700; font-size:18px;
+    color:var(--fg); text-decoration:none; display:inline-flex; align-items:baseline; gap:2px;
+  }
+  .brand .dot{
+    width:6px; height:6px; background:var(--accent); border-radius:50%;
+    display:inline-block; margin-left:3px; box-shadow:0 0 8px var(--accent-glow);
+  }
+  .back, .navlinks a{
+    font-family:var(--mono); font-size:11px; letter-spacing:0.18em; text-transform:uppercase;
+    color:var(--fg); text-decoration:none; padding:8px 0;
+  }
+  .navlinks{ display:flex; gap:28px; align-items:center; }
+  .back{ display:inline-flex; align-items:center; gap:8px; }
+  .back .arr{ color:var(--accent); transition:transform .2s ease; }
+  .back:hover .arr{ transform:translateX(-4px); }
+  @keyframes blink{ 0%,100%{opacity:1;} 50%{opacity:0.35;} }
+</style>
+<style>
+  article{ max-width:760px; margin:0 auto; padding:160px var(--gutter) 80px; }
+  .meta-strip{
+    display:flex; align-items:center; gap:16px; flex-wrap:wrap;
+    font-family:var(--mono); font-size:11px; letter-spacing:0.18em; text-transform:uppercase;
+    color:var(--muted); margin-bottom:36px; padding-bottom:24px;
+    border-bottom:1px solid var(--divider);
+  }
+  .meta-strip .ep{ color:var(--accent); opacity:0.8; }
+  .meta-strip .ch{ color:var(--fg); }
+  .meta-strip .tag{
+    color:var(--accent); border:1px solid var(--divider);
+    padding:4px 8px; letter-spacing:0.2em;
+  }
+  .meta-strip .live{ display:inline-flex; align-items:center; gap:6px; color:var(--fg); }
+  .meta-strip .live::before{
+    content:""; width:6px; height:6px; border-radius:50%;
+    background:var(--accent); box-shadow:0 0 8px var(--accent-glow);
+    animation:blink 1.6s ease-in-out infinite;
+  }
+  h1.entry-title{
+    font-family:var(--mono); font-weight:500;
+    font-size:clamp(32px, 5vw, 52px);
+    line-height:1.05; letter-spacing:-0.025em;
+    color:var(--fg); margin-bottom:14px; text-wrap:pretty;
+  }
+  h1.entry-title .glow{ color:var(--accent); text-shadow:0 0 18px rgba(240,94,28,0.35); }
+  .entry-sub{
+    font-family:var(--mono); font-size:13px; letter-spacing:0.04em;
+    color:var(--accent); opacity:0.85; margin-bottom:24px;
+  }
+  .entry-deck{
+    font-size:19px; color:var(--fg); opacity:0.82; line-height:1.55;
+    max-width:62ch; margin-bottom:40px; font-weight:400;
+  }
+  .cover{
+    width:100%; aspect-ratio:16/9;
+    border:1px solid var(--divider); margin-bottom:14px;
+    background:
+      repeating-linear-gradient(45deg, rgba(237,237,237,0.025) 0 1px, transparent 1px 10px),
+      #0d0d0d;
+    position:relative; overflow:hidden;
+  }
+  .cover image-slot{ width:100%; height:100%; --slot-bg:transparent; --slot-border:transparent; }
+  .figure-cap{
+    margin-top:6px; margin-bottom:48px;
+    font-family:var(--mono); font-size:11px; letter-spacing:0.04em;
+    color:var(--muted); line-height:1.6;
+    max-width:64ch;
+  }
+  .figure-cap b{ color:var(--accent); font-weight:500; margin-right:8px; }
+  article h2{
+    font-family:var(--mono); font-weight:600;
+    font-size:22px; line-height:1.3; letter-spacing:-0.01em;
+    color:var(--fg); margin:52px 0 18px;
+    display:flex; align-items:baseline; gap:14px;
+  }
+  article h2::before{
+    content:""; width:18px; height:1px; background:var(--accent);
+    flex-shrink:0; transform:translateY(-6px);
+  }
+  article p, article ol, article ul{
+    font-size:16.5px; color:var(--fg); margin-bottom:20px; line-height:1.75; max-width:64ch;
+  }
+  article p code, article li code{
+    font-family:var(--mono); font-size:0.92em;
+    background:#1a1a1a; padding:2px 6px;
+    color:var(--accent); border-radius:2px;
+  }
+  article em{ color:var(--fg); font-style:italic; }
+  article strong{ color:var(--accent); font-weight:600; }
+  article a{ color:var(--accent); text-decoration:none; border-bottom:1px solid rgba(240,94,28,0.4); }
+  article a:hover{ border-bottom-color:var(--accent); }
+  article ul, article ol{ padding-left:0; list-style:none; }
+  article li{
+    padding-left:24px; position:relative; margin-bottom:10px;
+  }
+  article ul li::before{
+    content:"▸"; position:absolute; left:0; top:0;
+    color:var(--accent); font-family:var(--mono); font-size:13px;
+  }
+  article ol{ counter-reset:item; }
+  article ol li::before{
+    counter-increment:item;
+    content:counter(item, decimal-leading-zero);
+    position:absolute; left:0; top:1px;
+    font-family:var(--mono); font-size:11px; letter-spacing:0.1em;
+    color:var(--accent); opacity:0.75;
+  }
+  article pre{
+    background:#0a0a0a;
+    border:1px solid var(--divider);
+    border-left:2px solid var(--accent);
+    padding:18px 22px; overflow-x:auto; margin:18px 0 28px;
+    line-height:1.65; color:#cfcfcf;
+    font-family:var(--mono); font-size:13px;
+    max-width:64ch;
+  }
+  article pre code{ background:transparent; padding:0; color:inherit; font-size:13px; }
+  .inline-fig{ margin:32px 0 14px; }
+  .inline-fig .frame{
+    width:100%; aspect-ratio:16/10;
+    border:1px solid var(--divider);
+    background:
+      repeating-linear-gradient(45deg, rgba(237,237,237,0.025) 0 1px, transparent 1px 10px),
+      #0d0d0d;
+    position:relative; overflow:hidden;
+  }
+  .inline-fig image-slot{ width:100%; height:100%; --slot-bg:transparent; --slot-border:transparent; }
+
+  .reading-list{
+    margin-top:60px; padding-top:32px;
+    border-top:1px solid var(--divider);
+  }
+  .reading-list h3{
+    font-family:var(--mono); font-size:11px; letter-spacing:0.22em; text-transform:uppercase;
+    color:var(--accent); margin-bottom:18px;
+  }
+  .reading-list ul{ list-style:none; padding:0; max-width:64ch; }
+  .reading-list li{
+    padding:10px 0 10px 18px; position:relative; margin-bottom:0;
+    border-bottom:1px solid var(--divider);
+    font-size:14px; line-height:1.5;
+  }
+  .reading-list li::before{
+    content:"◇"; position:absolute; left:0; top:11px;
+    color:var(--accent); font-size:11px; opacity:0.7;
+  }
+  .reading-list a{
+    color:var(--fg); border-bottom:none;
+    text-decoration:none;
+  }
+  .reading-list a:hover{ color:var(--accent); }
+  .reading-list .ext{
+    font-family:var(--mono); font-size:10px; letter-spacing:0.16em; text-transform:uppercase;
+    color:var(--accent); opacity:0.7;
+    margin-left:6px;
+  }
+
+  .entry-foot{
+    margin-top:48px; padding-top:32px;
+    border-top:1px solid var(--divider);
+    display:flex; flex-direction:column; gap:24px;
+  }
+  .author-line{
+    display:flex; align-items:center; gap:14px;
+    font-family:var(--mono); font-size:12px; color:var(--muted); letter-spacing:0.08em;
+  }
+  .author-line .pip{ width:6px; height:6px; background:var(--accent); border-radius:50%; box-shadow:0 0 6px var(--accent-glow); }
+  .next-prev{ display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+  .np-card{
+    border:1px solid var(--divider); padding:20px 22px;
+    text-decoration:none; color:var(--fg);
+    transition:border-color .25s ease, background .25s ease;
+    display:flex; flex-direction:column; gap:6px;
+  }
+  .np-card:hover{ border-color:var(--accent); background:#0d0d0d; }
+  .np-card .dir{
+    font-family:var(--mono); font-size:10px; letter-spacing:0.22em; text-transform:uppercase;
+    color:var(--accent); opacity:0.7;
+  }
+  .np-card .ttl{ font-family:var(--mono); font-size:14px; color:var(--fg); line-height:1.4; }
+  .np-card.next{ text-align:right; }
+  .np-card.disabled{ pointer-events:none; opacity:0.5; }
+  @media (max-width:760px){ .next-prev{ grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+
+<nav class="top">
+  <div class="wrap">
+    <a href="../../Portfolio.html" class="brand">Nabil Karim<span class="dot"></span></a>
+    <div class="navlinks">
+      <a href="index.html">All Episodes</a>
+      <a href="../../Portfolio.html#learning" class="back"><span class="arr">←</span> Journal</a>
+    </div>
+  </div>
+</nav>
+
+<article>
+  <div class="meta-strip">
+    <span class="ch">CH/04 · Energy</span>
+    <span class="ep">EP / 01</span>
+    <span>Field note · 2026</span>
+    <span class="tag">Energy</span>
+    <span class="live">Live</span>
+    <span>· 11 min read</span>
+  </div>
+
+  <h1 class="entry-title">Reading a Solar Datasheet Without Lying to Yourself</h1>
+  <div class="entry-sub">// STC is the marketing copy</div>
+
+  <p class="entry-deck">A 400 W panel at STC delivers 400 W only at 1000 W/m², 25 °C cell temperature, and air mass 1.5. Your roof at noon in Bandung will give you maybe 80% of that. This is a walk through what each number on a solar datasheet actually means, and a way to estimate real yield without trusting anyone.</p>
+
+  <div class="cover">
+    <image-slot id="energy01-cover" shape="rect" placeholder="Drop cover image"></image-slot>
+  </div>
+  <div class="figure-cap"><b>Cover shot</b>— 10 W mono panel + electronic load + DMMs on the bench. The setup I used for §05.</div>
+
+
+  <h2>01 / What STC is and isn't</h2>
+  <p>Standard Test Conditions is a lab benchmark: <strong>1000 W/m² irradiance, 25 °C cell temperature, AM 1.5 spectrum</strong>. Every manufacturer rates panels here, because under STC the same panel always reads the same. It's reproducible. It's also fictional in most operating conditions, in three ways:</p>
+<ul>
+<li><strong>1000 W/m²</strong> is peak clear-sky irradiance. Bandung at noon under clear sky maxes around 950 W/m². On a cloudy afternoon: 200–400.</li>
+<li><strong>25 °C cell temperature</strong> is what cells reach only in a chamber. Real panels on a tropical roof at noon sit at 50–65 °C.</li>
+<li><strong>AM 1.5</strong> is a continental spectrum. ITB Bandung at the equator gets closer to AM 1.0–1.2 at solar noon — slightly different spectrum content.</li>
+</ul>
+<p>So the rated power is a ceiling, not a midpoint. NOCT (Nominal Operating Cell Temperature) on the same datasheet, usually 45 °C, is a more realistic anchor point.</p>
+
+  <h2>02 / The temperature derate, in numbers</h2>
+  <p>Every solar cell datasheet lists three temperature coefficients:</p>
+<ul>
+<li><code>α_Isc</code> — short-circuit current, typically <strong>+0.05 %/°C</strong> (slight benefit from warmth)</li>
+<li><code>β_Voc</code> — open-circuit voltage, typically <strong>−0.30 %/°C</strong> (significant loss)</li>
+<li><code>γ_Pmax</code> — max power, typically <strong>−0.35 %/°C</strong> (the one that matters)</li>
+</ul>
+<p>The cell temperature at any given moment is approximately:</p>
+<pre><code>T_cell &asymp; T_ambient + (NOCT &minus; 20) &middot; (G / 800)</code></pre>
+<p>Where <code>G</code> is irradiance in W/m². For Bandung at solar noon: <code>T_amb ≈ 28 °C</code>, <code>G ≈ 900 W/m²</code>, <code>NOCT = 45 °C</code>:</p>
+<pre><code>T_cell &asymp; 28 + (45-20) &middot; (900/800) = 28 + 28 = 56 &deg;C</code></pre>
+<p>Now apply the derate:</p>
+<pre><code>P_actual &asymp; P_STC &middot; (G/1000) &middot; [1 + &gamma;_Pmax &middot; (T_cell &minus; 25)]
+        = 400 &middot; 0.9 &middot; [1 + (-0.0035) &middot; (56-25)]
+        = 400 &middot; 0.9 &middot; 0.892
+        &asymp; 321 W</code></pre>
+<p>That's 80% of nameplate. Typical for a tropical install. If you've built your system budget on STC numbers, you're already 20% over.</p>
+
+  <div class="inline-fig">
+    <div class="frame">
+      <image-slot id="energy01-fig1" shape="rect" placeholder="Drop image"></image-slot>
+    </div>
+  </div>
+  <div class="figure-cap"><b>Fig. 01</b>— I-V curves at 25 °C vs. 55 °C cell temperature, simulated with pvlib. The knee shifts down and left.</div>
+
+  <h2>03 / The I-V curve is the real spec sheet</h2>
+  <p>Numbers in a table hide structure. The I-V curve shows it all: Isc on the left, Voc on the right, the knee between them where <code>Pmax</code> lives. The shape of the knee is the fill factor:</p>
+<pre><code>FF = (Vmp &middot; Imp) / (Voc &middot; Isc)</code></pre>
+<p>Good monocrystalline cells: FF ≥ 0.78. Polycrystalline: 0.72–0.75. Anything below 0.7 — the panel is degraded, mismatched, or you measured wrong.</p>
+<p>What the curve also reveals: bypass diode activation under partial shading. Cover one cell with your hand on a real panel and the I-V curve develops a step. A well-designed system uses bypass diodes (and string-level optimizers, if you can afford them) to keep that step from collapsing the entire string.</p>
+
+  <h2>04 / Try this yourself — three test paths</h2>
+  <p><strong>1. PVsyst free trial</strong> — the industry-standard yield-estimation tool. Model your roof tilt, azimuth, shading, and panel datasheet. It runs an annual hour-by-hour simulation using TMY weather files. For Bandung, use the SOLARGIS or NASA POWER dataset.</p>
+<p><strong>2. pvlib-python (open source).</strong> If you want to actually understand what PVsyst is doing under the hood, pvlib is the same physics in 200 lines of Python. The five-parameter De Soto model lets you take a datasheet and produce a full I-V curve at any temperature and irradiance.</p>
+<pre><code>import pvlib
+params = pvlib.pvsystem.calcparams_desoto(
+    effective_irradiance=900,
+    temp_cell=56,
+    alpha_sc=0.05e-2 * I_sc_stc,
+    a_ref=1.6,
+    I_L_ref=I_sc_stc,
+    I_o_ref=1e-9,
+    R_sh_ref=400,
+    R_s=0.4,
+)
+curve = pvlib.pvsystem.singlediode(*params)
+print(curve['p_mp'])  # actual Pmax at these conditions</code></pre>
+<p><strong>3. LTspice with a PV macromodel.</strong> Texas Instruments and others publish Spice models for solar cells (single-diode + parasitic resistors). Apply different temperatures and irradiance current sources, sweep load resistance, plot V-I and P-V. Great for understanding MPPT design before you commit to a charge controller.</p>
+
+  <div class="inline-fig">
+    <div class="frame">
+      <image-slot id="energy01-fig2" shape="rect" placeholder="Drop image"></image-slot>
+    </div>
+  </div>
+  <div class="figure-cap"><b>Fig. 02</b>— Measured Pmax vs. cell temperature, 5 trials on a 10 W panel. Slope matches manufacturer's γ_Pmax within 10%.</div>
+
+  <h2>05 / A real-bench test for $20</h2>
+  <p>Buy a small 10 W mono panel. Hook it through an ammeter to a variable load — a rheostat, or a stack of resistors with a switch, or a small electronic load. Take it outside in two conditions:</p>
+<ol>
+<li>Mid-morning, sun behind you, panel cool: trace I-V from short-circuit to open-circuit.</li>
+<li>Solar noon, panel hot to the touch (or with an IR thermometer pointed at the back): trace it again.</li>
+</ol>
+<p>Plot both. The afternoon curve will shift down and to the left — Voc visibly lower, Isc slightly higher, Pmax meaningfully reduced. This is the moment STC stops feeling abstract.</p>
+
+  <h2>06 / What I still don't know</h2>
+  <p>I haven't internalized how much the spectrum difference between AM 1.5 and equatorial AM 1.2 actually buys or costs us. The literature suggests it's small (~2%) and direction-dependent (favours wider-bandgap cells), but I'd want to measure it. If you've got data, point me at it.</p>
+<p>Next field note: micro-hydro at village scale — the power curve I ignored.</p>
+
+
+  <div class="reading-list">
+    <h3>Further Reading</h3>
+    <ul>
+      <li><a href="https://www.pveducation.org/" target="_blank" rel="noopener">PVeducation.org — Honsberg & Bowden, free reference book</a> <span class="ext">↗</span></li>
+      <li><a href="https://pvlib-python.readthedocs.io/" target="_blank" rel="noopener">pvlib-python — open-source PV modeling library</a> <span class="ext">↗</span></li>
+      <li><a href="https://pvpmc.sandia.gov/" target="_blank" rel="noopener">PV Performance Modeling Collaborative (Sandia)</a> <span class="ext">↗</span></li>
+      <li><a href="https://prod.sandia.gov/techlib-noauth/access-control.cgi/2004/043535.pdf" target="_blank" rel="noopener">King, Boyson, Kratochvil — Photovoltaic Array Performance Model (Sandia, 2004)</a> <span class="ext">↗</span></li>
+      <li><a href="https://www.pvsyst.com/" target="_blank" rel="noopener">PVsyst — free trial for yield modeling</a> <span class="ext">↗</span></li>
+    </ul>
+  </div>
+
+  <div class="entry-foot">
+    <div class="author-line">
+      <span class="pip"></span>
+      <span>Logged by Nabil Karim · Bandung, ID · Field note · 2026</span>
+    </div>
+
+    <div class="next-prev">
+      <a class="np-card" href="index.html">
+        <span class="dir">← Back to Channel Index</span>
+        <span class="ttl">All Renewable Energy episodes</span>
+      </a>
+      <a class="np-card next disabled" href="#">
+        <span class="dir">Next Episode — Draft</span>
+        <span class="ttl">— in progress —</span>
+      </a>
+    </div>
+  </div>
+</article>
+
+</body>
+</html>
