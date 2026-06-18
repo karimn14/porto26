@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The TRL Ladder for Hardware Founders — Deeptech Strategy · Nabil Karim</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<script src="../../image-slot.js"></script>
+<style>
+  :root{
+    --bg:#090909; --surface:#111111; --fg:#EDEDED; --muted:#666666;
+    --divider:#1C1C1C; --accent:#F05E1C; --accent-glow:rgba(240,94,28,0.35);
+    --mono:"IBM Plex Mono", ui-monospace, monospace;
+    --sans:"DM Sans", system-ui, sans-serif;
+    --gutter:clamp(20px, 5vw, 80px);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg); color:var(--fg);
+    font-family:var(--sans); line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+    background-image:
+      linear-gradient(rgba(237,237,237,0.018) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(237,237,237,0.018) 1px, transparent 1px);
+    background-size: 48px 48px;
+    background-attachment: fixed;
+  }
+  body::before{
+    content:""; position:fixed; inset:0;
+    pointer-events:none; z-index:9998;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.55 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.18'/></svg>");
+    mix-blend-mode:overlay; opacity:0.5;
+  }
+  ::selection{background:var(--accent); color:#000;}
+  nav.top{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    padding:18px 0;
+    background:rgba(9,9,9,0.72);
+    backdrop-filter:blur(14px) saturate(140%);
+    border-bottom:1px solid var(--divider);
+  }
+  nav.top .wrap{
+    max-width:1280px; margin:0 auto; padding:0 var(--gutter);
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .brand{
+    font-family:var(--mono); font-weight:700; font-size:18px;
+    color:var(--fg); text-decoration:none; display:inline-flex; align-items:baseline; gap:2px;
+  }
+  .brand .dot{
+    width:6px; height:6px; background:var(--accent); border-radius:50%;
+    display:inline-block; margin-left:3px; box-shadow:0 0 8px var(--accent-glow);
+  }
+  .back, .navlinks a{
+    font-family:var(--mono); font-size:11px; letter-spacing:0.18em; text-transform:uppercase;
+    color:var(--fg); text-decoration:none; padding:8px 0;
+  }
+  .navlinks{ display:flex; gap:28px; align-items:center; }
+  .back{ display:inline-flex; align-items:center; gap:8px; }
+  .back .arr{ color:var(--accent); transition:transform .2s ease; }
+  .back:hover .arr{ transform:translateX(-4px); }
+  @keyframes blink{ 0%,100%{opacity:1;} 50%{opacity:0.35;} }
+</style>
+<style>
+  article{ max-width:760px; margin:0 auto; padding:160px var(--gutter) 80px; }
+  .meta-strip{
+    display:flex; align-items:center; gap:16px; flex-wrap:wrap;
+    font-family:var(--mono); font-size:11px; letter-spacing:0.18em; text-transform:uppercase;
+    color:var(--muted); margin-bottom:36px; padding-bottom:24px;
+    border-bottom:1px solid var(--divider);
+  }
+  .meta-strip .ep{ color:var(--accent); opacity:0.8; }
+  .meta-strip .ch{ color:var(--fg); }
+  .meta-strip .tag{
+    color:var(--accent); border:1px solid var(--divider);
+    padding:4px 8px; letter-spacing:0.2em;
+  }
+  .meta-strip .live{ display:inline-flex; align-items:center; gap:6px; color:var(--fg); }
+  .meta-strip .live::before{
+    content:""; width:6px; height:6px; border-radius:50%;
+    background:var(--accent); box-shadow:0 0 8px var(--accent-glow);
+    animation:blink 1.6s ease-in-out infinite;
+  }
+  h1.entry-title{
+    font-family:var(--mono); font-weight:500;
+    font-size:clamp(32px, 5vw, 52px);
+    line-height:1.05; letter-spacing:-0.025em;
+    color:var(--fg); margin-bottom:14px; text-wrap:pretty;
+  }
+  h1.entry-title .glow{ color:var(--accent); text-shadow:0 0 18px rgba(240,94,28,0.35); }
+  .entry-sub{
+    font-family:var(--mono); font-size:13px; letter-spacing:0.04em;
+    color:var(--accent); opacity:0.85; margin-bottom:24px;
+  }
+  .entry-deck{
+    font-size:19px; color:var(--fg); opacity:0.82; line-height:1.55;
+    max-width:62ch; margin-bottom:40px; font-weight:400;
+  }
+  .cover{
+    width:100%; aspect-ratio:16/9;
+    border:1px solid var(--divider); margin-bottom:14px;
+    background:
+      repeating-linear-gradient(45deg, rgba(237,237,237,0.025) 0 1px, transparent 1px 10px),
+      #0d0d0d;
+    position:relative; overflow:hidden;
+  }
+  .cover image-slot{ width:100%; height:100%; --slot-bg:transparent; --slot-border:transparent; }
+  .figure-cap{
+    margin-top:6px; margin-bottom:48px;
+    font-family:var(--mono); font-size:11px; letter-spacing:0.04em;
+    color:var(--muted); line-height:1.6;
+    max-width:64ch;
+  }
+  .figure-cap b{ color:var(--accent); font-weight:500; margin-right:8px; }
+  article h2{
+    font-family:var(--mono); font-weight:600;
+    font-size:22px; line-height:1.3; letter-spacing:-0.01em;
+    color:var(--fg); margin:52px 0 18px;
+    display:flex; align-items:baseline; gap:14px;
+  }
+  article h2::before{
+    content:""; width:18px; height:1px; background:var(--accent);
+    flex-shrink:0; transform:translateY(-6px);
+  }
+  article p, article ol, article ul{
+    font-size:16.5px; color:var(--fg); margin-bottom:20px; line-height:1.75; max-width:64ch;
+  }
+  article p code, article li code{
+    font-family:var(--mono); font-size:0.92em;
+    background:#1a1a1a; padding:2px 6px;
+    color:var(--accent); border-radius:2px;
+  }
+  article em{ color:var(--fg); font-style:italic; }
+  article strong{ color:var(--accent); font-weight:600; }
+  article a{ color:var(--accent); text-decoration:none; border-bottom:1px solid rgba(240,94,28,0.4); }
+  article a:hover{ border-bottom-color:var(--accent); }
+  article ul, article ol{ padding-left:0; list-style:none; }
+  article li{ padding-left:24px; position:relative; margin-bottom:10px; }
+  article ul li::before{
+    content:"▸"; position:absolute; left:0; top:0;
+    color:var(--accent); font-family:var(--mono); font-size:13px;
+  }
+  article ol{ counter-reset:item; }
+  article ol li::before{
+    counter-increment:item;
+    content:counter(item, decimal-leading-zero);
+    position:absolute; left:0; top:1px;
+    font-family:var(--mono); font-size:11px; letter-spacing:0.1em;
+    color:var(--accent); opacity:0.75;
+  }
+  article pre{
+    background:#0a0a0a;
+    border:1px solid var(--divider);
+    border-left:2px solid var(--accent);
+    padding:18px 22px; overflow-x:auto; margin:18px 0 28px;
+    line-height:1.65; color:#cfcfcf;
+    font-family:var(--mono); font-size:13px;
+    max-width:64ch;
+  }
+  article pre code{ background:transparent; padding:0; color:inherit; font-size:13px; }
+  .inline-fig{ margin:32px 0 14px; }
+  .inline-fig .frame{
+    width:100%; aspect-ratio:16/10;
+    border:1px solid var(--divider);
+    background:
+      repeating-linear-gradient(45deg, rgba(237,237,237,0.025) 0 1px, transparent 1px 10px),
+      #0d0d0d;
+    position:relative; overflow:hidden;
+  }
+  .inline-fig image-slot{ width:100%; height:100%; --slot-bg:transparent; --slot-border:transparent; }
+  .reading-list{
+    margin-top:60px; padding-top:32px;
+    border-top:1px solid var(--divider);
+  }
+  .reading-list h3{
+    font-family:var(--mono); font-size:11px; letter-spacing:0.22em; text-transform:uppercase;
+    color:var(--accent); margin-bottom:18px;
+  }
+  .reading-list ul{ list-style:none; padding:0; max-width:64ch; }
+  .reading-list li{
+    padding:10px 0 10px 18px; position:relative; margin-bottom:0;
+    border-bottom:1px solid var(--divider);
+    font-size:14px; line-height:1.5;
+  }
+  .reading-list li::before{
+    content:"◇"; position:absolute; left:0; top:11px;
+    color:var(--accent); font-size:11px; opacity:0.7;
+  }
+  .reading-list a{ color:var(--fg); border-bottom:none; text-decoration:none; }
+  .reading-list a:hover{ color:var(--accent); }
+  .reading-list .ext{
+    font-family:var(--mono); font-size:10px; letter-spacing:0.16em; text-transform:uppercase;
+    color:var(--accent); opacity:0.7; margin-left:6px;
+  }
+  .entry-foot{
+    margin-top:48px; padding-top:32px;
+    border-top:1px solid var(--divider);
+    display:flex; flex-direction:column; gap:24px;
+  }
+  .author-line{
+    display:flex; align-items:center; gap:14px;
+    font-family:var(--mono); font-size:12px; color:var(--muted); letter-spacing:0.08em;
+  }
+  .author-line .pip{ width:6px; height:6px; background:var(--accent); border-radius:50%; box-shadow:0 0 6px var(--accent-glow); }
+  .next-prev{ display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+  .np-card{
+    border:1px solid var(--divider); padding:20px 22px;
+    text-decoration:none; color:var(--fg);
+    transition:border-color .25s ease, background .25s ease;
+    display:flex; flex-direction:column; gap:6px;
+  }
+  .np-card:hover{ border-color:var(--accent); background:#0d0d0d; }
+  .np-card .dir{
+    font-family:var(--mono); font-size:10px; letter-spacing:0.22em; text-transform:uppercase;
+    color:var(--accent); opacity:0.7;
+  }
+  .np-card .ttl{ font-family:var(--mono); font-size:14px; color:var(--fg); line-height:1.4; }
+  .np-card.next{ text-align:right; }
+  .np-card.disabled{ pointer-events:none; opacity:0.5; }
+  @media (max-width:760px){ .next-prev{ grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+
+<nav class="top">
+  <div class="wrap">
+    <a href="../../Portfolio.html" class="brand">Nabil Karim<span class="dot"></span></a>
+    <div class="navlinks">
+      <a href="index.html">All Episodes</a>
+      <a href="../../Portfolio.html#learning" class="back"><span class="arr">←</span> Journal</a>
+    </div>
+  </div>
+</nav>
+
+<article>
+  <div class="meta-strip">
+    <span class="ch">CH/06 · Strategy</span>
+    <span class="ep">EP / 02</span>
+    <span>Field note · 2026</span>
+    <span class="tag">Strategy</span>
+    <span class="live">Live</span>
+    <span>· 13 min read</span>
+  </div>
+
+  <h1 class="entry-title">The TRL Ladder for Hardware Founders</h1>
+  <div class="entry-sub">// What each rung actually costs</div>
+
+  <p class="entry-deck">TRL is a NASA invention from 1974. It is also the most useful map a hardware founder has for the question "where are we, and what does the next year cost?" A walk through all nine rungs, with the funding sources that match each, and the rupiah-scale numbers from Indonesian and global reports.</p>
+
+  <div class="cover">
+    <image-slot id="strategy02-cover" shape="rect" placeholder="Drop cover image"></image-slot>
+  </div>
+  <div class="figure-cap"><b>TRL ladder, hand-drawn on the back of a Pustena meeting agenda. Six rungs colour-coded by capital source.</b>TRL ladder, hand-drawn on the back of a Pustena meeting agenda. Six rungs colour-coded by capital source.</div>
+
+
+  <h2>01 / The origin and the point</h2>
+  <p>NASA invented Technology Readiness Levels in the 1970s to manage risk on aerospace projects. The premise: you can't fund the same technology the same way at every stage of its development. A laser concept on a whiteboard and a laser flying on a satellite have completely different risk profiles, capital needs, and people requirements. NASA wrote a scale: TRL 1 (basic principles observed) to TRL 9 (actual system flight-proven).</p>
+<p>The EU adopted it for Horizon 2020 grants. The US Department of Defense added a parallel Manufacturing Readiness Level (MRL) scale because the question "can it work?" is separate from "can we make it at scale?" Indonesia's BRIN (Badan Riset dan Inovasi Nasional) uses an adapted version for national innovation grant evaluation.</p>
+<p>For a founder, TRL answers three useful questions: <strong>where am I, what's the next milestone, what does it cost?</strong></p>
+
+  <h2>02 / TRL 1–3 — The lab phase</h2>
+  <p><strong>TRL 1</strong>: basic principles observed. Someone has a thesis, a paper, an idea. Cost: PhD-time. Indonesian equivalent: a final-year tugas akhir project showing a novel approach works in MATLAB.</p>
+<p><strong>TRL 2</strong>: technology concept formulated. The idea has been articulated as something that could become a product. Cost: still PhD/student time.</p>
+<p><strong>TRL 3</strong>: experimental proof of concept. The idea has been tested in a controlled lab environment. Some critical function has been demonstrated. Cost: roughly 50–500 million IDR for a serious lab build, or zero if you have access to existing university lab equipment.</p>
+<p>Capital source for TRL 1–3: <strong>university funding, government research grants, founder time</strong>. In Indonesia, this is the Hibah Riset Dosen, PKM-PE student grants, or LPDP innovation grants. The defining feature: nobody expects revenue. They expect publications, prototypes, and concept defense.</p>
+
+  <h2>03 / TRL 4–6 — The dangerous middle</h2>
+  <p>This is where most projects die. Three rungs, each more expensive than the last, none producing anything a paying customer can touch.</p>
+<p><strong>TRL 4</strong>: component validation in lab environment. The proof-of-concept is now built as a real subsystem, characterized, instrumented. Cost: 200 million to 2 billion IDR depending on hardware complexity. This is where my own thesis MPC sits today — validated in HIL.</p>
+<p><strong>TRL 5</strong>: component validation in relevant environment. The subsystem works in conditions that resemble the intended deployment. For a drone autonomy stack, this means flights in actual fields, not just SITL.</p>
+<p><strong>TRL 6</strong>: system demonstration in relevant environment. The whole product, end-to-end, works in conditions close to commercial use. Cost: typically 2–20 billion IDR, depending on hardware. Time: 12–24 months past TRL 5.</p>
+<p>Capital source for TRL 4–6: <strong>government deeptech grants (BRIN, MERIT-S), corporate strategic capital, family offices</strong>. Pure VC is rare here. The risk-reward is too long-dated. Government and corporate matter most.</p>
+<p>Why projects die here: founders raised TRL 3 grant money at TRL 3 expectations, then need 10× more at TRL 5, can't raise it because they don't have revenue yet, and run out of runway.</p>
+
+  <div class="inline-fig">
+    <div class="frame">
+      <image-slot id="strategy02-fig1" shape="rect" placeholder="Drop image"></image-slot>
+    </div>
+  </div>
+  <div class="figure-cap"><b>Fig. 01</b>— Funding profile vs TRL, redrawn from Atomico 2023 data with rupiah scaling. The 100× jump at TRL 6 is the visible cliff.</div>
+
+  <h2>04 / TRL 7–9 — Integration, certification, manufacturing</h2>
+  <p><strong>TRL 7</strong>: system prototype demonstrated in operational environment. The product is being used by an early customer in real conditions. Cost: 5–50 billion IDR. Time: 18 months past TRL 6, typically.</p>
+<p><strong>TRL 8</strong>: actual system completed and qualified. Certification, regulatory approval (BPOM for medical, KAN for testing, KKMI for aviation), small-batch manufacturing setup.</p>
+<p><strong>TRL 9</strong>: actual system proven in operational environment. Multiple customers. Revenue. Scalable manufacturing.</p>
+<p>Capital source for TRL 7–9: <strong>commercial VC, strategic corporate investment, M&amp;A, IPO</strong>. Once you have a TRL 7 demonstration with an anchor customer, the conversation changes character entirely. Money is available; the question becomes who you want as a partner.</p>
+
+  <h2>05 / MRL — the parallel ladder that hardware founders forget</h2>
+  <p>Manufacturing Readiness Level is a DoD invention that runs alongside TRL. The premise: <em>can you build it?</em> is a separate question from <em>does it work?</em> MRL ranges from 1 (manufacturing implications considered) to 10 (full-rate production demonstrated).</p>
+<p>The painful truth: TRL and MRL can be out of sync, and usually are. You can have a TRL 7 prototype (it works in the field) with MRL 3 (you can hand-build five units per month, with great difficulty). You cannot ship a product to ten thousand customers from MRL 3. You need MRL 7 or higher. Closing that gap is its own project, with its own capital needs.</p>
+<p>For most hardware founders, MRL becomes the bottleneck around TRL 7. Read this part of the DoD's MRL guide carefully; it's the cheapest piece of due diligence you'll do.</p>
+
+  <h2>06 / The funding map, redrawn</h2>
+  <p>A rough money map based on the Atomico 2023 numbers, adapted with rupiah scaling:</p>
+<ul>
+<li><strong>TRL 1–3:</strong> 0–500 million IDR. University, grant, founder time.</li>
+<li><strong>TRL 4–6:</strong> 500 million to 20 billion IDR. Government deeptech, corporate strategic, very-early-stage angels.</li>
+<li><strong>TRL 7–9:</strong> 20 billion to 500 billion IDR. Commercial VC, growth equity, eventual M&amp;A or IPO.</li>
+</ul>
+<p>The order-of-magnitude jumps between phases — 100× from TRL 3 to TRL 6, another 25× from TRL 6 to TRL 9 — explain why each phase needs a different kind of investor. Trying to fund a TRL 6→7 jump with TRL 3 grant money is the operational mistake.</p>
+
+  <div class="inline-fig">
+    <div class="frame">
+      <image-slot id="strategy02-fig2" shape="rect" placeholder="Drop image"></image-slot>
+    </div>
+  </div>
+  <div class="figure-cap"><b>Fig. 02</b>— TRL and MRL ladders side by side, showing typical synchronisation gap (TRL 7 with MRL 3-4 is the common stuck-state).</div>
+
+  <h2>07 / Where projects actually die</h2>
+  <p>From combining the McKinsey 2023 deeptech piece, two interviews with Indonesian deeptech founders, and observed pattern across the URO ITB alumni network, three failure modes recur:</p>
+<ul>
+<li><strong>Stuck at TRL 4 because the founder is still a PhD student.</strong> Lab works. No time, money, or institutional permission to take the next step.</li>
+<li><strong>Stuck at TRL 6 because no anchor customer exists.</strong> The product works in the field but nobody is paid to buy it. The valley of death in its purest form.</li>
+<li><strong>Stuck at TRL 8 because manufacturing isn't ready.</strong> The product is approved and works, but the only way to ship is hand-built units at 10× target cost.</li>
+</ul>
+<p>The defense for each: plan capital and partnerships for the <em>next</em> rung before completing the current one. Founders who do this don't get stuck. Founders who declare success at TRL 4 and start fundraising for it usually do.</p>
+
+  <h2>08 / The Indonesian context — BRIN's adaptation</h2>
+  <p>BRIN publishes a TKT scale (Tingkat Kesiapterapan Teknologi), the Indonesian adaptation of TRL with the same 1–9 structure. National grant programs explicitly use TKT in evaluation: a proposal at TKT 3 is judged on different criteria than a proposal at TKT 6.</p>
+<p>What's specific to the Indonesian landscape:</p>
+<ul>
+<li><strong>The state is often the first customer.</strong> Defense (Pindad), energy (Pertamina, PLN), agriculture (Kementerian Pertanian), transport (KEMENHUB) — these are large institutions actively shopping for TRL 6+ Indonesian-built technology, partly under domestic-content mandates.</li>
+<li><strong>Bandung is a deeptech hub.</strong> ITB, LIPI/BRIN labs, several PT BUMN R&amp;D divisions. Distance matters less than it used to but proximity still helps for the TRL 5–7 hops.</li>
+<li><strong>LPDP innovation funding</strong> (Lembaga Pengelola Dana Pendidikan) explicitly bridges the TKT 4–6 valley for select projects, with non-dilutive money in the 1–5 billion IDR range.</li>
+</ul>
+
+  <h2>09 / How I'm using this for my own decisions</h2>
+  <p>My thesis is at TKT/TRL 4. The next step — flying the controller on a real drone, validating in field conditions — is TRL 5. Cost: maybe 50 million IDR for compute, drone hardware, flight permits, and a month of field time. Capital source: existing internship paycheck, a small Pustena grant.</p>
+<p>If that lands, TRL 6 is a multi-flight, multi-site demonstration. Cost: 200–500 million IDR. That's where I need to start looking for either a corporate strategic partner (oil palm plantation operator? logistics startup?) or a BRIN/LPDP grant.</p>
+<p>This is the kind of planning the TRL framework forces you to do. Without it, "what's next?" is a vague feeling. With it, "what's next?" is a specific number, a specific milestone, and a specific capital category.</p>
+<p>Next strategy field note: Indonesian deeptech, the five companies I'm watching.</p>
+
+
+  <div class="reading-list">
+    <h3>Further Reading</h3>
+    <ul>
+      <li><a href="https://www.nasa.gov/wp-content/uploads/2017/12/458490main_trl_definitions.pdf" target="_blank" rel="noopener">NASA — Technology Readiness Levels (original definition, free PDF)</a> <span class="ext">↗</span></li>
+      <li><a href="https://ec.europa.eu/research/participants/data/ref/h2020/wp/2014_2015/annexes/h2020-wp1415-annex-g-trl_en.pdf" target="_blank" rel="noopener">EU H2020 — TRL framework for innovation grants</a> <span class="ext">↗</span></li>
+      <li><a href="https://www.dodmrl.com/MRL_Deskbook_V2.4.1.pdf" target="_blank" rel="noopener">DoD — Manufacturing Readiness Level (MRL) Deskbook</a> <span class="ext">↗</span></li>
+      <li><a href="https://www.brin.go.id/" target="_blank" rel="noopener">BRIN — TKT (Tingkat Kesiapterapan Teknologi) panduan</a> <span class="ext">↗</span></li>
+      <li><a href="https://lpdp.kemenkeu.go.id/" target="_blank" rel="noopener">LPDP — Riset Inovatif Produktif (RISPRO) program</a> <span class="ext">↗</span></li>
+      <li><a href="https://www.atomico.com/insights/state-of-european-deep-tech-2023" target="_blank" rel="noopener">Atomico — State of European Deeptech 2023</a> <span class="ext">↗</span></li>
+      <li><a href="https://www.mckinsey.com/capabilities/strategy-and-corporate-finance/our-insights/the-next-big-arenas-of-competition" target="_blank" rel="noopener">McKinsey — The Next Big Arenas of Competition (2023)</a> <span class="ext">↗</span></li>
+    </ul>
+  </div>
+
+  <div class="entry-foot">
+    <div class="author-line">
+      <span class="pip"></span>
+      <span>Logged by Nabil Karim · Bandung, ID · Field note · 2026</span>
+    </div>
+
+    <div class="next-prev">
+      <a class="np-card" href="index.html">
+        <span class="dir">← Back to Channel Index</span>
+        <span class="ttl">All Deeptech Strategy episodes</span>
+      </a>
+      <a class="np-card next disabled" href="#">
+        <span class="dir">Next Episode — Draft</span>
+        <span class="ttl">— in progress —</span>
+      </a>
+    </div>
+  </div>
+</article>
+
+</body>
+</html>

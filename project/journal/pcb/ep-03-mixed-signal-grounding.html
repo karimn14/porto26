@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mixed-Signal Grounding on a 2-Layer Board — PCB & Signal Integrity · Nabil Karim</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<script src="../../image-slot.js"></script>
+<style>
+  :root{
+    --bg:#090909; --surface:#111111; --fg:#EDEDED; --muted:#666666;
+    --divider:#1C1C1C; --accent:#F05E1C; --accent-glow:rgba(240,94,28,0.35);
+    --mono:"IBM Plex Mono", ui-monospace, monospace;
+    --sans:"DM Sans", system-ui, sans-serif;
+    --gutter:clamp(20px, 5vw, 80px);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg); color:var(--fg);
+    font-family:var(--sans); line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+    background-image:
+      linear-gradient(rgba(237,237,237,0.018) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(237,237,237,0.018) 1px, transparent 1px);
+    background-size: 48px 48px;
+    background-attachment: fixed;
+  }
+  body::before{
+    content:""; position:fixed; inset:0;
+    pointer-events:none; z-index:9998;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.55 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.18'/></svg>");
+    mix-blend-mode:overlay; opacity:0.5;
+  }
+  ::selection{background:var(--accent); color:#000;}
+  nav.top{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    padding:18px 0;
+    background:rgba(9,9,9,0.72);
+    backdrop-filter:blur(14px) saturate(140%);
+    border-bottom:1px solid var(--divider);
+  }
+  nav.top .wrap{
+    max-width:1280px; margin:0 auto; padding:0 var(--gutter);
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .brand{
+    font-family:var(--mono); font-weight:700; font-size:18px;
+    color:var(--fg); text-decoration:none; display:inline-flex; align-items:baseline; gap:2px;
+  }
+  .brand .dot{
+    width:6px; height:6px; background:var(--accent); border-radius:50%;
+    display:inline-block; margin-left:3px; box-shadow:0 0 8px var(--accent-glow);
+  }
+  .back, .navlinks a{
+    font-family:var(--mono); font-size:11px; letter-spacing:0.18em; text-transform:uppercase;
+    color:var(--fg); text-decoration:none; padding:8px 0;
+  }
+  .navlinks{ display:flex; gap:28px; align-items:center; }
+  .back{ display:inline-flex; align-items:center; gap:8px; }
+  .back .arr{ color:var(--accent); transition:transform .2s ease; }
+  .back:hover .arr{ transform:translateX(-4px); }
+  @keyframes blink{ 0%,100%{opacity:1;} 50%{opacity:0.35;} }
+</style>
+<style>
+  article{ max-width:760px; margin:0 auto; padding:160px var(--gutter) 80px; }
+  .meta-strip{
+    display:flex; align-items:center; gap:16px; flex-wrap:wrap;
+    font-family:var(--mono); font-size:11px; letter-spacing:0.18em; text-transform:uppercase;
+    color:var(--muted); margin-bottom:36px; padding-bottom:24px;
+    border-bottom:1px solid var(--divider);
+  }
+  .meta-strip .ep{ color:var(--accent); opacity:0.8; }
+  .meta-strip .ch{ color:var(--fg); }
+  .meta-strip .tag{
+    color:var(--accent); border:1px solid var(--divider);
+    padding:4px 8px; letter-spacing:0.2em;
+  }
+  .meta-strip .live{ display:inline-flex; align-items:center; gap:6px; color:var(--fg); }
+  .meta-strip .live::before{
+    content:""; width:6px; height:6px; border-radius:50%;
+    background:var(--accent); box-shadow:0 0 8px var(--accent-glow);
+    animation:blink 1.6s ease-in-out infinite;
+  }
+  h1.entry-title{
+    font-family:var(--mono); font-weight:500;
+    font-size:clamp(32px, 5vw, 52px);
+    line-height:1.05; letter-spacing:-0.025em;
+    color:var(--fg); margin-bottom:14px; text-wrap:pretty;
+  }
+  h1.entry-title .glow{ color:var(--accent); text-shadow:0 0 18px rgba(240,94,28,0.35); }
+  .entry-sub{
+    font-family:var(--mono); font-size:13px; letter-spacing:0.04em;
+    color:var(--accent); opacity:0.85; margin-bottom:24px;
+  }
+  .entry-deck{
+    font-size:19px; color:var(--fg); opacity:0.82; line-height:1.55;
+    max-width:62ch; margin-bottom:40px; font-weight:400;
+  }
+  .cover{
+    width:100%; aspect-ratio:16/9;
+    border:1px solid var(--divider); margin-bottom:14px;
+    background:
+      repeating-linear-gradient(45deg, rgba(237,237,237,0.025) 0 1px, transparent 1px 10px),
+      #0d0d0d;
+    position:relative; overflow:hidden;
+  }
+  .cover image-slot{ width:100%; height:100%; --slot-bg:transparent; --slot-border:transparent; }
+  .figure-cap{
+    margin-top:6px; margin-bottom:48px;
+    font-family:var(--mono); font-size:11px; letter-spacing:0.04em;
+    color:var(--muted); line-height:1.6;
+    max-width:64ch;
+  }
+  .figure-cap b{ color:var(--accent); font-weight:500; margin-right:8px; }
+  article h2{
+    font-family:var(--mono); font-weight:600;
+    font-size:22px; line-height:1.3; letter-spacing:-0.01em;
+    color:var(--fg); margin:52px 0 18px;
+    display:flex; align-items:baseline; gap:14px;
+  }
+  article h2::before{
+    content:""; width:18px; height:1px; background:var(--accent);
+    flex-shrink:0; transform:translateY(-6px);
+  }
+  article p, article ol, article ul{
+    font-size:16.5px; color:var(--fg); margin-bottom:20px; line-height:1.75; max-width:64ch;
+  }
+  article p code, article li code{
+    font-family:var(--mono); font-size:0.92em;
+    background:#1a1a1a; padding:2px 6px;
+    color:var(--accent); border-radius:2px;
+  }
+  article em{ color:var(--fg); font-style:italic; }
+  article strong{ color:var(--accent); font-weight:600; }
+  article a{ color:var(--accent); text-decoration:none; border-bottom:1px solid rgba(240,94,28,0.4); }
+  article a:hover{ border-bottom-color:var(--accent); }
+  article ul, article ol{ padding-left:0; list-style:none; }
+  article li{ padding-left:24px; position:relative; margin-bottom:10px; }
+  article ul li::before{
+    content:"▸"; position:absolute; left:0; top:0;
+    color:var(--accent); font-family:var(--mono); font-size:13px;
+  }
+  article ol{ counter-reset:item; }
+  article ol li::before{
+    counter-increment:item;
+    content:counter(item, decimal-leading-zero);
+    position:absolute; left:0; top:1px;
+    font-family:var(--mono); font-size:11px; letter-spacing:0.1em;
+    color:var(--accent); opacity:0.75;
+  }
+  article pre{
+    background:#0a0a0a;
+    border:1px solid var(--divider);
+    border-left:2px solid var(--accent);
+    padding:18px 22px; overflow-x:auto; margin:18px 0 28px;
+    line-height:1.65; color:#cfcfcf;
+    font-family:var(--mono); font-size:13px;
+    max-width:64ch;
+  }
+  article pre code{ background:transparent; padding:0; color:inherit; font-size:13px; }
+  .inline-fig{ margin:32px 0 14px; }
+  .inline-fig .frame{
+    width:100%; aspect-ratio:16/10;
+    border:1px solid var(--divider);
+    background:
+      repeating-linear-gradient(45deg, rgba(237,237,237,0.025) 0 1px, transparent 1px 10px),
+      #0d0d0d;
+    position:relative; overflow:hidden;
+  }
+  .inline-fig image-slot{ width:100%; height:100%; --slot-bg:transparent; --slot-border:transparent; }
+  .reading-list{
+    margin-top:60px; padding-top:32px;
+    border-top:1px solid var(--divider);
+  }
+  .reading-list h3{
+    font-family:var(--mono); font-size:11px; letter-spacing:0.22em; text-transform:uppercase;
+    color:var(--accent); margin-bottom:18px;
+  }
+  .reading-list ul{ list-style:none; padding:0; max-width:64ch; }
+  .reading-list li{
+    padding:10px 0 10px 18px; position:relative; margin-bottom:0;
+    border-bottom:1px solid var(--divider);
+    font-size:14px; line-height:1.5;
+  }
+  .reading-list li::before{
+    content:"◇"; position:absolute; left:0; top:11px;
+    color:var(--accent); font-size:11px; opacity:0.7;
+  }
+  .reading-list a{ color:var(--fg); border-bottom:none; text-decoration:none; }
+  .reading-list a:hover{ color:var(--accent); }
+  .reading-list .ext{
+    font-family:var(--mono); font-size:10px; letter-spacing:0.16em; text-transform:uppercase;
+    color:var(--accent); opacity:0.7; margin-left:6px;
+  }
+  .entry-foot{
+    margin-top:48px; padding-top:32px;
+    border-top:1px solid var(--divider);
+    display:flex; flex-direction:column; gap:24px;
+  }
+  .author-line{
+    display:flex; align-items:center; gap:14px;
+    font-family:var(--mono); font-size:12px; color:var(--muted); letter-spacing:0.08em;
+  }
+  .author-line .pip{ width:6px; height:6px; background:var(--accent); border-radius:50%; box-shadow:0 0 6px var(--accent-glow); }
+  .next-prev{ display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+  .np-card{
+    border:1px solid var(--divider); padding:20px 22px;
+    text-decoration:none; color:var(--fg);
+    transition:border-color .25s ease, background .25s ease;
+    display:flex; flex-direction:column; gap:6px;
+  }
+  .np-card:hover{ border-color:var(--accent); background:#0d0d0d; }
+  .np-card .dir{
+    font-family:var(--mono); font-size:10px; letter-spacing:0.22em; text-transform:uppercase;
+    color:var(--accent); opacity:0.7;
+  }
+  .np-card .ttl{ font-family:var(--mono); font-size:14px; color:var(--fg); line-height:1.4; }
+  .np-card.next{ text-align:right; }
+  .np-card.disabled{ pointer-events:none; opacity:0.5; }
+  @media (max-width:760px){ .next-prev{ grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+
+<nav class="top">
+  <div class="wrap">
+    <a href="../../Portfolio.html" class="brand">Nabil Karim<span class="dot"></span></a>
+    <div class="navlinks">
+      <a href="index.html">All Episodes</a>
+      <a href="../../Portfolio.html#learning" class="back"><span class="arr">←</span> Journal</a>
+    </div>
+  </div>
+</nav>
+
+<article>
+  <div class="meta-strip">
+    <span class="ch">CH/03 · PCB</span>
+    <span class="ep">EP / 03</span>
+    <span>Field note · 2026</span>
+    <span class="tag">PCB</span>
+    <span class="live">Live</span>
+    <span>· 11 min read</span>
+  </div>
+
+  <h1 class="entry-title">Mixed-Signal Grounding on a 2-Layer Board</h1>
+  <div class="entry-sub">// When to split, when to pour, when to stop worrying</div>
+
+  <p class="entry-deck">An ADC reading a thermistor next to an STM32 pumping clock noise — should I split the ground? On a 2-layer hobbyist board, the answer is almost always no, and the reason is more interesting than the rule.</p>
+
+  <div class="cover">
+    <image-slot id="pcb03-cover" shape="rect" placeholder="Drop cover image"></image-slot>
+  </div>
+  <div class="figure-cap"><b>Regional layout sketch</b>— analog quadrant top-left, digital bottom-right, ADC straddling the boundary, single solid pour underneath.</div>
+
+
+  <h2>01 / The split-ground habit, and why it usually hurts</h2>
+  <p>Open any forum thread on mixed-signal design and someone will tell you to split AGND and DGND, then bridge them with a single trace or a ferrite at the ADC. This advice traces back to a 1990s Analog Devices app note. It is right, in one specific situation, and wrong almost everywhere else.</p>
+<p>The reason it spreads: it <em>feels</em> safe. Two ground domains, separated, joined at one spot — surely that's cleaner than one big ocean of copper? On a four-layer board with a dedicated analog plane it can be. On a two-layer hobby board, where ground is also your return path for every digital signal you've routed, splitting is a great way to turn a working board into a noisy one.</p>
+
+  <h2>02 / What "mixed signal" actually means</h2>
+  <p>A mixed-signal board has analog circuits sensitive to noise (op-amp frontends, sensor amplifiers, low-current photodiodes) and digital circuits that produce noise (microcontrollers, switching regulators, clocked logic). The question is never "should we have one ground or two?" — it's <strong>"where does each loop's return current want to flow, and how do we keep them from running over each other?"</strong></p>
+<p>Last field note (<a href="ep-01-signal-integrity-for-hobbyists.html">EP/01</a>) made the point that high-frequency return current concentrates directly under its signal trace. The same fact is the foundation for mixed-signal layout. If your analog signals have their own region of copper, with their own return paths, they don't share the noisy digital returns by definition. No split needed.</p>
+
+  <div class="inline-fig">
+    <div class="frame">
+      <image-slot id="pcb03-fig1" shape="rect" placeholder="Drop image"></image-slot>
+    </div>
+  </div>
+  <div class="figure-cap"><b>Fig. 01</b>— Crosstalk simulation in QUCS. Solid ground vs slotted ground. ~10 dB worse with the slot.</div>
+
+  <h2>03 / Why a single solid pour usually wins</h2>
+  <p>On a 2-layer board, the bottom layer is your ground reference. If you split it into two regions, every digital trace crossing the boundary has to detour to find a path back to the driver. That detour adds loop inductance (the math from EP/01) and turns into broadband EMI.</p>
+<p>A single solid pour with thoughtful component placement gives you most of the benefit of a split without the cost. The trick is what I think of as the <strong>regional layout</strong>: cluster all analog parts (sensors, op-amps, voltage references) into one corner of the board. Keep all the digital stuff and switching regulators in another. Route signals within each region. Do not let an SPI clock line cross the analog region.</p>
+<p>When you do this, the high-frequency digital return current naturally stays under the digital traces — and never wanders into the analog region. No fence needed.</p>
+
+  <h2>04 / When the split is the right call</h2>
+  <p>A genuine split-ground design earns its complexity in three cases:</p>
+<ul>
+<li><strong>Very high-resolution ADCs (≥ 16-bit).</strong> Noise budgets are tighter than what regional layout can deliver. ADI's classic example is a 24-bit sigma-delta ADC like the AD7124 — its datasheet explicitly recommends a single ground plane, by the way, contradicting the older split-ground folklore.</li>
+<li><strong>Galvanic isolation across the board.</strong> If you have an isolated section (medical sensor frontend, isolated DC-DC), there genuinely are two ground domains — separated by transformer, optocoupler, or capacitor. That isn't really "splitting" the ground, it's having two grounds.</li>
+<li><strong>Sensitive radio frontends.</strong> RF design is its own discipline; split ground islands tied to RF stage and main circuit, joined at one point, are a real pattern.</li>
+</ul>
+<p>For everything else — your ESP32 reading a thermistor, your STM32 sampling a load cell — a single pour with smart placement beats a split.</p>
+
+  <div class="inline-fig">
+    <div class="frame">
+      <image-slot id="pcb03-fig2" shape="rect" placeholder="Drop image"></image-slot>
+    </div>
+  </div>
+  <div class="figure-cap"><b>Fig. 02</b>— KiCad PCB editor view of the same board, before and after regional reorganization.</div>
+
+  <h2>05 / The 2-layer layout pattern that works for me</h2>
+  <p>The recipe I've converged on for hobbyist 2-layer mixed-signal boards:</p>
+<ol>
+<li>One solid ground pour on the bottom layer. No slots. No "U" shapes.</li>
+<li>Analog components clustered in one quadrant. Op-amp, reference, analog filter caps, the part of the MCU pinout closest to the analog corner.</li>
+<li>Digital components in another quadrant. Especially: clock crystal, switching regulator, fast SPI lines.</li>
+<li>The ADC sits on the boundary. Its analog pins point into the analog quadrant; its digital pins point into the digital quadrant.</li>
+<li>No digital trace crosses through the analog quadrant. None.</li>
+<li>If a power supply must feed both, route it as a thin trace (not a fat pour) and place an LC or ferrite-cap filter at the entry to the analog region.</li>
+</ol>
+<p>This is regional layout in three sentences: <em>analog there, digital here, ADC on the line, no crossing.</em></p>
+
+  <h2>06 / Try this in simulation</h2>
+  <p>You can build intuition for this without fabbing a board. Two simulation paths:</p>
+<p><strong>1. KiCad + ngspice for the front-end frequency response.</strong> Sketch your op-amp circuit with realistic component values and parasitics. Add a 1 mV white-noise source on the ground reference. Look at the output spectrum at the ADC input. Then add the noise source after a 10-cm trace with loop inductance modeled as 100 nH series. The output spectrum will get visibly worse around the resonance.</p>
+<p><strong>2. QUCS Studio with a transmission-line model.</strong> Model your digital trace and a parallel analog trace on the same simulated board. Drive the digital with a 1 MHz square wave. Look at near-end crosstalk on the analog line. Then virtually slot the ground plane between them by inserting series inductors on the return — crosstalk will jump 6–12 dB.</p>
+<p><strong>3. Saturn PCB Toolkit (free).</strong> Not a SPICE simulator but a layout calculator. The "Conductor Impedance" and "Via Properties" tools let you estimate the loop inductance differences between routing scenarios before you commit them in KiCad.</p>
+
+  <h2>07 / Mistakes I made and you should not</h2>
+  <ul>
+<li><strong>Slotted the ground "just in case" near a USB connector.</strong> Result: USB enumeration intermittent on hot days. Pour was continuous after that.</li>
+<li><strong>Routed a SPI clock line under the op-amp input pin.</strong> 50 µV peak-to-peak coupling, enough to corrupt 12-bit ADC readings. Re-routing fixed it.</li>
+<li><strong>Used a ferrite bead between AGND and DGND as a "safety belt."</strong> The ferrite was high-impedance at the noise frequency I cared about, which made the return loop worse, not better. Removed the ferrite, problem gone.</li>
+<li><strong>Believed the forum threads.</strong> Read the original ADI app note (AN-202, AN-345) and read the part where they recommend solid plane for most cases.</li>
+</ul>
+
+
+  <div class="reading-list">
+    <h3>Further Reading</h3>
+    <ul>
+      <li><a href="https://www.analog.com/media/en/training-seminars/tutorials/MT-101.pdf" target="_blank" rel="noopener">ADI AN-202 — An IC Amplifier User's Guide to Decoupling, Grounding, and Making Things Go Right (Paul Brokaw, classic)</a> <span class="ext">↗</span></li>
+      <li><a href="https://www.analog.com/media/en/training-seminars/tutorials/MT-031.pdf" target="_blank" rel="noopener">ADI MT-031 — Grounding Data Converters and Solving the Mystery of "AGND" and "DGND"</a> <span class="ext">↗</span></li>
+      <li><a href="https://www.ti.com/video/series/precision-labs.html" target="_blank" rel="noopener">TI Precision Labs — Analog Layout (free video series)</a> <span class="ext">↗</span></li>
+      <li><a href="https://www.analog.com/en/education/education-library/linear-circuit-design-handbook.html" target="_blank" rel="noopener">Hank Zumbahlen — Linear Circuit Design Handbook (free PDF, ADI)</a> <span class="ext">↗</span></li>
+      <li><a href="http://qucsstudio.de/" target="_blank" rel="noopener">QUCS Studio — free 2D field/circuit simulator</a> <span class="ext">↗</span></li>
+    </ul>
+  </div>
+
+  <div class="entry-foot">
+    <div class="author-line">
+      <span class="pip"></span>
+      <span>Logged by Nabil Karim · Bandung, ID · Field note · 2026</span>
+    </div>
+
+    <div class="next-prev">
+      <a class="np-card" href="index.html">
+        <span class="dir">← Back to Channel Index</span>
+        <span class="ttl">All PCB & Signal Integrity episodes</span>
+      </a>
+      <a class="np-card next disabled" href="#">
+        <span class="dir">Next Episode — Draft</span>
+        <span class="ttl">— in progress —</span>
+      </a>
+    </div>
+  </div>
+</article>
+
+</body>
+</html>
