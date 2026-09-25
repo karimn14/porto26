@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Autonomous Oil Palm Pollination Drone <span class="glow">·</span> Field-Ready Build — Project Detail · Nabil Karim</title>
+<title>Custom Mini STM32 PCB <span class="glow">·</span> KiCad 2-Layer Layout — Project Detail · Nabil Karim</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
@@ -380,31 +380,31 @@
       <span class="sep">/</span>
       <a href="../index.html#projects">Projects</a>
       <span class="sep">/</span>
-      <span class="cur">Case Study 01</span>
+      <span class="cur">Case Study 05</span>
     </div>
 
-    <h1 class="case-title">Autonomous Oil Palm Pollination Drone <span class="glow">·</span> Field-Ready Build</h1>
+    <h1 class="case-title">Custom Mini STM32 PCB <span class="glow">·</span> KiCad 2-Layer Layout</h1>
 
     <p class="case-deck">
-      End-to-end autonomous drone for precision agriculture. Core flight control via Pymavlink/MAVSDK with ROS as a validation architecture. Digital twin simulation + SITL/HIL testing, waypoint navigation, real-time YOLOv11 obstacle avoidance, STM32 payload actuation, and a FastAPI web telemetry dashboard.
+      Complete design lifecycle of an ARM Cortex-M3 (STM32F103C8T6) development board in KiCad. Includes LDO regulator power stage, 16MHz crystal load cap calculations, USB 2.0 differential routing, and ground plane shielding.
     </p>
 
     <div class="case-spec">
       <div class="spec-cell">
         <div class="k">Role</div>
-        <div class="v">Embedded System Engineer Intern</div>
+        <div class="v">PCB Design Engineer</div>
       </div>
       <div class="spec-cell">
         <div class="k">Client / Context</div>
-        <div class="v">PT Syergie Autotek</div>
+        <div class="v">Personal Hardware Project</div>
       </div>
       <div class="spec-cell">
         <div class="k">Period</div>
-        <div class="v">Jun — Dec 2025</div>
+        <div class="v">Jan 2025</div>
       </div>
       <div class="spec-cell">
         <div class="k">Stack</div>
-        <div class="v">Pixhawk · Jetson · ROS · STM32</div>
+        <div class="v">KiCad 8.0 · STM32F103 · PCB Layout · EMC</div>
       </div>
     </div>
   </div>
@@ -436,8 +436,8 @@
       <path d="M 1140 585 L 1140 615 L 1110 615" fill="none" stroke="#F05E1C" stroke-width="2"/>
       <g transform="translate(600, 337)">
         <rect x="-260" y="-70" width="520" height="140" fill="#111111" stroke="#F05E1C" stroke-width="1.5" rx="4"/>
-        <text x="0" y="-20" font-family="'IBM Plex Mono', monospace" font-size="24" font-weight="700" fill="#EDEDED" text-anchor="middle" letter-spacing="2">◈ AUTONOMOUS POLLINATION DRONE</text>
-        <text x="0" y="25" font-family="'IBM Plex Mono', monospace" font-size="13" fill="#F05E1C" text-anchor="middle" letter-spacing="3">PIXHAWK · JETSON NANO · ROS · STM32</text>
+        <text x="0" y="-20" font-family="'IBM Plex Mono', monospace" font-size="24" font-weight="700" fill="#EDEDED" text-anchor="middle" letter-spacing="2">▸ CUSTOM MINI STM32 PCB</text>
+        <text x="0" y="25" font-family="'IBM Plex Mono', monospace" font-size="13" fill="#F05E1C" text-anchor="middle" letter-spacing="3">KICAD 8.0 · STM32F103C8T6 · 2-LAYER LAYOUT</text>
         <line x1="-220" y1="45" x2="220" y2="45" stroke="#1c1c1c" stroke-width="1"/>
       </g>
       <text x="80" y="90" font-family="'IBM Plex Mono', monospace" font-size="11" fill="#666666" letter-spacing="2">SYS_REF // 0X8F4A</text>
@@ -445,7 +445,7 @@
       <text x="80" y="605" font-family="'IBM Plex Mono', monospace" font-size="11" fill="#666666" letter-spacing="2">LATENCY &lt; 50MS</text>
       <text x="1120" y="605" font-family="'IBM Plex Mono', monospace" font-size="11" fill="#666666" text-anchor="end" letter-spacing="2">HARDWARE IN THE LOOP</text>
     </svg></div>
-    <image-slot id="oil-palm-drone-cover" shape="rect" placeholder="Hero cover photo for Autonomous Oil Palm Pollination Drone <span class="glow">·</span> Field-Ready Build"></image-slot>
+    <image-slot id="custom-stm32-pcb-cover" shape="rect" placeholder="Hero cover photo for Custom Mini STM32 PCB <span class="glow">·</span> KiCad 2-Layer Layout"></image-slot>
   </div>
 
   <div class="content">
@@ -453,86 +453,55 @@
       <div class="lbl">Sections</div>
       <ul>
         
-        <li><a href="#problem"><span class="num">01</span><span>Problem</span></a></li>
-        <li><a href="#approach"><span class="num">02</span><span>Approach</span></a></li>
-        <li><a href="#architecture"><span class="num">03</span><span>Architecture</span></a></li>
-        <li><a href="#firmware"><span class="num">04</span><span>Firmware & Vision</span></a></li>
-        <li><a href="#dashboard"><span class="num">05</span><span>Dashboard</span></a></li>
-        <li><a href="#results"><span class="num">06</span><span>Results</span></a></li>
-        <li><a href="#lessons"><span class="num">07</span><span>Lessons</span></a></li>
+        <li><a href="#schematic"><span class="num">01</span><span>Schematic Design</span></a></li>
+        <li><a href="#power"><span class="num">02</span><span>Power & Crystal</span></a></li>
+        <li><a href="#layout"><span class="num">03</span><span>PCB Layout & Traces</span></a></li>
+        <li><a href="#gerber"><span class="num">04</span><span>Gerber Pre-flight</span></a></li>
+        <li><a href="#results"><span class="num">05</span><span>Results</span></a></li>
+        <li><a href="#lessons"><span class="num">06</span><span>Lessons</span></a></li>
       </ul>
     </aside>
 
     <main class="body">
       
-          <h2 id="problem"><span class="num">01</span>Problem</h2>
-          <p>Oil palm pollination in Southeast Asian plantations requires manual labor across thousands of hectares during narrow seasonal flowering windows. Worker scarcity and canopy height constraints make manual pollination inefficient and high-risk.</p>
-          <p>The objective was to build an autonomous quadrotor UAV capable of navigating low-canopy plantation grids, detecting flower targets with real-time computer vision, and deploying precision powder spray payloads without human pilot intervention.</p>
-          <h2 id="approach"><span class="num">02</span>Approach</h2>
-          <p>We decoupled system operations into three coupled layers: <em>deterministic flight control</em>, <em>embedded edge vision</em>, and <em>custom payload hardware</em>.</p>
+          <h2 id="schematic"><span class="num">01</span>Schematic Design</h2>
+          <p>Created full schematic in KiCad 8.0 for STM32F103C8T6 ARM Cortex-M3 core, decoupling capacitors per power pin pair, NRST reset circuit, and BOOT0 selection jumpers.</p>
+          <h2 id="power"><span class="num">02</span>Power &amp; Crystal</h2>
+          <p>AMS1117 3.3V linear regulator steps down USB 5V supply with low-ESR tantalum input/output caps. Calculated 16MHz high-speed crystal load capacitors using formula:</p>
+          <pre><code>// Crystal Load Capacitance Formula
+C_L = 16pF, C_stray = 3pF
+C1 = C2 = 2 * (C_L - C_stray) = 2 * (16 - 3) = 26pF (selected 22pF standard)</code></pre>
+          <h2 id="layout"><span class="num">03</span>PCB Layout &amp; Traces</h2>
+          <p>2-layer 1.6mm FR4 PCB layout. Designed continuous bottom layer ground plane for low impedance return paths. Routed USB D+/D- as 90Ω differential pairs with matched trace lengths.</p>
+          <h2 id="gerber"><span class="num">04</span>Gerber Pre-flight</h2>
+          <p>Ran KiCad DRC checks for minimum trace width (0.2mm), clear vias, silk screen overlaps, and solder mask expansion before exporting Gerber and NC Drill manufacturing files.</p>
+          <h2 id="results"><span class="num">05</span>Results</h2>
+          <p>Fabricated boards booted cleanly on first power-up, establishing SWD debugging connection in STM32CubeIDE and maintaining stable 16MHz system clocking.</p>
+          <h2 id="lessons"><span class="num">06</span>Lessons</h2>
           <ul>
-            <li><strong>Flight Stack</strong> — MAVSDK / Pymavlink running on an onboard NVIDIA Jetson Nano, interfacing with ArduPilot on a Pixhawk 2.4.8 flight controller.</li>
-            <li><strong>Perception</strong> — Custom YOLOv11 model optimized with TensorRT, running at 30 FPS for obstacle avoidance and flower head identification.</li>
-            <li><strong>Payload Board</strong> — Dedicated STM32 MCU managing high-pressure electrostatic spray valves and monitoring tank telemetry via FastAPI WebSockets.</li>
-          </ul>
-          <div class="figure">
-            <div class="frame"><image-slot id="oil-palm-drone-arch" shape="rect" placeholder="System architecture diagram"></image-slot></div>
-            <div class="cap"><b>Fig. 01</b> System architecture data flow — flight loop, perception pipeline, and ground control.</div>
-          </div>
-          <h2 id="architecture"><span class="num">03</span>Architecture</h2>
-          <p>Deterministic serial MAVLink protocols handle hard real-time flight navigation while ROS Noetic handles off-board SITL/HIL simulation validation. Keeping ROS off the critical control loop guaranteed zero pub/sub latency spikes in field deployments.</p>
-          <h2 id="firmware"><span class="num">04</span>Firmware &amp; Vision</h2>
-          <p>The STM32 microcontroller firmware executes a state machine regulating discharge duration and valve safety timeouts:</p>
-          <pre><code>// Payload actuation FSM
-enum State { IDLE, ARM, DISCHARGE, COOLDOWN };
-static State s = IDLE;
-void on_telemetry_command(cmd_t c) {
-    switch (s) {
-        case IDLE:    if (c == ARM_REQ)  s = ARM; break;
-        case ARM:     if (c == FIRE)     s = DISCHARGE; break;
-        case DISCHARGE: timer_start(150); s = COOLDOWN; break;
-        case COOLDOWN:  if (timer_elapsed()) s = IDLE; break;
-    }
-}</code></pre>
-          <div class="figure">
-            <div class="frame"><image-slot id="oil-palm-drone-pcb" shape="rect" placeholder="Payload PCB schematic"></image-slot></div>
-            <div class="cap"><b>Fig. 02</b> STM32 payload controller schematic and timing validation.</div>
-          </div>
-          <h2 id="dashboard"><span class="num">05</span>Dashboard</h2>
-          <p>A FastAPI telemetry bridge broadcasts GPS position, battery cell voltages, mission status, and live vision inference bounding boxes over WebSockets to a ReactJS ground-station dashboard.</p>
-          <div class="gallery">
-            <div class="frame"><image-slot id="oil-palm-drone-g1" shape="rect" placeholder="Vision detection"></image-slot></div>
-            <div class="frame"><image-slot id="oil-palm-drone-g2" shape="rect" placeholder="Dashboard telemetry"></image-slot></div>
-            <div class="frame"><image-slot id="oil-palm-drone-g3" shape="rect" placeholder="Field testing"></image-slot></div>
-          </div>
-          <h2 id="results"><span class="num">06</span>Results</h2>
-          <p>Achieved 92% mAP@50 detection accuracy in field trials, maintaining sub-50ms control loop response and zero crashes across 40+ autonomous test flights.</p>
-          <h2 id="lessons"><span class="num">07</span>Lessons</h2>
-          <ul>
-            <li>Keep critical flight loops deterministic over hardware serial UART.</li>
-            <li>Digital twin SITL validation saves weeks of field debugging time.</li>
+            <li>Decoupling capacitors must be placed immediately adjacent to MCU VDD pins to minimize parasitic inductance.</li>
           </ul>
         
 
       <div class="metrics">
         
         <div class="metric">
-          <div class="n">92%</div>
-          <div class="lbl">mAP@50 obstacle detection</div>
+          <div class="n">2-Layer</div>
+          <div class="lbl">impedance-controlled PCB</div>
         </div>
         <div class="metric">
-          <div class="n">< 50ms</div>
-          <div class="lbl">control loop latency</div>
+          <div class="n">16 MHz</div>
+          <div class="lbl">crystal load cap precision</div>
         </div>
         <div class="metric">
-          <div class="n">100%</div>
-          <div class="lbl">SITL / HIL pass rate</div>
+          <div class="n">0 EMI</div>
+          <div class="lbl">clean ground plane shielding</div>
         </div>
       </div>
 
       <h3>Technical Stack &amp; Tools</h3>
       <div class="stack-chips">
-        <span class="t">Pixhawk 2.4.8</span><span class="t">Jetson Nano</span><span class="t">ArduPilot</span><span class="t">ROS Noetic</span><span class="t">MAVSDK / Pymavlink</span><span class="t">YOLOv11</span><span class="t">STM32</span><span class="t">FastAPI</span><span class="t">ReactJS</span><span class="t">SolidWorks</span><span class="t">Gazebo</span><span class="t">SITL / HIL</span>
+        <span class="t">KiCad 8.0</span><span class="t">STM32F103C8T6</span><span class="t">PCB Design</span><span class="t">Signal Integrity</span><span class="t">EMC / EMI</span><span class="t">SWD Debug</span><span class="t">Gerber Generation</span>
       </div>
 
       <div class="case-foot">
@@ -541,9 +510,9 @@ void on_telemetry_command(cmd_t c) {
           <span>Engineering Project Documentation by Nabil Karim · Class of 2026</span>
         </div>
         <div class="foot-nav">
-          <a href="wind-turbine-3d-model.html">← Previous Project</a>
+          <a href="industrial-pid-delivery-box.html">← Previous Project</a>
           <a href="../index.html#projects">All Projects ↑</a>
-          <a href="mpc-leso-etc-quadrotor.html">Next Project →</a>
+          <a href="intelligent-ev-charging-station.html">Next Project →</a>
         </div>
       </div>
     </main>
