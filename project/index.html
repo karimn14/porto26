@@ -6,7 +6,7 @@
 <title>Nabil Karim Abdurrahman — Engineer</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<script src="image-slot.js"></script>
+
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 <style>
   :root{
@@ -347,16 +347,15 @@
     aspect-ratio: 4/5;
     position:relative;
     border:1px solid var(--divider);
-    background:
-      repeating-linear-gradient(45deg, rgba(237,237,237,0.025) 0 1px, transparent 1px 8px),
-      #0d0d0d;
+    background:#0d0d0d;
     overflow:hidden;
     margin-bottom:18px;
   }
-  .portrait-frame image-slot{
+  .portrait-frame img{
     width:100%; height:100%;
-    --slot-bg: transparent;
-    --slot-border: transparent;
+    object-fit:cover;
+    object-position:top center;
+    display:block;
   }
   .portrait-cap{
     margin-bottom:32px;
@@ -749,7 +748,36 @@
   @media (max-width:680px){ .proj-grid{ grid-template-columns:1fr; } }
 
   /* allow the entire card to act as a link */
-  a.card{ text-decoration:none; color:inherit; }
+  a
+  /* Card Image Thumbnails */
+  .card-thumb {
+    width: 100%;
+    height: 180px;
+    background: #0d0d0d;
+    border: 1px solid var(--divider);
+    overflow: hidden;
+    margin-bottom: 14px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .card.featured-card .card-thumb {
+    height: 230px;
+  }
+  .card-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform .35s ease, filter .35s ease;
+    filter: brightness(0.92) contrast(1.05);
+  }
+  .card:hover .card-thumb img {
+    transform: scale(1.04);
+    filter: brightness(1.05) contrast(1.1);
+  }
+
+  .card{ text-decoration:none; color:inherit; }
   a.card:hover .card-num{ color:var(--accent); opacity:0.9; }
 
   .card{
@@ -1097,7 +1125,7 @@
   </div>
 
   <div class="wrap">
-    <div class="status-chip"><span class="blink-dot"></span> Open to R&D · Embedded · Electronics</div>
+    <div class="status-chip"><span class="blink-dot"></span> Open to R&amp;D · Embedded · Firmware</div>
 
     <div class="hero-meta fade-in">
       <span class="tick"></span>
@@ -1143,7 +1171,7 @@
     <div class="about-grid">
       <div class="bio fade-in">
         <div class="portrait-frame">
-          <image-slot id="about-portrait" shape="rect" placeholder="Drop portrait"></image-slot>
+          <img src="uploads/Pas Foto_Nabil Karim.png" alt="Nabil Karim Abdurrahman">
         </div>
         <div class="portrait-cap">
           <span class="name">Nabil Karim Abdurrahman</span>
@@ -1426,6 +1454,7 @@
 </section>
 
 <!-- PROJECTS -->
+<!-- PROJECTS -->
 <section id="projects" data-num="05">
   <div class="side-label">05 / Build Log</div>
   <div class="wrap">
@@ -1439,169 +1468,248 @@
       <button class="filter active" data-filter="all">All</button>
       <button class="filter" data-filter="drone">Drone / Control</button>
       <button class="filter" data-filter="embedded">Embedded / Firmware</button>
-      <button class="filter" data-filter="pcb">PCB</button>
+      <button class="filter" data-filter="pcb">PCB / Hardware</button>
+      <button class="filter" data-filter="fpga">FPGA / Digital</button>
       <button class="filter" data-filter="iiot">IIoT / HMI</button>
-      <button class="filter" data-filter="software">Software</button>
     </div>
 
-        <!-- FEATURED -->
+    <!-- FEATURED FLAGSHIP CARDS -->
     <div class="featured">
       <a class="card featured-card fade-in" href="projects/oil-palm-drone.html" data-cats="drone embedded software">
+        <div class="card-thumb">
+          <img src="uploads/projects/drone-prototype-assembly.jpg" alt="Autonomous Oil Palm Drone" loading="lazy" />
+        </div>
         <div class="card-top">
           <span class="card-num">01 / FLAGSHIP</span>
-          <span class="card-badge research">Internship · Drone</span>
+          <span class="card-badge research">UAV &middot; Jetson &middot; Vision</span>
         </div>
-        <h3><span class="glyph">◈</span>Autonomous Oil Palm Pollination Drone</h3>
-        <p>End-to-end autonomous drone for precision agriculture. Core flight control via Pymavlink/MAVSDK with ROS as a validation architecture. Digital twin simulation + SITL/HIL testing. Waypoint navigation, real-time YOLOv11 obstacle avoidance (custom model), STM32 payload actuation, FastAPI web telemetry dashboard. Mechanical design in SolidWorks.</p>
+        <h3><span class="glyph">&#x25B2;</span>Autonomous Oil Palm Pollination Drone</h3>
+        <p>End-to-end autonomous UAV for precision agriculture. Deterministic flight control via Pymavlink/MAVSDK, ROS-based digital twin SITL validation, real-time YOLOv11 target detection on Jetson Nano, and an STM32-actuated pneumatic pollen dispersal payload. Modeled in SolidWorks.</p>
         <div class="stack-tags">
           <span class="t">Pixhawk</span><span class="t">Jetson Nano</span><span class="t">ROS</span>
-          <span class="t">YOLOv11</span><span class="t">STM32</span><span class="t">FastAPI</span>
-          <span class="t">MAVSDK</span><span class="t">SolidWorks</span>
+          <span class="t">YOLOv11</span><span class="t">STM32</span><span class="t">MAVSDK</span><span class="t">SolidWorks</span>
         </div>
-        <span class="read-link">Read case study →</span>
+        <span class="read-link">Read engineering case study &rarr;</span>
       </a>
 
       <a class="card featured-card fade-in" href="projects/l1-adaptive-control-uav.html" data-cats="drone software">
+        <div class="card-thumb">
+          <img src="uploads/projects/l1-adaptive-drone-testing.jpg" alt="Adaptive L1 UAV Control" loading="lazy" />
+        </div>
         <div class="card-top">
           <span class="card-num">02 / THESIS</span>
-          <span class="card-badge research">Research · STM32F407</span>
+          <span class="card-badge research">Lyapunov &middot; STM32F407 &middot; HIL</span>
         </div>
-        <h3><span class="glyph">◈</span>HIL Testing Adaptive L1 Control for UAV Heavy Payload Drop on STM32F407 (Pixhawk)</h3>
-        <p>Implementation &amp; Hardware-in-the-Loop (HIL) testing of an L1 Adaptive Controller for quadrotors undergoing sudden mass shedding and unmodeled disturbances. Carried from SITL in MATLAB to SITL in ROS and HIL on STM32F407 Pixhawk hardware.</p>
+        <h3><span class="glyph">&#x25B2;</span>HIL Testing Adaptive L1 Control for UAV Heavy Payload Drop on STM32F407 (Pixhawk)</h3>
+        <p>Proven via Lyapunov stability and validated in hard real-time Hardware-in-the-Loop (HIL) on an STM32F407 Pixhawk flight controller. Rejects abrupt 40% mass shedding with &lt;0.8s settling time and &lt;3&deg; attitude error without motor desynchronization.</p>
         <div class="stack-tags">
-          <span class="t">MATLAB</span><span class="t">ROS</span><span class="t">C++</span>
-          <span class="t">STM32F407</span><span class="t">Pixhawk</span><span class="t">ArduPilot</span>
-          <span class="t">SITL / HIL</span>
+          <span class="t">STM32F407</span><span class="t">Pixhawk</span><span class="t">MATLAB</span>
+          <span class="t">ROS</span><span class="t">Gazebo</span><span class="t">HIL / SITL</span><span class="t">C++</span>
         </div>
-        <span class="read-link">Read case study →</span>
+        <span class="read-link">Read engineering case study &rarr;</span>
+      </a>
+
+      <a class="card featured-card fade-in" href="projects/pcb-reflow-conveyor-cv-sorting.html" data-cats="embedded pcb software">
+        <div class="card-thumb">
+          <img src="uploads/projects/reflow-oven-bench-setup.png" alt="PCB Reflow Conveyor CV Sorting" loading="lazy" />
+        </div>
+        <div class="card-top">
+          <span class="card-num">03 / FLAGSHIP</span>
+          <span class="card-badge research">STM32 &middot; FreeRTOS &middot; CV</span>
+        </div>
+        <h3><span class="glyph">&#x25B2;</span>PCB Reflow Heating Conveyor System with CV Defect Sorting</h3>
+        <p>Industrial reflow oven prototype with automated conveyor mechatronics. STM32F103 firmware on FreeRTOS with 6 static tasks, watchdog supervisor, 250ms closed-loop PID thermal profiling (&plusmn;2&deg;C precision), and Raspberry Pi optical inspection with servo defect sorting.</p>
+        <div class="stack-tags">
+          <span class="t">STM32F103</span><span class="t">FreeRTOS</span><span class="t">Raspberry Pi</span>
+          <span class="t">OpenCV</span><span class="t">PID Thermal</span><span class="t">SolidWorks</span>
+        </div>
+        <span class="read-link">Read engineering case study &rarr;</span>
+      </a>
+
+      <a class="card featured-card fade-in" href="projects/mipi-bridge-board.html" data-cats="pcb hardware">
+        <div class="card-thumb">
+          <img src="uploads/projects/mipi-bridge-3d.png" alt="MIPI DSI to HDMI Bridge Board" loading="lazy" />
+        </div>
+        <div class="card-top">
+          <span class="card-num">04 / HIGH-SPEED PCB</span>
+          <span class="card-badge research">4-Layer &middot; 90&Omega; Diff &middot; LT8912B</span>
+        </div>
+        <h3><span class="glyph">&#x25B2;</span>MIPI DSI to HDMI/LVDS Bridge Board for ESP32-P4</h3>
+        <p>High-speed 4-layer PCB (45 &times; 65 mm) centered on the LT8912B bridge IC. Controlled 90&Omega; differential impedance routing for MIPI DSI and HDMI TMDS pairs, JLC04161H stackup, 1.8V/3.3V/5V power tree with pi-filters, 9x LBSS138 level shifters, and RClamp0524P ESD protection.</p>
+        <div class="stack-tags">
+          <span class="t">KiCad</span><span class="t">LT8912B</span><span class="t">ESP32-P4</span>
+          <span class="t">4-Layer PCB</span><span class="t">90&Omega; Diff</span><span class="t">ESD</span>
+        </div>
+        <span class="read-link">Read engineering case study &rarr;</span>
+      </a>
+
+      <a class="card featured-card fade-in" href="projects/fpga-cnn-eye-state.html" data-cats="fpga hardware software">
+        <div class="card-thumb">
+          <img src="uploads/projects/fpga-cnn-block-diagram.png" alt="FPGA CNN Accelerator" loading="lazy" />
+        </div>
+        <div class="card-top">
+          <span class="card-num">05 / FPGA DIGITAL DESIGN</span>
+          <span class="card-badge research">Artix-7 &middot; Verilog &middot; INT8</span>
+        </div>
+        <h3><span class="glyph">&#x25B2;</span>Basys 3 FPGA CNN Eye-State Classifier (Artix-7)</h3>
+        <p>Bit-exact hardware accelerator for an INT8 quantized Convolutional Neural Network on Xilinx Artix-7 (Basys 3). Achieves 98.1% accuracy and 100% bit-exact match against PyTorch golden model with a pipelined single-MAC datapath consuming 0 DSP blocks (pure LUT/FF logic).</p>
+        <div class="stack-tags">
+          <span class="t">Verilog HDL</span><span class="t">Artix-7</span><span class="t">Vivado</span>
+          <span class="t">INT8 Quant</span><span class="t">PyTorch</span><span class="t">0 DSP</span>
+        </div>
+        <span class="read-link">Read engineering case study &rarr;</span>
       </a>
     </div>
 
-    <!-- REGULAR -->
+    <!-- REGULAR GRID CARDS -->
     <div class="proj-grid">
-      <a class="card fade-in" href="projects/tinyml-motor-anomaly.html" data-cats="embedded software">
-        <div class="card-top">
-          <span class="card-num">03</span>
-          <span class="card-badge">Personal</span>
+      <a class="card fade-in" href="projects/atmega128-dev-board.html" data-cats="pcb embedded hardware">
+        <div class="card-thumb">
+          <img src="uploads/projects/atmega128-dev-board-3d.png" alt="ATmega128 Dev Board" loading="lazy" />
         </div>
-        <h3><span class="glyph">▸</span>TinyML Motor Anomaly Detection</h3>
-        <p>Autoencoder NN deployed on ESP32-S3 for vibration-based bearing fault detection. Frequency-domain analysis, high-accuracy anomaly classification with minimal bandwidth.</p>
-        <div class="stack-tags">
-          <span class="t">TinyML</span><span class="t">Python</span><span class="t">C++</span><span class="t">ESP32-S3</span>
-        </div>
-        <span class="read-link">Read case study →</span>
-      </a>
-
-      <a class="card fade-in" href="projects/industrial-pid-delivery-box.html" data-cats="embedded iiot">
-        <div class="card-top">
-          <span class="card-num">04</span>
-          <span class="card-badge">Personal</span>
-        </div>
-        <h3><span class="glyph">▸</span>Industrial PID Temperature Food Delivery Box</h3>
-        <p>Dual-core ESP32 + RTOS. PID control: 23°C (TEC Peltier) + 45°C (PTC heater). Hardware watchdog, solar charging, self-hosted web server, mobile app (Kodular).</p>
-        <div class="stack-tags">
-          <span class="t">ESP32</span><span class="t">C++ / Arduino</span><span class="t">RTOS</span><span class="t">IoT</span><span class="t">PID</span>
-        </div>
-        <span class="read-link">Read case study →</span>
-      </a>
-
-      <a class="card fade-in" href="projects/custom-stm32-pcb.html" data-cats="pcb embedded">
-        <div class="card-top">
-          <span class="card-num">05</span>
-          <span class="card-badge">Personal</span>
-        </div>
-        <h3><span class="glyph">▸</span>Custom Mini STM32 PCB (STM32F103C8T6)</h3>
-        <p>Full design lifecycle in KiCad: schematic → 2-layer layout. AMS1117 LDO, 16 MHz crystal with load capacitance calc, USB 2.0 differential pairs, SWD debug, ground plane, Gerber output.</p>
-        <div class="stack-tags">
-          <span class="t">KiCad</span><span class="t">STM32F103</span><span class="t">PCB Design</span><span class="t">EMC</span>
-        </div>
-        <span class="read-link">Read case study →</span>
-      </a>
-
-      <a class="card fade-in" href="projects/intelligent-ev-charging-station.html" data-cats="software iiot">
         <div class="card-top">
           <span class="card-num">06</span>
-          <span class="card-badge">Internship</span>
+          <span class="card-badge">Hardware</span>
         </div>
-        <h3><span class="glyph">▸</span>Intelligent EV Charging Station</h3>
-        <p>Full-stack CSMS: FastAPI backend, XGBoost demand forecasting with background model updates, ReactJS dashboard with live charts. Raspberry Pi edge node + PN532 RFID + kiosk web panel.</p>
+        <h3><span class="glyph">&#x25C6;</span>ATmega128 Development Board</h3>
+        <p>Pocket-sized 60 &times; 35 mm 2-layer MCU board. USB Type-C sink with 5.1k&Omega; pulldowns, isolated 10&micro;H LC analog filter for 10-bit ADC stability, CH340C DTR auto-reset, and length-matched 90&Omega; USB differential pairs.</p>
         <div class="stack-tags">
-          <span class="t">ReactJS</span><span class="t">FastAPI</span><span class="t">XGBoost</span><span class="t">Raspberry Pi</span><span class="t">MySQL</span><span class="t">RFID</span>
+          <span class="t">KiCad</span><span class="t">ATmega128</span><span class="t">Type-C</span><span class="t">LC Filter</span>
         </div>
-        <span class="read-link">Read case study →</span>
+        <span class="read-link">Read case study &rarr;</span>
       </a>
 
-      <a class="card fade-in" href="projects/iiot-motor-control-system.html" data-cats="iiot software">
+      <a class="card fade-in" href="projects/industrial-pid-delivery-box.html" data-cats="embedded iiot software">
+        <div class="card-thumb">
+          <img src="uploads/projects/delivery-box-closed.gif" alt="Control Temperature Food Delivery Box" loading="lazy" />
+        </div>
         <div class="card-top">
           <span class="card-num">07</span>
-          <span class="card-badge">Capstone</span>
+          <span class="card-badge">IoT &middot; RTOS</span>
         </div>
-        <h3><span class="glyph">▸</span>IIoT Capstone — Motor Control System</h3>
-        <p>Multi-layer data viz: Node-RED HMI (MQTT + local DB) + NextJS cloud app (MongoDB). HMI Weintek config with Omron PLC via CX Designer.</p>
+        <h3><span class="glyph">&#x25C6;</span>Control Temperature Food Delivery Box</h3>
+        <p>Dual-core ESP32 with FreeRTOS. Core 0 runs dual PID thermal loops holding 23&deg;C (TEC Peltier) and 45&deg;C (PTC heater); Core 1 streams live telemetry to a custom mobile app. Custom PDB with INA219, BMS, and MOSFET drivers.</p>
         <div class="stack-tags">
-          <span class="t">Node-RED</span><span class="t">NextJS</span><span class="t">MongoDB</span><span class="t">HMI Weintek</span><span class="t">MQTT</span><span class="t">PLC</span>
+          <span class="t">ESP32</span><span class="t">FreeRTOS</span><span class="t">PID</span><span class="t">Peltier</span><span class="t">PDB</span>
         </div>
-        <span class="read-link">Read case study →</span>
+        <span class="read-link">Read case study &rarr;</span>
       </a>
 
-      <a class="card fade-in" href="projects/micro-hydro-hmi-system.html" data-cats="iiot embedded">
+      <a class="card fade-in" href="projects/automotive-sensor-wire-harness.html" data-cats="hardware">
+        <div class="card-thumb">
+          <img src="uploads/projects/wire-harness-top.jpg" alt="Automotive Sensor Wire Harness" loading="lazy" />
+        </div>
         <div class="card-top">
           <span class="card-num">08</span>
-          <span class="card-badge">Capstone</span>
+          <span class="card-badge">Automotive R&amp;D</span>
         </div>
-        <h3><span class="glyph">▸</span>Micro HydroPower HMI Learning System</h3>
-        <p>Industrial HMI from scratch: login, role-based settings, control, data management. ISA101 + ISO 11064-5 standards. MQTT + MySQL + RTOS real-time data acquisition.</p>
+        <h3><span class="glyph">&#x25C6;</span>Automotive Sensor Wire Harness</h3>
+        <p>PT Hana Master Jaya R&amp;D internship. Rev. 0 prototype harness: 3-leg T-geometry linking 8-pin, 3-pin, and dual 2-pin sealed automotive connectors with 15 circuits. Prepared complete drawings, BOM, and JIS C 2805 crimp pull specs.</p>
         <div class="stack-tags">
-          <span class="t">Node-RED</span><span class="t">MQTT</span><span class="t">MySQL</span><span class="t">RTOS</span><span class="t">ISA101</span>
+          <span class="t">Wire Harness</span><span class="t">AutoCAD</span><span class="t">BOM</span><span class="t">JIS C 2805</span>
         </div>
-        <span class="read-link">Read case study →</span>
+        <span class="read-link">Read case study &rarr;</span>
       </a>
 
-      <a class="card fade-in" href="projects/sap-flow-sensor.html" data-cats="embedded pcb">
+      <a class="card fade-in" href="projects/fan-speed-controller.html" data-cats="pcb embedded hardware">
+        <div class="card-thumb">
+          <img src="uploads/projects/fan-controller-board-top.jpg" alt="CH32V003 Fan Speed Controller" loading="lazy" />
+        </div>
         <div class="card-top">
           <span class="card-num">09</span>
-          <span class="card-badge">Personal</span>
+          <span class="card-badge">RISC-V &middot; Hardware</span>
         </div>
-        <h3><span class="glyph">▸</span>SAP Flow Sensor</h3>
-        <p>Compact plant health monitoring: analog thermocouple amplification circuit, microcontroller DAQ, custom data acquisition formula, 3D-printed enclosure.</p>
+        <h3><span class="glyph">&#x25C6;</span>CH32V003 RISC-V Fan Speed Controller</h3>
+        <p>Cost-effective intelligent cooling fan controller built around the $0.10 CH32V003 RISC-V MCU. 25kHz ultrasonic PWM generation, closed-loop tachometer feedback (&plusmn;20 RPM), PC817 optoisolation, and 1N4007 reverse polarity protection.</p>
         <div class="stack-tags">
-          <span class="t">Analog Circuit</span><span class="t">Thermocouple</span><span class="t">3D Design</span>
+          <span class="t">CH32V003</span><span class="t">RISC-V</span><span class="t">PC817</span><span class="t">25kHz PWM</span><span class="t">PID</span>
         </div>
-        <span class="read-link">Read case study →</span>
+        <span class="read-link">Read case study &rarr;</span>
       </a>
 
-      <a class="card fade-in" href="projects/soccer-robot-ep-lab.html" data-cats="embedded software">
+      <a class="card fade-in" href="projects/usbc-boost-module.html" data-cats="pcb hardware">
+        <div class="card-thumb">
+          <img src="uploads/projects/usbc-boost-3d.gif" alt="USB-C to 12V Boost Module" loading="lazy" />
+        </div>
         <div class="card-top">
           <span class="card-num">10</span>
-          <span class="card-badge">Capstone</span>
+          <span class="card-badge">Power Electronics</span>
         </div>
-        <h3><span class="glyph">▸</span>Soccer Robot — Engineering Physics Lab</h3>
-        <p>3D-modeled robot with WiFi-connected Android control app (Android Studio / Kotlin). Led system integration. Arduino firmware for motor + control logic.</p>
+        <h3><span class="glyph">&#x25C6;</span>USB-C to 12V Boost Module (CX8823)</h3>
+        <p>High-efficiency step-up DC-DC converter providing 12V 1.5A from 5V USB-C. Sized with a 3.3&micro;H shielded inductor for continuous conduction, 470&micro;F low-ESR bulk filtering (&lt;25mV ripple), TVS hot-plug surge clamping, and DNP config pads.</p>
         <div class="stack-tags">
-          <span class="t">Arduino</span><span class="t">C++</span><span class="t">Android Studio</span><span class="t">Kotlin</span><span class="t">SolidWorks</span>
+          <span class="t">CX8823</span><span class="t">Boost DC-DC</span><span class="t">TVS Protection</span><span class="t">KiCad</span>
         </div>
-        <span class="read-link">Read case study →</span>
+        <span class="read-link">Read case study &rarr;</span>
+      </a>
+
+      <a class="card fade-in" href="projects/custom-stm32-pcb.html" data-cats="pcb embedded hardware">
+        <div class="card-thumb">
+          <img src="uploads/projects/mini-stm32-pcb-3d.gif" alt="Custom Mini STM32 PCB" loading="lazy" />
+        </div>
+        <div class="card-top">
+          <span class="card-num">11</span>
+          <span class="card-badge">MCU Hardware</span>
+        </div>
+        <h3><span class="glyph">&#x25C6;</span>Custom Mini STM32 PCB Design</h3>
+        <p>Minimalist system board for STM32F103C8T6 (ARM Cortex-M3 @ 72MHz). Continuous ground plane, 16MHz crystal load-matched capacitor tank, 22&Omega; USB 2.0 differential trace damping, AMS1117-3.3 rail, and 4-pin SWD debug port.</p>
+        <div class="stack-tags">
+          <span class="t">STM32F103</span><span class="t">ARM M3</span><span class="t">KiCad</span><span class="t">USB 2.0</span><span class="t">SWD</span>
+        </div>
+        <span class="read-link">Read case study &rarr;</span>
+      </a>
+
+      <a class="card fade-in" href="projects/hourglass-atmega328p-pcb.html" data-cats="pcb embedded hardware">
+        <div class="card-thumb">
+          <img src="uploads/projects/hourglass-schematic.gif" alt="Hourglass PCB" loading="lazy" />
+        </div>
+        <div class="card-top">
+          <span class="card-num">12</span>
+          <span class="card-badge">Novelty Hardware</span>
+        </div>
+        <h3><span class="glyph">&#x25C6;</span>Custom Hourglass PCB with ATmega8A</h3>
+        <p>Two-board stacked sand timer with 29 blue LEDs driven by 4x 74HC595 shift registers in SPI cascade. Dual SW-200D tilt switches detect physical inversion; pushbuttons select 1/5/10 min countdowns with active buzzer alarms and LiPo charging.</p>
+        <div class="stack-tags">
+          <span class="t">ATmega8A</span><span class="t">74HC595</span><span class="t">SPI</span><span class="t">SW-200D</span><span class="t">TP4056</span>
+        </div>
+        <span class="read-link">Read case study &rarr;</span>
+      </a>
+
+      <a class="card fade-in" href="projects/mini-logic-analyzer.html" data-cats="embedded hardware">
+        <div class="card-thumb">
+          <img src="uploads/projects/bridge-faulty-sensor.gif" alt="Mini Logic Analyzer" loading="lazy" />
+        </div>
+        <div class="card-top">
+          <span class="card-num">13</span>
+          <span class="card-badge">Instrumentation</span>
+        </div>
+        <h3><span class="glyph">&#x25C6;</span>Mini Logic Analyzer (8-Ch 24MHz DMA DAQ)</h3>
+        <p>Low-cost 8-channel logic analyzer built on STM32 ARM Cortex-M4. Hardware timer triggered DMA acquisition at 24MHz parallel sampling with double-buffered circular SRAM streaming over USB VCP. Compatible with open-source Sigrok / PulseView.</p>
+        <div class="stack-tags">
+          <span class="t">STM32F4</span><span class="t">DMA</span><span class="t">24MHz DAQ</span><span class="t">Sigrok</span><span class="t">PulseView</span>
+        </div>
+        <span class="read-link">Read case study &rarr;</span>
       </a>
     </div>
 
+    <!-- COLLAPSIBLE MORE PROJECTS LIST -->
     <div class="view-all fade-in">
-      <button class="btn" id="moreBtn">View All Projects <span class="arr" id="moreArr">↓</span></button>
+      <button class="btn" id="moreBtn">View All Projects (18) <span class="arr" id="moreArr">&darr;</span></button>
       <div class="extra-line"></div>
     </div>
 
     <div class="more-list" id="moreList">
       <ul>
-        <li><a href="projects/pcb-reflow-conveyor-cv-sorting.html" class="more-item-link"><span class="idx">11</span><span class="name">PCB Reflow Heating Conveyor System with Defect Sorting through Computer Vision</span><span class="tools">OpenCV · STM32 ↗</span></a></li>
-        <li><a href="projects/hourglass-atmega328p-pcb.html" class="more-item-link"><span class="idx">12</span><span class="name">Hourglass PCB with ATmega328P</span><span class="tools">KiCad · MPU6050 ↗</span></a></li>
-        <li><a href="projects/mini-logic-analyzer.html" class="more-item-link"><span class="idx">13</span><span class="name">Mini Logic Analyzer</span><span class="tools">STM32 · 24MHz DMA ↗</span></a></li>
-        <li><a href="projects/batik-coagulant-unit.html" class="more-item-link"><span class="idx">14</span><span class="name">Batik Coagulant Modular Processing Unit</span><span class="tools">SolidWorks ↗</span></a></li>
-        <li><a href="projects/funbox-controller.html" class="more-item-link"><span class="idx">15</span><span class="name">FunBox Controller</span><span class="tools">IoT · ESP32 ↗</span></a></li>
-        <li><a href="projects/humanoid-robot-dance.html" class="more-item-link"><span class="idx">16</span><span class="name">Humanoid Robot Dance</span><span class="tools">C# · 3D CAD ↗</span></a></li>
-        <li><a href="projects/wind-turbine-3d-model.html" class="more-item-link"><span class="idx">17</span><span class="name">Wind Turbine 3D Model</span><span class="tools">SolidWorks ↗</span></a></li>
+        <li><a href="projects/sap-flow-sensor.html" class="more-item-link"><span class="idx">14</span><span class="name">Plant Sap Flow Sensor (Low-Noise Thermocouple Front-End &amp; Granier Method)</span><span class="tools">Analog AFE &middot; Thermocouple &middot; SLA 3D &rarr;</span></a></li>
+        <li><a href="projects/soccer-robot-ep-lab.html" class="more-item-link"><span class="idx">15</span><span class="name">Soccer Robot (3-Wheel Holonomic Omni-Drive with Kotlin Android Wi-Fi App)</span><span class="tools">Kotlin &middot; Android &middot; SolidWorks &middot; C++ &rarr;</span></a></li>
+        <li><a href="projects/iiot-motor-control-system.html" class="more-item-link"><span class="idx">16</span><span class="name">IIoT Capstone Motor Control &amp; Cloud SCADA (Omron PLC &amp; Weintek HMI)</span><span class="tools">Omron PLC &middot; Node-RED &middot; Next.js &middot; MongoDB &rarr;</span></a></li>
+        <li><a href="projects/micro-hydro-hmi-system.html" class="more-item-link"><span class="idx">17</span><span class="name">MicroHydroPower TeleLab &amp; Aeroponic HMI System (ISA-101 SCADA)</span><span class="tools">ISA-101 &middot; FreeRTOS &middot; MQTT &middot; MySQL &rarr;</span></a></li>
+        <li><a href="projects/tinyml-motor-anomaly.html" class="more-item-link"><span class="idx">18</span><span class="name">TinyML Machine Vibration Anomaly Detection (512-Point FFT on ESP32-S3)</span><span class="tools">TinyML &middot; 512-FFT &middot; Autoencoder &middot; C++ &rarr;</span></a></li>
       </ul>
     </div>
   </div>
 </section>
+
 
 <!-- LEARNING JOURNAL -->
 <section id="learning" data-num="06">
@@ -1717,9 +1825,9 @@
     <div class="contact-line fade-in">
       <a href="mailto:nabil.kar04@gmail.com">nabil.kar04@gmail.com</a>
       <span class="sep">/</span>
-      <a href="#" target="_blank" rel="noopener">LinkedIn ↗</a>
+      <a href="https://www.linkedin.com/in/nabil-karim-abdurrahman/" target="_blank" rel="noopener">LinkedIn ↗</a>
       <span class="sep">/</span>
-      <a href="#" target="_blank" rel="noopener">GitHub ↗</a>
+      <a href="https://github.com/karimn14" target="_blank" rel="noopener">GitHub ↗</a>
     </div>
     <div class="loc fade-in">◉ Bandung, Indonesia · GMT+7</div>
 
@@ -1800,7 +1908,7 @@
   const filters = document.querySelectorAll('.filter');
   const allCards = document.querySelectorAll('.featured .card, .proj-grid .card');
   // counts
-  const cats = ['drone','embedded','pcb','iiot','software'];
+  const cats = ['drone','embedded','pcb','fpga','iiot','software','hardware'];
   filters.forEach(btn=>{
     const f = btn.dataset.filter;
     const c = f==='all' ? allCards.length : Array.from(allCards).filter(x=> x.dataset.cats && x.dataset.cats.split(' ').includes(f)).length;

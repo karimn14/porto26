@@ -1,0 +1,168 @@
+Nabil Karim Abdurrahman
+Electronics Engineering Portfolio
+Preface
+As an Engineering Physics undergraduate at Institut Teknologi Bandung, I present this portfolio as a record of the engineer I have become through direct, hands-on work across embedded firmware, PCB design, FPGA digital design, and electronic systems integration. Each project here was carried from schematic and board layout, through firmware and mechanical integration, to a system that was tested on the bench.
+These projects reflect a deliberate commitment to understanding systems from the circuit level up. On the hardware side, I have designed boards ranging from microcontroller development boards (STM32 and ATmega128) to a four-layer MIPI DSI to HDMI/LVDS bridge for the ESP32-P4, paying close attention to power integrity, level shifting, ESD protection, and differential-pair routing calculated against the fabricator’s stackup and design rules. On the firmware side, I have built RTOS-based controllers on STM32 and ESP32 with watchdog supervision, state machines, PID control, and defined communication protocols, including the conveyor, servo-sorting, and camera-inspection integration of a reflow-oven prototype, where I was responsible for the firmware and the mechanics. In digital design, I have worked on a fully integer CNN eye-state classifier in Verilog on a Basys 3 FPGA, verified bit-exactly against a Python golden model. My thesis work developing a robust L1 Adaptive Control with Observer and Event-Triggered Control on a Pixhawk platform for a quadrotor under dynamic payload conditions required me to operate simultaneously as a firmware engineer, hardware integrator, and instrumentation specialist.
+What this portfolio cannot fully convey are the failures and iterations behind each outcome. Tracing an unexpected voltage spike to a missing flyback diode, recalibrating sensor fusion after a hardware revision, or verifying a control loop with nothing but an oscilloscope and a hypothesis—these moments have built a methodical, measurement-driven approach to engineering that I consider my most valuable asset.
+I am eager to bring this technical depth and engineering maturity to a team where electronics precision, rigorous testing, and hands-on problem-solving are not aspirations but daily requirements. Thank you for your consideration.
+1. Control Temperature Food Delivery Box
+Topics: IoT, ESP32, RTOS, Electrical System
+I built a temperature-controlled food delivery box around a dual-core ESP32 running a real-time operating system (RTOS). One core executes the control loop that holds stable setpoints of 23 °C (cooling) and 45 °C (heating), while the other handles wireless communication. A hardware watchdog timer provides fail-safe operation. The thermal system pairs a PTC air heater and a TEC Peltier module, each with its own fan for uniform air distribution inside the 40 × 30 × 27 cm enclosure, and supplementary solar charging extends the power system.
+A companion mobile app shows temperature, humidity, and battery level in real time and switches remotely between heating and cooling modes. A custom power distribution board handles battery monitoring, BMS protection, buck conversion, and MOSFET load switching. The project covers embedded firmware (C++/Arduino, ESP32, RTOS), power management, and full-stack IoT development, from hardware control to the mobile user interface.
+(a)
+(b)
+(c)
+Figure 1. Enclosure design: (a) closed assembly, (b) exploded view, (c) mobile app interface.
+Figure 2. Power distribution board schematic: battery monitoring (INA219), buck converters, BMS protection, and MOSFET load switches.
+2. Sensor Wire Harness: Drawing, BOM & Crimp Specification (Automotive R&D)
+Topics: Wire Harness, Engineering Drawing, BOM Verification, Crimping Specification, Automotive Electrical Systems
+Context: R&D Electronics Engineering Intern, PT Hana Master Jaya (automotive parts manufacturer), March–May 2026
+During my internship in the R&D department, I contributed to a prototype sensor wire harness (Rev. 0, new adoption). The harness is a T-shaped, three-leg assembly linking an 8-pin, a 3-pin, and two 2-pin connectors through 15 crimped and sealed circuits. It is protected by corrugated conduit, a vinyl tube, and tape, and fixed to the vehicle with five clamps. I supported the drafter who produced the drawing package and applied my working knowledge of harness construction to the project.
+(a)
+(b)
+Figure 3. Harness drawing: (a) isometric view (1:5) and (b) top view. Title block and revision data are intentionally omitted.
+My Role
+Supported the drafter in preparing the drawing package: isometric, top and front views, callouts, and the material list.
+Applied working knowledge of harness construction (connectors, terminals, wire seals, conduit, clamps) in project discussions.
+Cross-checked the material list against the drawing: connector cavities, terminals, wire seals, conduit lengths, and clamp count.
+Reviewed the crimping parameters (crimp heights and retention forces) that production has to meet.
+3. Fan Speed Controller (Reverse Engineering)
+Topics: Electronic Design, Circuit Analysis, PCB Design
+A closed-loop fan speed controller built around the CH32V003 (U2, a low-cost 32-bit RISC-V MCU from WCH). The MCU sets fan speed with PWM and reads tachometer feedback to hold the target RPM. Input power (J1) passes a 1N4007 reverse-polarity diode (D1) and an L78L05 linear regulator (U4) that supplies the 5 V logic rail.
+Two PC817 optocouplers (U1, U3) isolate the PWM and external signal (J7) paths, separating logic ground from motor power ground and shielding the MCU from switching noise. The tachometer lines (J3, J5) have protection diodes (D3, D4) and pull-up resistors (RP1, RP2); a potentiometer (RV1 on J6) provides manual calibration, J8 selects the operating mode, and three LEDs show status. Optical isolation, protection on every switching line, and a dedicated logic regulator are design choices more typical of industrial controllers than hobby boards.
+(a)
+(b)
+(c)
+Figure 4. Fan speed controller: (a) schematic and (b, c) fabricated board.
+4. USB Type-C to 12V Boost Converter Module (Reverse Engineering)
+Topics: Electronic Design, Circuit Analysis, PCB Design
+A power module that produces a 12 V output from a USB Type-C connector (J3) using the CX8823 boost converter (U3). The converter steps the input voltage up with a 3.3 µH inductor (L1) on the switching pin, output capacitors C5 and C6 (470 µF) stabilize the output rail, and fuse F1 with filter capacitors C1 (100 µF) and C3 (1.5 µF) condition the supply. A TVS diode (Z1) and diode D1 on the VBUS line protect against surges from the Type-C side.
+Five indicator LEDs, driven through current-limiting resistors (R1–R6), show power and output status. Several parts are marked DNP (R3–R6, C4, LED3, LED4), indicating population variants of the same PCB for different output configurations, and U1 appears to be an additional protection or sensing component on the 10 V rail. The integrated Type-C input and boost stage suit portable and embedded applications that need a 12 V rail from a standard USB source.
+(a)
+(b)
+(c)
+(d)
+Figure 5. USB Type-C boost module: (a) schematic, (b, c) fabricated module, and (d) 3D render.
+5. Reflow Oven Prototype: Firmware, Conveyor Mechatronics & Vision-Based PCB Sorting
+Topics: STM32F103, FreeRTOS, Embedded C, State Machine, PID Control, USB CDC, Raspberry Pi Integration, Servo, Mechanical Design
+A proof-of-concept reflow oven line: a conveyor carries a PCB into a heating stage, stops it under a camera for defect inspection, and a servo then sorts it into a PASS or REJECT bin. I was responsible for the firmware and the mechanical build, including the conveyor belt and drive, the sorting mechanism, and the integration between the sorting servo and the Raspberry Pi camera that judges whether a PCB is defective.
+Figure 6. Bench setup used for firmware development and testing of the reflow oven prototype.
+Firmware and reliability
+The firmware targets an STM32F103C8T6 (Blue Pill) and is written in C with STM32 HAL and FreeRTOS, built with CMake and the Arm GNU toolchain, and flashed over USB through an HID bootloader (vector table relocated to 0x08000800, last flash page reserved for calibration data). Six statically allocated FreeRTOS tasks (input and control, display, USB console, thermal, conveyor, and inspection) run with fixed priorities and periodic loops, with no dynamic heap. A static mutex interlocks the conveyor and the heater so they can never own the machine at the same time.
+Reliability comes from a task-supervised independent watchdog: the idle task refreshes it only when every task has reported a heartbeat within its own deadline, so a stalled task ends in a hardware reset, and a stack-overflow hook switches the heater and motor off before halting. Static allocation, one-byte graph samples, and a lightweight text formatter reduced RAM use from 17.3 KB to 11.6 KB (84% to 57% of 20 KB).
+Figure 7. Conveyor sequencer on the STM32F103 (state machine, 50 ms tick), with safety supervision and the Raspberry Pi inspection link.
+Thermal control
+A 100 kΩ NTC read through a 4.7 kΩ divider on the 12-bit ADC (32-sample average, minimum and maximum discarded) feeds a Beta model calibrated from two stored points, and open or shorted sensors are detected from the ADC extremes. A solid-state relay on a 1 s time-proportional window is driven by a 250 ms PID loop with setpoint ramping, filtered derivative, integral clamp, feed-forward, and active fan braking. A four-stage profile (preheat, soak, reflow, cooling) runs with independent over-temperature cut-offs (110–150 °C depending on mode), and a characterization mode streams CSV data over USB to measure heating rate and overshoot. An SSD1306 OLED and four debounced buttons form the operator interface for calibration, PID, profile, diagnostics, and motor and servo tests.
+Status: the oven currently runs a 120 °C proof-of-concept profile. The lead-solder (Sn63/Pb37) profile stays locked in firmware because the NTC sits on the plate rather than on the PCB, so real solder temperature cannot yet be verified. The next step is validation with PCB-mounted thermocouples.
+6. ATmega128 Development Board (60 × 35 mm)
+Topics: PCB Design, KiCad, Microcontroller Hardware, USB Type-C, Signal & Power Integrity, Design for Manufacturing
+I designed a compact development board around the ATmega128A (TQFP-64) that breaks out every I/O pin in a 60 × 35 mm footprint, roughly the size of an ESP32 development board. It can be powered, programmed, and debugged straight out of the box.
+Power: USB Type-C input with 5.1 kΩ CC resistors (so the host sees a sink), a 500 mA resettable PTC fuse, Schottky reverse-current protection, and an AP2112K-3.3 LDO for the 3.3 V header rail. The MCU itself runs from 5 V.
+Analog and clock: AVCC is isolated from digital VCC by a 10 µH inductor with 100 nF capacitors (LC filter), AREF is decoupled separately, and a crystal with 22 pF load capacitors provides the system clock.
+Programming: a CH340C USB-to-UART bridge with Arduino-style auto-reset through DTR for serial-bootloader uploads, a 2×3 ISP header, and the JTAG pins (PF4–PF7) broken out. A power LED and a user LED on PB7 complete the board.
+The layout was done in KiCad with 2.54 mm pin headers along both long edges. Design rules were set from the fabricator’s capabilities and checked with ERC and DRC, and the USB D+/D− pair is routed as a coupled differential pair with width and spacing calculated from the fabricator’s stackup. Decoupling capacitors sit at the supply pins of the fanned-out TQFP-64, the crystal is placed close to XTAL1 and XTAL2, and ground pours are stitched with vias. The result is fabrication-ready Gerber and drill files.
+Figure 8. 3D render of the ATmega128A development board.
+Figure 9. Schematic: power entry, clock, reset, programming paths, and pin breakout.
+7. MIPI DSI to HDMI/LVDS Bridge Board for ESP32-P4 (45 × 65 mm, 4-Layer)
+Topics: High-Speed PCB Design, MIPI DSI, HDMI (TMDS), LVDS, Level Shifting, Power Integrity, 4-Layer Stackup
+This board turns the MIPI DSI display output of an ESP32-P4 system into standard HDMI and LVDS outputs. It is built around the Lontium LT8912B bridge (QFN-64), which receives a two-lane MIPI DSI stream and generates both an HDMI output and a four-lane LVDS output. The board connects to the ESP32-P4 minimum system through a 15-pin FPC connector (DSI lanes, I2C, 3.3 V) and a 2×6 header carrying the HDMI DDC bus, I2S audio, an interrupt line, reset, and 5 V. I designed it as a four-layer, 45 × 65 mm board.
+Power integrity: an SGM2212-1.8 LDO generates the 1.8 V rail from 3.3 V, and three 220 Ω @ 100 MHz ferrite beads split it into analog, digital, and HDMI-PLL domains, each with its own 10 µF and 100 nF decoupling. A 25 MHz crystal provides the reference clock. Schottky diodes prevent back-feeding between the board supply, the HDMI connector, and the DDC pull-up rail, and a further ferrite bead filters the 5 V for the LVDS panel connector.
+Level shifting: the ESP32-P4 works at 3.3 V, the LT8912B control interface at 1.8 V, and the HDMI DDC bus at 5 V. Nine bidirectional LBSS138 MOSFET level shifters handle this: seven between 3.3 V and 1.8 V (I2C, interrupt, reset, I2S) and two between 3.3 V and 5 V (DDC).
+Protection and outputs: RClamp0524P low-capacitance ESD arrays protect the TMDS pairs, DDC, and hot-plug-detect lines. A transistor stage reports monitor connection to the LT8912B and lights a status LED. The LVDS output (four data pairs, a clock pair, filtered 5 V, and ground) goes to a 2×9 header.
+(a)
+(b)
+Figure 10. MIPI DSI to HDMI/LVDS bridge: (a) 3D render and (b) schematic.
+8. CNN Eye-State (Drowsiness) Classifier on Basys 3 FPGA
+Topics: FPGA, Verilog, CNN Inference, INT8 Quantization, Basys 3 (Artix-7), Vivado, PyTorch, Digital Design Verification
+Context: Final project, FPGA KCCI Training (VLSI), Group 3 (team of five)
+A small, fully integer convolutional neural network (CNN) implemented in Verilog on the Digilent Basys 3 (Artix-7 XC7A35T) that classifies a 24 × 24 grayscale eye crop as open or closed. The motivating use case is driver-drowsiness detection for ADAS. The project covers the whole path from model to hardware: a floating-point CNN trained in PyTorch, post-training quantization to int8, and an RTL implementation that must match a Python golden model bit for bit.
+Figure 11. Design flow from dataset to board, and the int8 CNN architecture with tensor shapes.
+The network is Conv 3×3 (4 filters) → ReLU → MaxPool → Conv 3×3 (8 filters) → ReLU → MaxPool → FC (128→2) → argmax, with per-tensor symmetric int8 weights, int32 accumulation, and shift-based requantization (>>10 and >>7, saturating at 127). On the FPGA, a sequential state machine (LOAD, CONV1, CONV2, FC) reuses a single multiply-accumulate (MAC) datapath for every layer, trading latency for a small logic footprint. Weights and the 16 demo images are held in synchronous ROMs initialized from the exported .mem files. On the board, SW[3:0] selects a stored image, btnR starts inference, and the seven-segment display shows OPN or CLSD.
+Figure 12. Hardware block diagram of the Basys 3 design: board I/O, sequential cnn_top engine, and outputs.
+Results
+int8 model accuracy
+Train 97.2% · Valid 94.4% · Test 98.1% (108 images), recomputed from the exported weights with the bit-exact NumPy model
+RTL vs. golden model
+16/16 logit pairs identical; all unit tests pass (Icarus Verilog simulation)
+Latency
+Approximately 75.8k clock cycles per image (sequential one-MAC datapath, measured in simulation)
+Resources (Vivado 2024.2)
+5,063 LUT (24%), 9,858 FF (24%), 5 BRAM, 0 DSP
+Scope and limitations: the FPGA classifies pre-cropped eye images stored in ROM (16 test images); there is no camera input, face detection, or eye localization. The test set is small and drawn from one subject, so the 98.1% accuracy should be read as optimistic. The resource figures come from earlier Vivado reports, and timing at 100 MHz has not yet been verified after the final RTL change.
+Repository: github.com/karimn14/eye-drowsi-fpga
+9. Custom Mini STM32 PCB Design
+Topics: Microcontroller Design, Layout, Simulation
+I designed a custom development board around the STM32F103C8T6 (ARM Cortex-M3) in KiCad 6, covering the full hardware design cycle from schematic capture to PCB layout. Power comes from an AMS1117 LDO regulator, and the 16 MHz crystal clock uses load capacitances calculated for timing accuracy. The 2-layer layout routes the USB 2.0 pair differentially, places decoupling capacitors close to the supply pins to limit rail inductance, and uses a solid bottom ground plane for noise suppression. A Serial Wire Debug (SWD) interface supports debugging and flashing, and production-ready Gerber files and a BOM were generated for manufacturing.
+(a)
+(b)
+Figure 13. Custom mini STM32 board: (a) PCB layout and (b) 3D render.
+10. Sap Flow Sensor
+Topics: Analog Electrical Circuit, 3D Design
+I designed a compact sap flow sensor system that uses a microcontroller and an analog front end to amplify thermocouple signals for tracking plant health. By customizing the data-acquisition formula, my team and I could detect plant health within specific ranges, and I created a 3D model for efficient circuit placement. The GPS module for long-range monitoring was not fully implemented, but the project gave me solid experience in building quick, compact, and functional sensor solutions.
+(a)
+(b)
+Figure 14. Sap flow sensor prototype: (a) with thermocouple probes and (b) controller board with its cover removed.
+11. Autonomous Oil Palm Pollination Drone
+Topics: Pixhawk, Jetson, ROS, YOLOv11, Digital Twin, SITL-HIL Testing, STM32, SolidWorks
+An end-to-end autonomous drone system for precision oil palm pollination. Flight control and mission execution are built directly on Pymavlink and MAVSDK for low-latency control, while ROS serves as the architecture-validation platform, where a digital twin simulates and verifies algorithms before they run on the drone. This ongoing project has achieved autonomous waypoint missions with integrated obstacle avoidance, real-time STM32-based payload actuation, and full-duplex telemetry and command exchange through a web data interface. It also includes my mechanical design work in SolidWorks and the embedded payload system.
+(a)
+(b)
+(c)
+Figure 15. Software side: (a) mission planner web interface, (b) map-based mission view, and (c) simulation and console output.
+(a)
+(b)
+(c)
+Figure 16. Hardware side: (a) 3D models of the airframe and a housing part, (b, c) drone prototype during assembly and bench testing.
+12. Soccer Robot
+Topics: Embedded System, Kotlin, C++, 3D Design
+For my final course project in Engineering Physics Laboratory II, I designed a robot for a soccer competition. I created the 3D model, developed the control UI in Android Studio, and connected it to the Arduino code I wrote. Although it was a team effort, I took the initiative to lead system integration so that the robot moved smoothly from control inputs sent over Wi-Fi from my mobile app. The project deepened my interest in embedded systems and strengthened my hands-on experience.
+(a)
+(b)
+Figure 17. Soccer robot: (a) 3D model and (b) Android control app in development.
+13. Custom Hourglass PCB
+Topics: Embedded System, Analog Circuit Design
+A two-board, hourglass-shaped LED timer built around an ATmega8A (DIP-28) that drives 29 blue LEDs through a cascade of four 74HC595 shift registers over hardware SPI. Two SW-200D tilt switches on the front PCB detect orientation and trigger a sand-timer animation, with a shared center LED marking the waist where the two triangular LED fields meet. Push buttons on the back PCB select 1-, 5-, or 10-minute durations, confirmed by an active buzzer, and the countdown ends with a sparkle animation and alarm. Power comes from a 3.7 V LiPo battery charged through a TP4056 module and regulated to 3.3 V by an AMS1117 LDO, and the board is programmed over ISP with a USBasp using the MiniCore framework in Arduino IDE.
+Version 4.0 adds three-button timer selection and a buzzer alarm to the earlier 30-LED design, merges the two center LEDs into one shared LED, and reduces the inter-board connector from 8 to 7 pins by moving the buttons to the back PCB. The documentation includes a state machine (idle breathing, running fade, done sparkle), the pin mapping, the shift-register bit allocation, and a troubleshooting table. Status: the design is still under active testing and has not been fully validated on hardware, so pin assignments, timing values, and firmware behavior may change.
+Figure 18. Schematic of the two-board hourglass timer.
+Other Projects
+No
+Project
+Role and Tech Stack
+Preview
+1
+Robust Algorithm Control Design for Sudden Mass Shedding on Quadrotor
+Role: Researcher
+Tech stack: Firmware development, PX4, Gazebo, ROS, PIL testing
+2
+IIoT Capstone Project
+Role: IoT/HMI Engineer
+Tech stack: IIoT, Node-RED, Weintek HMI, CX-Designer, Next.js, MongoDB
+3
+MicroHydroPower TeleLab & Aeroponic System
+Role: IoT Engineer
+Tech stack: HMI, Node-RED, MQTT, MySQL
+4
+GIC Power System Simulation and Analysis
+Role: Project Engineer
+Tech stack: Project management, Notion, Slack
+Engineering report of evaluation and analysis from PSCAD simulation
+5
+FunBox Controller
+Role: Project Manager, IoT Engineer
+Tech stack: IoT, product design
+6
+Batik Coagulant Modular Processing Unit
+Role: Project Manager
+Tech stack: Project management, SolidWorks
+7
+Bridge Faulty Sensor Based on Frequency Fourier Dimension
+Role: Project Manager
+Tech stack: Project management, frequency-domain (Fourier) analysis
+8
+TinyML Machine Anomaly Detection Based on Frequency Domain
+Role: Embedded Engineer
+Tech stack: TinyML, Python, C++
+9
+Revitalization of Humanoid Robot for Robot Dance Competition
+Role: Mechanical Crew and Programming Crew
+Tech stack: 3D CAD modeling, C#

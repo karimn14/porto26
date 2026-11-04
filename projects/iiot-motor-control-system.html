@@ -3,11 +3,10 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>IIoT Capstone — Motor Control System <span class="glow">·</span> SCADA & HMI — Project Detail · Nabil Karim</title>
+<title>IIoT Capstone Motor Control & Cloud SCADA — Project Detail · Nabil Karim</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-<script src="../image-slot.js"></script>
 <style>
   :root{
     --bg:#090909;
@@ -78,169 +77,158 @@
   }
   .brand{
     font-family:var(--mono); font-weight:700; font-size:18px;
-    color:var(--fg); text-decoration:none; display:inline-flex; align-items:baseline; gap:2px;
+    color:var(--fg); text-decoration:none; letter-spacing:-0.01em; cursor:none;
   }
-  .brand .dot{
-    width:6px; height:6px; background:var(--accent); border-radius:50%;
-    display:inline-block; margin-left:3px; box-shadow:0 0 8px var(--accent-glow);
-  }
+  .brand .dot{ color:var(--accent); }
   .back{
-    font-family:var(--mono); font-size:11px; letter-spacing:0.18em; text-transform:uppercase;
-    color:var(--fg); text-decoration:none;
-    display:inline-flex; align-items:center; gap:8px; cursor:none;
+    font-family:var(--mono); font-size:12px; letter-spacing:0.14em; text-transform:uppercase;
+    color:var(--muted); text-decoration:none; display:inline-flex; align-items:center; gap:8px;
+    transition:color .2s ease; cursor:none;
   }
-  .back .arr{ color:var(--accent); transition:transform .2s ease; }
-  .back:hover .arr{ transform:translateX(-4px); }
+  .back:hover{ color:var(--accent); }
 
+  .case-hero{
+    padding:140px 0 40px; border-bottom:1px solid var(--divider);
+    position:relative;
+  }
   .wrap{ max-width:var(--maxw); margin:0 auto; padding:0 var(--gutter); }
 
-  .case-hero{ padding:160px 0 60px; }
   .breadcrumbs{
-    display:flex; gap:14px; align-items:center;
+    display:flex; align-items:center; gap:10px;
     font-family:var(--mono); font-size:11px; letter-spacing:0.18em; text-transform:uppercase;
-    color:var(--muted); margin-bottom:32px;
+    color:var(--muted); margin-bottom:24px;
   }
-  .breadcrumbs a{ color:var(--muted); text-decoration:none; }
+  .breadcrumbs a{ color:var(--muted); text-decoration:none; transition:color .2s ease; cursor:none; }
   .breadcrumbs a:hover{ color:var(--accent); }
-  .breadcrumbs .sep{ color:var(--divider); }
+  .breadcrumbs .sep{ opacity:0.4; }
   .breadcrumbs .cur{ color:var(--accent); }
 
-  .case-title{
-    font-family:var(--mono); font-weight:500;
-    font-size:clamp(32px, 5.5vw, 68px);
-    line-height:1.05; letter-spacing:-0.025em;
-    color:var(--fg); margin-bottom:32px; max-width:24ch; text-wrap:pretty;
-  }
-  .case-title .glow{ color:var(--accent); text-shadow:0 0 24px rgba(240,94,28,0.4); }
-
-  .case-deck{
-    font-size:17.5px; color:var(--fg); opacity:0.82; line-height:1.6;
-    max-width:64ch; margin-bottom:48px;
+  .meta-tag{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:var(--mono); font-size:10px; letter-spacing:0.2em; text-transform:uppercase;
+    color:var(--accent); border:1px solid var(--accent); padding:4px 10px; margin-bottom:18px;
   }
 
-  .case-spec{
-    display:grid; grid-template-columns:repeat(4, 1fr); gap:0;
-    border-top:1px solid var(--divider); border-bottom:1px solid var(--divider);
+  h1.case-title{
+    font-family:var(--mono); font-weight:600; font-size:clamp(28px, 4.4vw, 48px);
+    line-height:1.15; letter-spacing:-0.02em; color:var(--fg); margin-bottom:16px;
   }
-  .spec-cell{ padding:18px 22px 18px 0; border-right:1px solid var(--divider); }
-  .spec-cell:last-child{ border-right:none; padding-right:0; }
-  .spec-cell:nth-child(n+2){ padding-left:22px; }
-  .spec-cell .k{
-    font-family:var(--mono); font-size:10px; letter-spacing:0.22em; text-transform:uppercase;
-    color:var(--accent); opacity:0.7; margin-bottom:6px;
-  }
-  .spec-cell .v{
-    font-family:var(--mono); font-size:13px; color:var(--fg); letter-spacing:0.02em;
-  }
-  @media (max-width:760px){
-    .case-spec{ grid-template-columns:1fr 1fr; }
-    .spec-cell{ padding:14px 16px; border-right:1px solid var(--divider); }
-    .spec-cell:nth-child(2n){ border-right:none; }
-    .spec-cell:nth-child(n+3){ border-top:1px solid var(--divider); }
+  p.case-sub{
+    font-size:clamp(16px, 1.8vw, 19px); color:var(--fg); opacity:0.75;
+    max-width:820px; line-height:1.6; margin-bottom:36px;
   }
 
-  .cover-large{
-    margin:60px 0 80px; width:100%; aspect-ratio:16/9;
+  .case-meta-grid{
+    display:grid; grid-template-columns:repeat(4, 1fr); gap:18px;
+    padding:24px 0; border-top:1px solid var(--divider); border-bottom:1px solid var(--divider);
+  }
+  .meta-cell .label{
+    font-family:var(--mono); font-size:10px; letter-spacing:0.2em; text-transform:uppercase;
+    color:var(--muted); margin-bottom:6px;
+  }
+  .meta-cell .val{ font-family:var(--mono); font-size:13px; color:var(--fg); }
+  @media (max-width:820px){ .case-meta-grid{ grid-template-columns:1fr 1fr; } }
+
+  /* Hero Cover Media */
+  .hero-media{
+    margin:36px 0 10px;
+    width:100%; height:clamp(280px, 45vh, 520px);
     border:1px solid var(--divider);
-    background:
-      repeating-linear-gradient(45deg, rgba(237,237,237,0.025) 0 1px, transparent 1px 12px),
-      #0d0d0d;
-    position:relative; overflow:hidden;
+    background:#0d0d0d;
+    overflow:hidden; position:relative;
     display:flex; align-items:center; justify-content:center;
   }
-  .cover-large image-slot{ position:absolute; inset:0; width:100%; height:100%; --slot-bg:transparent; --slot-border:transparent; z-index:3; }
-  .cover-large .svg-bg{ position:absolute; inset:0; width:100%; height:100%; z-index:1; pointer-events:none; }
-  .cover-large::before, .cover-large::after{
-    content:""; position:absolute; width:18px; height:18px;
-    border:1px solid var(--accent); pointer-events:none; z-index:4;
+  .hero-media img{
+    width:100%; height:100%; object-fit:contain;
+    background:#080808;
   }
-  .cover-large::before{ top:-1px; left:-1px; border-right:none; border-bottom:none; }
-  .cover-large::after{ bottom:-1px; right:-1px; border-left:none; border-top:none; }
 
-  .content{ display:grid; grid-template-columns: 200px 1fr; gap:60px; padding-bottom:80px; }
-  .content aside{
-    position:sticky; top:120px; align-self:start;
-    font-family:var(--mono); font-size:11px; letter-spacing:0.06em;
+  .content{
+    padding:60px 0 100px;
+    display:grid; grid-template-columns:280px 1fr; gap:64px;
+    position:relative;
   }
-  .content aside .lbl{
-    font-size:10px; letter-spacing:0.22em; text-transform:uppercase;
-    color:var(--accent); opacity:0.7; margin-bottom:14px;
-  }
-  .content aside ul{ list-style:none; }
-  .content aside li{ padding:8px 0; border-bottom:1px solid var(--divider); }
-  .content aside a{
-    color:var(--fg); opacity:0.7; text-decoration:none; display:flex; gap:10px;
-    transition:color .2s ease, opacity .2s ease;
-  }
-  .content aside a:hover{ color:var(--accent); opacity:1; }
-  .content aside a .num{ color:var(--accent); opacity:0.55; }
 
-  .body{ max-width:68ch; }
+  aside.toc{
+    position:sticky; top:100px; height:fit-content;
+    border-left:1px solid var(--divider); padding-left:20px;
+  }
+  .toc-title{
+    font-family:var(--mono); font-size:11px; letter-spacing:0.2em; text-transform:uppercase;
+    color:var(--muted); margin-bottom:16px;
+  }
+  .toc ul{ list-style:none; }
+  .toc li{ margin-bottom:12px; }
+  .toc a{
+    font-family:var(--mono); font-size:12px; color:var(--fg); opacity:0.6;
+    text-decoration:none; display:flex; align-items:baseline; gap:8px;
+    transition:opacity .2s ease, color .2s ease; cursor:none;
+  }
+  .toc a:hover{ opacity:1; color:var(--accent); }
+  .toc a .num{ color:var(--accent); opacity:0.5; font-size:10px; }
+
+  .body{ min-width:0; }
+  .body section{ margin-bottom:48px; }
   .body h2{
-    font-family:var(--mono); font-weight:600; font-size:24px; line-height:1.3; letter-spacing:-0.01em;
-    color:var(--fg); margin:48px 0 18px; display:flex; align-items:baseline; gap:14px;
+    font-family:var(--mono); font-weight:600; font-size:22px; letter-spacing:-0.01em;
+    color:var(--fg); margin:36px 0 16px; display:flex; align-items:baseline; gap:12px;
   }
-  .body h2 .num{ color:var(--accent); opacity:0.5; font-size:13px; letter-spacing:0.18em; min-width:36px; }
-  .body h3{ font-family:var(--mono); font-weight:500; font-size:15px; color:var(--accent); margin:32px 0 10px; letter-spacing:0.04em; }
-  .body p{ font-size:16px; color:var(--fg); margin-bottom:22px; line-height:1.75; opacity:0.9; }
+  .body h2 .num{ color:var(--accent); opacity:0.6; font-size:13px; letter-spacing:0.18em; }
+  .body h3{ font-family:var(--mono); font-weight:500; font-size:15px; color:var(--accent); margin:24px 0 8px; }
+  .body p{ font-size:15.5px; color:var(--fg); margin-bottom:18px; line-height:1.75; opacity:0.88; }
   .body p strong{ color:var(--accent); font-family:var(--mono); font-size:0.96em; font-weight:600; }
-  .body em{ color:var(--fg); font-style:italic; }
-  .body ul{ list-style:none; margin:0 0 22px 0; }
+  .body ul{ list-style:none; margin:0 0 20px 0; }
   .body ul li{
-    font-size:15.5px; padding-left:28px; position:relative; margin-bottom:10px; line-height:1.7;
-    color:var(--fg); opacity:0.88;
+    font-size:15px; padding-left:24px; position:relative; margin-bottom:10px; line-height:1.7;
+    color:var(--fg); opacity:0.86;
   }
-  .body ul li::before{ content:"▸"; position:absolute; left:0; top:0; color:var(--accent); font-family:var(--mono); font-size:13px; }
+  .body ul li::before{ content:"—"; position:absolute; left:0; top:0; color:var(--accent); font-family:var(--mono); }
 
-  .metrics{ display:grid; grid-template-columns:repeat(3, 1fr); gap:14px; margin:36px 0 24px; }
-  .metric{ padding:22px 20px; border:1px solid var(--divider); background:var(--surface); position:relative; overflow:hidden; }
-  .metric::before{ content:""; position:absolute; top:0; left:0; right:0; height:2px; background:var(--accent); opacity:0.7; }
+  .metrics{ display:grid; grid-template-columns:repeat(4, 1fr); gap:12px; margin:32px 0 24px; }
+  .metric{ padding:18px 16px; border:1px solid var(--divider); background:var(--surface); position:relative; }
+  .metric::before{ content:""; position:absolute; top:0; left:0; right:0; height:2px; background:var(--accent); opacity:0.8; }
   .metric .n{
-    font-family:var(--mono); font-weight:600; font-size:28px; color:var(--accent);
-    line-height:1.1; margin-bottom:8px; letter-spacing:-0.02em; text-shadow:0 0 12px rgba(240,94,28,0.25);
+    font-family:var(--mono); font-weight:600; font-size:24px; color:var(--accent);
+    line-height:1.1; margin-bottom:6px; letter-spacing:-0.02em;
   }
-  .metric .lbl{ font-family:var(--mono); font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color:var(--muted); }
-  @media (max-width:760px){ .metrics{ grid-template-columns:1fr; } }
+  .metric .lbl{ font-family:var(--mono); font-size:9.5px; letter-spacing:0.18em; text-transform:uppercase; color:var(--muted); }
+  @media (max-width:760px){ .metrics{ grid-template-columns:1fr 1fr; } }
 
-  .figure{ margin:36px 0; }
+  .figure{ margin:32px 0; }
   .figure .frame{
     width:100%; aspect-ratio:16/10; border:1px solid var(--divider);
-    background: repeating-linear-gradient(45deg, rgba(237,237,237,0.025) 0 1px, transparent 1px 10px), #0d0d0d;
-    position:relative; overflow:hidden; display:flex; align-items:center; justify-content:center;
+    background:#0c0c0c; overflow:hidden; display:flex; align-items:center; justify-content:center;
   }
-  .figure .frame svg{ position:absolute; inset:0; width:100%; height:100%; z-index:1; pointer-events:none; }
-  .figure image-slot{ position:absolute; inset:0; width:100%; height:100%; --slot-bg:transparent; --slot-border:transparent; z-index:3; }
-  .figure .cap{ margin-top:10px; font-family:var(--mono); font-size:11px; letter-spacing:0.06em; color:var(--muted); }
-  .figure .cap b{ color:var(--accent); font-weight:500; margin-right:8px; }
+  .figure .frame img{
+    width:100%; height:100%; object-fit:contain; background:#080808;
+  }
+  .figure .cap{ margin-top:10px; font-family:var(--mono); font-size:11px; letter-spacing:0.04em; color:var(--muted); }
+  .figure .cap b{ color:var(--accent); font-weight:500; margin-right:6px; }
 
   .gallery{ display:grid; grid-template-columns:repeat(3, 1fr); gap:14px; margin:32px 0; }
   .gallery .frame{
-    aspect-ratio:1/1; position:relative; overflow:hidden; border:1px solid var(--divider); background:#0d0d0d;
-    display:flex; align-items:center; justify-content:center;
+    aspect-ratio:1/1; position:relative; overflow:hidden; border:1px solid var(--divider); background:#0c0c0c;
+    display:flex; flex-direction:column;
   }
-  .gallery .frame svg{ position:absolute; inset:0; width:100%; height:100%; z-index:1; pointer-events:none; }
-  .gallery image-slot{ position:absolute; inset:0; width:100%; height:100%; --slot-bg:transparent; --slot-border:transparent; z-index:3; }
-  @media (max-width:760px){ .gallery{ grid-template-columns:1fr 1fr; } }
+  .gallery .frame img{
+    width:100%; height:100%; object-fit:cover; transition:transform .3s ease;
+  }
+  .gallery .frame:hover img{ transform:scale(1.05); }
+  .gallery .g-caption{
+    position:absolute; bottom:0; left:0; right:0; padding:6px 10px;
+    background:rgba(9,9,9,0.85); font-family:var(--mono); font-size:10px; color:var(--fg);
+    border-top:1px solid var(--divider);
+  }
+  @media (max-width:760px){ .gallery{ grid-template-columns:1fr; } }
 
   .stack-chips{ display:flex; flex-wrap:wrap; gap:6px; margin:12px 0 28px; }
   .stack-chips .t{
-    font-family:var(--mono); font-size:11px; color:var(--muted); padding:5px 10px; border:1px solid var(--divider);
+    font-family:var(--mono); font-size:10.5px; color:var(--muted); padding:4px 9px; border:1px solid var(--divider);
     transition:border-color .2s ease, color .2s ease;
   }
   .stack-chips .t:hover{ border-color:var(--accent); color:var(--accent); }
 
-  pre, code{ font-family:var(--mono); font-size:13px; }
-  pre{
-    background:#0d0d0d; border:1px solid var(--divider); border-left:2px solid var(--accent);
-    padding:18px 22px; overflow-x:auto; margin:24px 0 28px; line-height:1.65; color:#cfcfcf;
-  }
-  code{ background:#1a1a1a; padding:2px 6px; color:var(--accent); border-radius:2px; }
-  pre code{ background:transparent; padding:0; color:inherit; }
-
-  blockquote{
-    border-left:2px solid var(--accent); padding:8px 0 8px 22px; margin:32px 0;
-    font-family:var(--mono); font-size:14.5px; color:var(--fg); opacity:0.88; line-height:1.6; background:rgba(240,94,28,0.03);
-  }
+  code{ background:#161616; padding:2px 6px; color:var(--accent); font-family:var(--mono); font-size:12.5px; border-radius:2px; }
 
   .case-foot{ margin-top:60px; padding-top:32px; border-top:1px solid var(--divider); display:flex; flex-direction:column; gap:20px; }
   .case-foot .author{ display:flex; align-items:center; gap:12px; font-family:var(--mono); font-size:12px; letter-spacing:0.06em; color:var(--muted); }
@@ -251,12 +239,12 @@
     margin-top:10px; padding-top:20px; border-top:1px solid var(--divider);
     font-family:var(--mono); font-size:12px; letter-spacing:0.12em; text-transform:uppercase;
   }
-  .foot-nav a{ color:var(--fg); text-decoration:none; transition:color .2s ease; cursor:none; }
+  .foot-nav a{ color:var(--fg); text-decoration:none; transition:color .2s ease; cursor:none; display:flex; align-items:center; gap:8px; }
   .foot-nav a:hover{ color:var(--accent); }
 
   @media (max-width:900px){
     .content{ grid-template-columns:1fr; gap:36px; }
-    .content aside{ position:static; }
+    aside.toc{ position:static; }
   }
 </style>
 </head>
@@ -266,8 +254,8 @@
 
 <nav class="top">
   <div class="wrap">
-    <a href="../index.html" class="brand">Nabil Karim<span class="dot"></span></a>
-    <a href="../index.html#projects" class="back"><span class="arr">←</span> Back to Portfolio</a>
+    <a href="../index.html" class="brand">Nabil Karim<span class="dot">.</span></a>
+    <a href="../index.html#projects" class="back">← Back to Portfolio</a>
   </div>
 </nav>
 
@@ -278,136 +266,179 @@
       <span class="sep">/</span>
       <a href="../index.html#projects">Projects</a>
       <span class="sep">/</span>
-      <span class="cur">Case Study 07</span>
+      <span class="cur">Case 16</span>
     </div>
 
-    <h1 class="case-title">IIoT Capstone — Motor Control System <span class="glow">·</span> SCADA & HMI</h1>
+    <div class="meta-tag">IIOT / SCADA / CLOUD</div>
+    <h1 class="case-title">IIoT Capstone Motor Control & Cloud SCADA</h1>
+    <p class="case-sub">Industrial Automation Cell with Omron PLC, Weintek HMI, Node-RED Edge Gateway, Next.js Web Dashboard, and MongoDB Historical Telemetry</p>
 
-    <p class="case-deck">
-      Multi-tier industrial automation architecture integrating Omron PLCs over Modbus RS485, local Weintek touch HMIs, Node-RED MQTT gateway, and cloud NextJS dashboard backed by MongoDB.
-    </p>
+    <div class="case-meta-grid">
+      <div class="meta-cell">
+        <div class="label">Role</div>
+        <div class="val">Lead IoT & Industrial Automation Engineer</div>
+      </div>
+      <div class="meta-cell">
+        <div class="label">Organization / Context</div>
+        <div class="val">Industrial Capstone Project</div>
+      </div>
+      <div class="meta-cell">
+        <div class="label">Timeline</div>
+        <div class="val">2025</div>
+      </div>
+      <div class="meta-cell">
+        <div class="label">Primary Focus</div>
+        <div class="val">Omron PLC &middot; Weintek HMI</div>
+      </div>
+    </div>
 
-    <div class="case-spec">
-      <div class="spec-cell">
-        <div class="k">Role</div>
-        <div class="v">Systems & Automation Lead</div>
-      </div>
-      <div class="spec-cell">
-        <div class="k">Client / Context</div>
-        <div class="v">Engineering Physics Capstone</div>
-      </div>
-      <div class="spec-cell">
-        <div class="k">Period</div>
-        <div class="v">Sep — Dec 2024</div>
-      </div>
-      <div class="spec-cell">
-        <div class="k">Stack</div>
-        <div class="v">Node-RED · NextJS · MongoDB · Omron PLC · Weintek</div>
-      </div>
+    <!-- Hero Media Preview -->
+    <div class="hero-media">
+      <img src="../uploads/projects/iiot-weintek-screen.jpg" alt="IIoT Capstone Motor Control & Cloud SCADA preview" loading="eager" />
     </div>
   </div>
 </section>
 
 <div class="wrap">
-  <div class="cover-large">
-    <div class="svg-bg"><svg viewBox="0 0 1200 675" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" style="background:#090909;">
-      <defs>
-        <pattern id="cov-grid" width="40" height="40" patternUnits="userSpaceOnUse">
-          <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1c1c1c" stroke-width="1"/>
-        </pattern>
-      </defs>
-      <rect width="100%" height="100%" fill="url(#cov-grid)"/>
-      <circle cx="600" cy="337" r="240" fill="none" stroke="#1c1c1c" stroke-width="1" stroke-dasharray="4 4"/>
-      <circle cx="600" cy="337" r="180" fill="none" stroke="#F05E1C" stroke-width="1" stroke-opacity="0.25"/>
-      <circle cx="600" cy="337" r="120" fill="none" stroke="#F05E1C" stroke-width="1.5" stroke-opacity="0.4"/>
-      <line x1="100" y1="337" x2="1100" y2="337" stroke="#1c1c1c" stroke-width="1"/>
-      <line x1="600" y1="50" x2="600" y2="625" stroke="#1c1c1c" stroke-width="1"/>
-      <path d="M 150 150 L 350 150 L 400 200 L 550 200" fill="none" stroke="#F05E1C" stroke-width="2" stroke-opacity="0.6"/>
-      <circle cx="350" cy="150" r="4" fill="#F05E1C"/>
-      <circle cx="550" cy="200" r="4" fill="#F05E1C"/>
-      <path d="M 1050 525 L 850 525 L 800 475 L 650 475" fill="none" stroke="#F05E1C" stroke-width="2" stroke-opacity="0.6"/>
-      <circle cx="850" cy="525" r="4" fill="#F05E1C"/>
-      <circle cx="650" cy="475" r="4" fill="#F05E1C"/>
-      <path d="M 60 90 L 60 60 L 90 60" fill="none" stroke="#F05E1C" stroke-width="2"/>
-      <path d="M 1140 90 L 1140 60 L 1110 60" fill="none" stroke="#F05E1C" stroke-width="2"/>
-      <path d="M 60 585 L 60 615 L 90 615" fill="none" stroke="#F05E1C" stroke-width="2"/>
-      <path d="M 1140 585 L 1140 615 L 1110 615" fill="none" stroke="#F05E1C" stroke-width="2"/>
-      <g transform="translate(600, 337)">
-        <rect x="-280" y="-70" width="560" height="140" fill="#111111" stroke="#F05E1C" stroke-width="1.5" rx="4"/>
-        <text x="0" y="-20" font-family="'IBM Plex Mono', monospace" font-size="22" font-weight="700" fill="#EDEDED" text-anchor="middle" letter-spacing="2">▸ IIOT CAPSTONE MOTOR CONTROL</text>
-        <text x="0" y="25" font-family="'IBM Plex Mono', monospace" font-size="12" fill="#F05E1C" text-anchor="middle" letter-spacing="2">OMRON PLC · WEINTEK HMI · NODE-RED · NEXTJS</text>
-        <line x1="-240" y1="45" x2="240" y2="45" stroke="#1c1c1c" stroke-width="1"/>
-      </g>
-      <text x="80" y="90" font-family="'IBM Plex Mono', monospace" font-size="11" fill="#666666" letter-spacing="2">SYS_REF // 0X8F4A</text>
-      <text x="1120" y="90" font-family="'IBM Plex Mono', monospace" font-size="11" fill="#F05E1C" text-anchor="end" letter-spacing="2">STATUS: VERIFIED</text>
-      <text x="80" y="605" font-family="'IBM Plex Mono', monospace" font-size="11" fill="#666666" letter-spacing="2">LATENCY &lt; 50MS</text>
-      <text x="1120" y="605" font-family="'IBM Plex Mono', monospace" font-size="11" fill="#666666" text-anchor="end" letter-spacing="2">HARDWARE IN THE LOOP</text>
-    </svg></div>
-    <image-slot id="iiot-motor-control-system-cover" shape="rect" placeholder="Hero cover photo for IIoT Capstone — Motor Control System <span class="glow">·</span> SCADA & HMI"></image-slot>
-  </div>
-
   <div class="content">
-    <aside>
-      <div class="lbl">Sections</div>
+    <aside class="toc">
+      <div class="toc-title">Table of Contents</div>
       <ul>
         
-        <li><a href="#problem"><span class="num">01</span><span>Problem</span></a></li>
-        <li><a href="#plc"><span class="num">02</span><span>PLC & Modbus</span></a></li>
-        <li><a href="#hmi"><span class="num">03</span><span>Weintek HMI</span></a></li>
-        <li><a href="#cloud"><span class="num">04</span><span>NextJS & MongoDB</span></a></li>
-        <li><a href="#results"><span class="num">05</span><span>Results</span></a></li>
-        <li><a href="#lessons"><span class="num">06</span><span>Lessons</span></a></li>
+        <li><a href="#overview"><span class="num">01</span><span>Industrial Scope & Plant Architecture</span></a></li>
+        <li><a href="#architecture"><span class="num">02</span><span>5-Tier Edge-to-Cloud Communication Pipeline</span></a></li>
+        <li><a href="#design_highlights"><span class="num">03</span><span>Safety Interlocks & Modbus Mapping</span></a></li>
+        <li><a href="#results"><span class="num">04</span><span>Operational Reliability & Real-Time Metrics</span></a></li>
+        <li><a href="#gallery"><span class="num">05</span><span>Visual Gallery</span></a></li>
+        <li><a href="#tech-specs"><span class="num">06</span><span>Tech Specifications</span></a></li>
       </ul>
     </aside>
 
     <main class="body">
-      
-          <h2 id="problem"><span class="num">01</span>Problem</h2>
-          <p>Industrial motor control centers require low-latency local operator touchscreens combined with cloud-based remote condition monitoring and historical fault logging.</p>
-          <h2 id="plc"><span class="num">02</span>PLC &amp; Modbus</h2>
-          <p>Programmed Omron CP1E PLCs using CX-Programmer ladder logic for motor contactor interlocks, overload protection, and Modbus RS485 communication at 19200 baud.</p>
-          <h2 id="hmi"><span class="num">03</span>Weintek HMI</h2>
-          <p>Configured Weintek touch HMI displays using EasyBuilder Pro for real-time motor start/stop control, current draw gauges, and local alarm acknowledgement.</p>
-          <h2 id="cloud"><span class="num">04</span>NextJS &amp; MongoDB</h2>
-          <p>A Node-RED industrial gateway translates Modbus registers into JSON MQTT payloads sent to a NextJS web application with MongoDB time-series storage.</p>
-          <h2 id="results"><span class="num">05</span>Results</h2>
-          <p>Maintained 100ms local SCADA refresh rates and zero data loss over a continuous 72-hour stress test.</p>
-          <h2 id="lessons"><span class="num">06</span>Lessons</h2>
-          <ul>
-            <li>Isolating local industrial HMI control from cloud network traffic ensures factory floor safety even during internet outages.</li>
-          </ul>
-        
-
+      <!-- Quick Metrics Strip -->
       <div class="metrics">
         
         <div class="metric">
-          <div class="n">100ms</div>
-          <div class="lbl">SCADA refresh interval</div>
+          <div class="n">5 Layers</div>
+          <div class="lbl">IIoT Stack</div>
         </div>
         <div class="metric">
-          <div class="n">99.9%</div>
-          <div class="lbl">data acquisition uptime</div>
+          <div class="n">Modbus</div>
+          <div class="lbl">PLC Protocol</div>
         </div>
         <div class="metric">
-          <div class="n">2-Tier</div>
-          <div class="lbl">HMI & Cloud redundancy</div>
+          <div class="n">Real-Time</div>
+          <div class="lbl">MQTT Streaming</div>
+        </div>
+        <div class="metric">
+          <div class="n">Next.js</div>
+          <div class="lbl">Cloud SCADA</div>
         </div>
       </div>
 
-      <h3>Technical Stack &amp; Tools</h3>
-      <div class="stack-chips">
-        <span class="t">Node-RED</span><span class="t">NextJS</span><span class="t">MongoDB</span><span class="t">Weintek HMI</span><span class="t">MQTT</span><span class="t">Omron PLC</span><span class="t">CX Designer</span><span class="t">Modbus RS485</span>
+      <p style="font-size:16px; line-height:1.75; margin-bottom:28px;">
+        <strong>Executive Summary:</strong> Engineered an end-to-end industrial motor control and supervisory platform spanning factory-floor PLC hardware to cloud analytics. Programmed an Omron CP1E PLC with ladder logic for three-phase motor sequencing and safety interlocks, designed an operator touchscreen interface on a Weintek cMT series HMI, integrated a Node-RED edge gateway over Modbus TCP/RTU, and built a Next.js web portal logging time-series motor telemetry to MongoDB.
+      </p>
+
+      <!-- Main Article Sections -->
+      
+      <section id="overview">
+        <h2><span class="num">01</span>Industrial Scope & Plant Architecture</h2>
+        
+<p>Modern Industry 4.0 factories require bridging rugged operational technology (OT) on the shop floor with flexible information technology (IT) in the cloud. Motors and drives must not only be controlled with deterministic safety interlocks but also monitored continuously for predictive maintenance.</p>
+<p>I architected and deployed a multi-tier IIoT motor control platform connecting factory-floor PLCs to a cloud-accessible supervisory dashboard with real-time analytics.</p>
+
+      </section>
+
+      <div class="figure">
+        <div class="frame">
+          <img src="../uploads/projects/iiot-weintek-screen.jpg" alt="Figure 1: Weintek industrial touch HMI screen: motor RPM, current draw, thermal trend graphs, and manual override controls." loading="lazy" />
+        </div>
+        <div class="cap"><b>Fig 1.</b> Figure 1: Weintek industrial touch HMI screen: motor RPM, current draw, thermal trend graphs, and manual override controls.</div>
       </div>
+
+      <section id="architecture">
+        <h2><span class="num">02</span>5-Tier Edge-to-Cloud Communication Pipeline</h2>
+        
+<p>The system spans five integrated industrial layers:</p>
+<ul>
+  <li><strong>Level 0/1 (Field & Control):</strong> An <strong>Omron CP1E</strong> PLC executing deterministic Ladder Logic manages motor contactors, soft-starters, emergency stop chains, and inductive speed sensors.</li>
+  <li><strong>Level 2 (Local Supervisory):</strong> A <strong>Weintek cMT</strong> touch HMI communicates with the PLC via RS-485 Modbus RTU, rendering high-contrast ISA-101 screens for operator control.</li>
+  <li><strong>Level 3 (Edge Gateway):</strong> A Linux edge computer running <strong>Node-RED</strong> polls Modbus TCP/RTU registers at 2 Hz, packages motor health metrics (RPM, current, temperature, running hours) into JSON payloads, and publishes them over encrypted MQTT.</li>
+  <li><strong>Level 4/5 (Cloud SCADA & Database):</strong> A custom <strong>Next.js</strong> web application subscribes to MQTT topics via WebSockets, rendering live SVG telemetry widgets and persisting historical time-series records to a <strong>MongoDB</strong> database for analytics.</li>
+</ul>
+
+      </section>
+
+      <div class="figure">
+        <div class="frame">
+          <img src="../uploads/projects/iiot-nextjs-cloud.jpg" alt="Figure 2: Next.js cloud SCADA dashboard: live telemetry charts, alarm logging, and historical motor performance analytics." loading="lazy" />
+        </div>
+        <div class="cap"><b>Fig 2.</b> Figure 2: Next.js cloud SCADA dashboard: live telemetry charts, alarm logging, and historical motor performance analytics.</div>
+      </div>
+
+      <section id="design_highlights">
+        <h2><span class="num">03</span>Safety Interlocks & Modbus Mapping</h2>
+        
+<p>Key automation and software engineering decisions:</p>
+<ul>
+  <li><strong>Hardware & Software Fail-Safes:</strong> Implemented hardware E-stop circuits backed by software watchdog heartbeat registers. Loss of edge communication halts motor commands and locks controls in a safe idle state.</li>
+  <li><strong>Comprehensive Modbus Register Map:</strong> Created structured 16-bit holding register mappings across the PLC, HMI, and Node-RED gateway, standardizing float-to-integer conversions and bitmasked alarm flags.</li>
+  <li><strong>Role-Based Web Access:</strong> Built secure operator and administrator authentication in Next.js, allowing remote monitoring while restricting motor actuation commands to verified local personnel.</li>
+</ul>
+
+      </section>
+
+      <section id="results">
+        <h2><span class="num">04</span>Operational Reliability & Real-Time Metrics</h2>
+        
+<p>Bench and prototype validation confirmed industrial reliability:</p>
+<ul>
+  <li>Sub-200 ms end-to-end telemetry propagation latency from PLC register change to cloud browser update.</li>
+  <li>Zero data loss during simulated network disconnects thanks to Node-RED local buffer queuing.</li>
+  <li>Intuitive UI reduced simulated operator alarm diagnosis time by over 50%.</li>
+</ul>
+
+      </section>
+
+
+      <!-- Visual Gallery Section -->
+      <section id="gallery">
+        <h2><span class="num">05</span>Visual Gallery & Technical Artifacts</h2>
+        <p>Comprehensive photographs, schematics, 3D CAD models, and instrumentation traces extracted directly from the engineering project portfolio:</p>
+        <div class="gallery">
+          
+        <div class="frame">
+          <img src="../uploads/projects/iiot-weintek-screen.jpg" alt="Weintek HMI screen" loading="lazy" />
+          <div class="g-caption">Weintek HMI screen</div>
+        </div>
+        <div class="frame">
+          <img src="../uploads/projects/iiot-nextjs-cloud.jpg" alt="Next.js cloud portal" loading="lazy" />
+          <div class="g-caption">Next.js cloud portal</div>
+        </div>
+        <div class="frame">
+          <img src="../uploads/projects/microhydro-telelab-control.gif" alt="SCADA architecture reference" loading="lazy" />
+          <div class="g-caption">SCADA architecture reference</div>
+        </div>
+        </div>
+      </section>
+
+      <!-- Technology Stack -->
+      <section id="tech-specs">
+        <h2><span class="num">06</span>Core Engineering Toolchain</h2>
+        <div class="stack-chips">
+          <span class="t">Omron PLC</span><span class="t">Weintek HMI</span><span class="t">Node-RED</span><span class="t">Next.js</span><span class="t">MongoDB</span><span class="t">Modbus RTU/TCP</span><span class="t">MQTT</span><span class="t">CX-Designer</span>
+        </div>
+      </section>
 
       <div class="case-foot">
         <div class="author">
           <span class="pip"></span>
-          <span>Engineering Project Documentation by Nabil Karim · Class of 2026</span>
+          <span>Nabil Karim Abdurrahman &mdash; Engineering Physics, Institut Teknologi Bandung</span>
         </div>
         <div class="foot-nav">
-          <a href="intelligent-ev-charging-station.html">← Previous Project</a>
-          <a href="../index.html#projects">All Projects ↑</a>
-          <a href="micro-hydro-hmi-system.html">Next Project →</a>
+          <a href="soccer-robot-ep-lab.html">← Prev: Soccer Robot (Engineering Ph...</a>
+          <a href="micro-hydro-hmi-system.html">Next: MicroHydroPower TeleLab & Ae... →</a>
         </div>
       </div>
     </main>
@@ -415,25 +446,22 @@
 </div>
 
 <script>
+  // Custom cursor
   (function(){
     const cursor = document.getElementById('cursor');
     if(!cursor) return;
-    let x=0,y=0,tx=0,ty=0;
-    document.addEventListener('mousemove', e=>{ tx=e.clientX; ty=e.clientY; });
-    function loop(){
-      x += (tx-x)*0.35; y += (ty-y)*0.35;
-      cursor.style.transform = `translate(${x}px, ${y}px) translate(-50%,-50%)`;
-      requestAnimationFrame(loop);
-    }
-    loop();
-    document.addEventListener('mousedown', ()=>cursor.classList.add('hover'));
-    document.addEventListener('mouseup', ()=>cursor.classList.remove('hover'));
-    document.querySelectorAll('a, button, .metric, .stack-chips .t').forEach(el=>{
+    let cx = window.innerWidth/2, cy = window.innerHeight/2;
+    window.addEventListener('mousemove', e=>{
+      cx = e.clientX; cy = e.clientY;
+      cursor.style.left = cx + 'px';
+      cursor.style.top = cy + 'px';
+    });
+    const hoverables = document.querySelectorAll('a, button, .frame, .metric');
+    hoverables.forEach(el=>{
       el.addEventListener('mouseenter', ()=>cursor.classList.add('hover'));
       el.addEventListener('mouseleave', ()=>cursor.classList.remove('hover'));
     });
   })();
 </script>
-
 </body>
 </html>

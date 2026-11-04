@@ -1309,3 +1309,4 @@ for idx, pdata in enumerate(projects_data):
         f.write(html_content)
 
 print("ALL 18 Project Detail HTML Pages Generated Successfully!")
+

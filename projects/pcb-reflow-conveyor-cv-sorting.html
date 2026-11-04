@@ -3,11 +3,10 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>PCB Reflow Heating Conveyor with CV Defect Sorting <span class="glow">·</span> Smart Assembly — Project Detail · Nabil Karim</title>
+<title>PCB Reflow Heating Conveyor System with CV Defect Sorting — Project Detail · Nabil Karim</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-<script src="../image-slot.js"></script>
 <style>
   :root{
     --bg:#090909;
@@ -78,169 +77,158 @@
   }
   .brand{
     font-family:var(--mono); font-weight:700; font-size:18px;
-    color:var(--fg); text-decoration:none; display:inline-flex; align-items:baseline; gap:2px;
+    color:var(--fg); text-decoration:none; letter-spacing:-0.01em; cursor:none;
   }
-  .brand .dot{
-    width:6px; height:6px; background:var(--accent); border-radius:50%;
-    display:inline-block; margin-left:3px; box-shadow:0 0 8px var(--accent-glow);
-  }
+  .brand .dot{ color:var(--accent); }
   .back{
-    font-family:var(--mono); font-size:11px; letter-spacing:0.18em; text-transform:uppercase;
-    color:var(--fg); text-decoration:none;
-    display:inline-flex; align-items:center; gap:8px; cursor:none;
+    font-family:var(--mono); font-size:12px; letter-spacing:0.14em; text-transform:uppercase;
+    color:var(--muted); text-decoration:none; display:inline-flex; align-items:center; gap:8px;
+    transition:color .2s ease; cursor:none;
   }
-  .back .arr{ color:var(--accent); transition:transform .2s ease; }
-  .back:hover .arr{ transform:translateX(-4px); }
+  .back:hover{ color:var(--accent); }
 
+  .case-hero{
+    padding:140px 0 40px; border-bottom:1px solid var(--divider);
+    position:relative;
+  }
   .wrap{ max-width:var(--maxw); margin:0 auto; padding:0 var(--gutter); }
 
-  .case-hero{ padding:160px 0 60px; }
   .breadcrumbs{
-    display:flex; gap:14px; align-items:center;
+    display:flex; align-items:center; gap:10px;
     font-family:var(--mono); font-size:11px; letter-spacing:0.18em; text-transform:uppercase;
-    color:var(--muted); margin-bottom:32px;
+    color:var(--muted); margin-bottom:24px;
   }
-  .breadcrumbs a{ color:var(--muted); text-decoration:none; }
+  .breadcrumbs a{ color:var(--muted); text-decoration:none; transition:color .2s ease; cursor:none; }
   .breadcrumbs a:hover{ color:var(--accent); }
-  .breadcrumbs .sep{ color:var(--divider); }
+  .breadcrumbs .sep{ opacity:0.4; }
   .breadcrumbs .cur{ color:var(--accent); }
 
-  .case-title{
-    font-family:var(--mono); font-weight:500;
-    font-size:clamp(32px, 5.5vw, 68px);
-    line-height:1.05; letter-spacing:-0.025em;
-    color:var(--fg); margin-bottom:32px; max-width:24ch; text-wrap:pretty;
-  }
-  .case-title .glow{ color:var(--accent); text-shadow:0 0 24px rgba(240,94,28,0.4); }
-
-  .case-deck{
-    font-size:17.5px; color:var(--fg); opacity:0.82; line-height:1.6;
-    max-width:64ch; margin-bottom:48px;
+  .meta-tag{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:var(--mono); font-size:10px; letter-spacing:0.2em; text-transform:uppercase;
+    color:var(--accent); border:1px solid var(--accent); padding:4px 10px; margin-bottom:18px;
   }
 
-  .case-spec{
-    display:grid; grid-template-columns:repeat(4, 1fr); gap:0;
-    border-top:1px solid var(--divider); border-bottom:1px solid var(--divider);
+  h1.case-title{
+    font-family:var(--mono); font-weight:600; font-size:clamp(28px, 4.4vw, 48px);
+    line-height:1.15; letter-spacing:-0.02em; color:var(--fg); margin-bottom:16px;
   }
-  .spec-cell{ padding:18px 22px 18px 0; border-right:1px solid var(--divider); }
-  .spec-cell:last-child{ border-right:none; padding-right:0; }
-  .spec-cell:nth-child(n+2){ padding-left:22px; }
-  .spec-cell .k{
-    font-family:var(--mono); font-size:10px; letter-spacing:0.22em; text-transform:uppercase;
-    color:var(--accent); opacity:0.7; margin-bottom:6px;
-  }
-  .spec-cell .v{
-    font-family:var(--mono); font-size:13px; color:var(--fg); letter-spacing:0.02em;
-  }
-  @media (max-width:760px){
-    .case-spec{ grid-template-columns:1fr 1fr; }
-    .spec-cell{ padding:14px 16px; border-right:1px solid var(--divider); }
-    .spec-cell:nth-child(2n){ border-right:none; }
-    .spec-cell:nth-child(n+3){ border-top:1px solid var(--divider); }
+  p.case-sub{
+    font-size:clamp(16px, 1.8vw, 19px); color:var(--fg); opacity:0.75;
+    max-width:820px; line-height:1.6; margin-bottom:36px;
   }
 
-  .cover-large{
-    margin:60px 0 80px; width:100%; aspect-ratio:16/9;
+  .case-meta-grid{
+    display:grid; grid-template-columns:repeat(4, 1fr); gap:18px;
+    padding:24px 0; border-top:1px solid var(--divider); border-bottom:1px solid var(--divider);
+  }
+  .meta-cell .label{
+    font-family:var(--mono); font-size:10px; letter-spacing:0.2em; text-transform:uppercase;
+    color:var(--muted); margin-bottom:6px;
+  }
+  .meta-cell .val{ font-family:var(--mono); font-size:13px; color:var(--fg); }
+  @media (max-width:820px){ .case-meta-grid{ grid-template-columns:1fr 1fr; } }
+
+  /* Hero Cover Media */
+  .hero-media{
+    margin:36px 0 10px;
+    width:100%; height:clamp(280px, 45vh, 520px);
     border:1px solid var(--divider);
-    background:
-      repeating-linear-gradient(45deg, rgba(237,237,237,0.025) 0 1px, transparent 1px 12px),
-      #0d0d0d;
-    position:relative; overflow:hidden;
+    background:#0d0d0d;
+    overflow:hidden; position:relative;
     display:flex; align-items:center; justify-content:center;
   }
-  .cover-large image-slot{ position:absolute; inset:0; width:100%; height:100%; --slot-bg:transparent; --slot-border:transparent; z-index:3; }
-  .cover-large .svg-bg{ position:absolute; inset:0; width:100%; height:100%; z-index:1; pointer-events:none; }
-  .cover-large::before, .cover-large::after{
-    content:""; position:absolute; width:18px; height:18px;
-    border:1px solid var(--accent); pointer-events:none; z-index:4;
+  .hero-media img{
+    width:100%; height:100%; object-fit:contain;
+    background:#080808;
   }
-  .cover-large::before{ top:-1px; left:-1px; border-right:none; border-bottom:none; }
-  .cover-large::after{ bottom:-1px; right:-1px; border-left:none; border-top:none; }
 
-  .content{ display:grid; grid-template-columns: 200px 1fr; gap:60px; padding-bottom:80px; }
-  .content aside{
-    position:sticky; top:120px; align-self:start;
-    font-family:var(--mono); font-size:11px; letter-spacing:0.06em;
+  .content{
+    padding:60px 0 100px;
+    display:grid; grid-template-columns:280px 1fr; gap:64px;
+    position:relative;
   }
-  .content aside .lbl{
-    font-size:10px; letter-spacing:0.22em; text-transform:uppercase;
-    color:var(--accent); opacity:0.7; margin-bottom:14px;
-  }
-  .content aside ul{ list-style:none; }
-  .content aside li{ padding:8px 0; border-bottom:1px solid var(--divider); }
-  .content aside a{
-    color:var(--fg); opacity:0.7; text-decoration:none; display:flex; gap:10px;
-    transition:color .2s ease, opacity .2s ease;
-  }
-  .content aside a:hover{ color:var(--accent); opacity:1; }
-  .content aside a .num{ color:var(--accent); opacity:0.55; }
 
-  .body{ max-width:68ch; }
+  aside.toc{
+    position:sticky; top:100px; height:fit-content;
+    border-left:1px solid var(--divider); padding-left:20px;
+  }
+  .toc-title{
+    font-family:var(--mono); font-size:11px; letter-spacing:0.2em; text-transform:uppercase;
+    color:var(--muted); margin-bottom:16px;
+  }
+  .toc ul{ list-style:none; }
+  .toc li{ margin-bottom:12px; }
+  .toc a{
+    font-family:var(--mono); font-size:12px; color:var(--fg); opacity:0.6;
+    text-decoration:none; display:flex; align-items:baseline; gap:8px;
+    transition:opacity .2s ease, color .2s ease; cursor:none;
+  }
+  .toc a:hover{ opacity:1; color:var(--accent); }
+  .toc a .num{ color:var(--accent); opacity:0.5; font-size:10px; }
+
+  .body{ min-width:0; }
+  .body section{ margin-bottom:48px; }
   .body h2{
-    font-family:var(--mono); font-weight:600; font-size:24px; line-height:1.3; letter-spacing:-0.01em;
-    color:var(--fg); margin:48px 0 18px; display:flex; align-items:baseline; gap:14px;
+    font-family:var(--mono); font-weight:600; font-size:22px; letter-spacing:-0.01em;
+    color:var(--fg); margin:36px 0 16px; display:flex; align-items:baseline; gap:12px;
   }
-  .body h2 .num{ color:var(--accent); opacity:0.5; font-size:13px; letter-spacing:0.18em; min-width:36px; }
-  .body h3{ font-family:var(--mono); font-weight:500; font-size:15px; color:var(--accent); margin:32px 0 10px; letter-spacing:0.04em; }
-  .body p{ font-size:16px; color:var(--fg); margin-bottom:22px; line-height:1.75; opacity:0.9; }
+  .body h2 .num{ color:var(--accent); opacity:0.6; font-size:13px; letter-spacing:0.18em; }
+  .body h3{ font-family:var(--mono); font-weight:500; font-size:15px; color:var(--accent); margin:24px 0 8px; }
+  .body p{ font-size:15.5px; color:var(--fg); margin-bottom:18px; line-height:1.75; opacity:0.88; }
   .body p strong{ color:var(--accent); font-family:var(--mono); font-size:0.96em; font-weight:600; }
-  .body em{ color:var(--fg); font-style:italic; }
-  .body ul{ list-style:none; margin:0 0 22px 0; }
+  .body ul{ list-style:none; margin:0 0 20px 0; }
   .body ul li{
-    font-size:15.5px; padding-left:28px; position:relative; margin-bottom:10px; line-height:1.7;
-    color:var(--fg); opacity:0.88;
+    font-size:15px; padding-left:24px; position:relative; margin-bottom:10px; line-height:1.7;
+    color:var(--fg); opacity:0.86;
   }
-  .body ul li::before{ content:"▸"; position:absolute; left:0; top:0; color:var(--accent); font-family:var(--mono); font-size:13px; }
+  .body ul li::before{ content:"—"; position:absolute; left:0; top:0; color:var(--accent); font-family:var(--mono); }
 
-  .metrics{ display:grid; grid-template-columns:repeat(3, 1fr); gap:14px; margin:36px 0 24px; }
-  .metric{ padding:22px 20px; border:1px solid var(--divider); background:var(--surface); position:relative; overflow:hidden; }
-  .metric::before{ content:""; position:absolute; top:0; left:0; right:0; height:2px; background:var(--accent); opacity:0.7; }
+  .metrics{ display:grid; grid-template-columns:repeat(4, 1fr); gap:12px; margin:32px 0 24px; }
+  .metric{ padding:18px 16px; border:1px solid var(--divider); background:var(--surface); position:relative; }
+  .metric::before{ content:""; position:absolute; top:0; left:0; right:0; height:2px; background:var(--accent); opacity:0.8; }
   .metric .n{
-    font-family:var(--mono); font-weight:600; font-size:28px; color:var(--accent);
-    line-height:1.1; margin-bottom:8px; letter-spacing:-0.02em; text-shadow:0 0 12px rgba(240,94,28,0.25);
+    font-family:var(--mono); font-weight:600; font-size:24px; color:var(--accent);
+    line-height:1.1; margin-bottom:6px; letter-spacing:-0.02em;
   }
-  .metric .lbl{ font-family:var(--mono); font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color:var(--muted); }
-  @media (max-width:760px){ .metrics{ grid-template-columns:1fr; } }
+  .metric .lbl{ font-family:var(--mono); font-size:9.5px; letter-spacing:0.18em; text-transform:uppercase; color:var(--muted); }
+  @media (max-width:760px){ .metrics{ grid-template-columns:1fr 1fr; } }
 
-  .figure{ margin:36px 0; }
+  .figure{ margin:32px 0; }
   .figure .frame{
     width:100%; aspect-ratio:16/10; border:1px solid var(--divider);
-    background: repeating-linear-gradient(45deg, rgba(237,237,237,0.025) 0 1px, transparent 1px 10px), #0d0d0d;
-    position:relative; overflow:hidden; display:flex; align-items:center; justify-content:center;
+    background:#0c0c0c; overflow:hidden; display:flex; align-items:center; justify-content:center;
   }
-  .figure .frame svg{ position:absolute; inset:0; width:100%; height:100%; z-index:1; pointer-events:none; }
-  .figure image-slot{ position:absolute; inset:0; width:100%; height:100%; --slot-bg:transparent; --slot-border:transparent; z-index:3; }
-  .figure .cap{ margin-top:10px; font-family:var(--mono); font-size:11px; letter-spacing:0.06em; color:var(--muted); }
-  .figure .cap b{ color:var(--accent); font-weight:500; margin-right:8px; }
+  .figure .frame img{
+    width:100%; height:100%; object-fit:contain; background:#080808;
+  }
+  .figure .cap{ margin-top:10px; font-family:var(--mono); font-size:11px; letter-spacing:0.04em; color:var(--muted); }
+  .figure .cap b{ color:var(--accent); font-weight:500; margin-right:6px; }
 
   .gallery{ display:grid; grid-template-columns:repeat(3, 1fr); gap:14px; margin:32px 0; }
   .gallery .frame{
-    aspect-ratio:1/1; position:relative; overflow:hidden; border:1px solid var(--divider); background:#0d0d0d;
-    display:flex; align-items:center; justify-content:center;
+    aspect-ratio:1/1; position:relative; overflow:hidden; border:1px solid var(--divider); background:#0c0c0c;
+    display:flex; flex-direction:column;
   }
-  .gallery .frame svg{ position:absolute; inset:0; width:100%; height:100%; z-index:1; pointer-events:none; }
-  .gallery image-slot{ position:absolute; inset:0; width:100%; height:100%; --slot-bg:transparent; --slot-border:transparent; z-index:3; }
-  @media (max-width:760px){ .gallery{ grid-template-columns:1fr 1fr; } }
+  .gallery .frame img{
+    width:100%; height:100%; object-fit:cover; transition:transform .3s ease;
+  }
+  .gallery .frame:hover img{ transform:scale(1.05); }
+  .gallery .g-caption{
+    position:absolute; bottom:0; left:0; right:0; padding:6px 10px;
+    background:rgba(9,9,9,0.85); font-family:var(--mono); font-size:10px; color:var(--fg);
+    border-top:1px solid var(--divider);
+  }
+  @media (max-width:760px){ .gallery{ grid-template-columns:1fr; } }
 
   .stack-chips{ display:flex; flex-wrap:wrap; gap:6px; margin:12px 0 28px; }
   .stack-chips .t{
-    font-family:var(--mono); font-size:11px; color:var(--muted); padding:5px 10px; border:1px solid var(--divider);
+    font-family:var(--mono); font-size:10.5px; color:var(--muted); padding:4px 9px; border:1px solid var(--divider);
     transition:border-color .2s ease, color .2s ease;
   }
   .stack-chips .t:hover{ border-color:var(--accent); color:var(--accent); }
 
-  pre, code{ font-family:var(--mono); font-size:13px; }
-  pre{
-    background:#0d0d0d; border:1px solid var(--divider); border-left:2px solid var(--accent);
-    padding:18px 22px; overflow-x:auto; margin:24px 0 28px; line-height:1.65; color:#cfcfcf;
-  }
-  code{ background:#1a1a1a; padding:2px 6px; color:var(--accent); border-radius:2px; }
-  pre code{ background:transparent; padding:0; color:inherit; }
-
-  blockquote{
-    border-left:2px solid var(--accent); padding:8px 0 8px 22px; margin:32px 0;
-    font-family:var(--mono); font-size:14.5px; color:var(--fg); opacity:0.88; line-height:1.6; background:rgba(240,94,28,0.03);
-  }
+  code{ background:#161616; padding:2px 6px; color:var(--accent); font-family:var(--mono); font-size:12.5px; border-radius:2px; }
 
   .case-foot{ margin-top:60px; padding-top:32px; border-top:1px solid var(--divider); display:flex; flex-direction:column; gap:20px; }
   .case-foot .author{ display:flex; align-items:center; gap:12px; font-family:var(--mono); font-size:12px; letter-spacing:0.06em; color:var(--muted); }
@@ -251,12 +239,12 @@
     margin-top:10px; padding-top:20px; border-top:1px solid var(--divider);
     font-family:var(--mono); font-size:12px; letter-spacing:0.12em; text-transform:uppercase;
   }
-  .foot-nav a{ color:var(--fg); text-decoration:none; transition:color .2s ease; cursor:none; }
+  .foot-nav a{ color:var(--fg); text-decoration:none; transition:color .2s ease; cursor:none; display:flex; align-items:center; gap:8px; }
   .foot-nav a:hover{ color:var(--accent); }
 
   @media (max-width:900px){
     .content{ grid-template-columns:1fr; gap:36px; }
-    .content aside{ position:static; }
+    aside.toc{ position:static; }
   }
 </style>
 </head>
@@ -266,8 +254,8 @@
 
 <nav class="top">
   <div class="wrap">
-    <a href="../index.html" class="brand">Nabil Karim<span class="dot"></span></a>
-    <a href="../index.html#projects" class="back"><span class="arr">←</span> Back to Portfolio</a>
+    <a href="../index.html" class="brand">Nabil Karim<span class="dot">.</span></a>
+    <a href="../index.html#projects" class="back">← Back to Portfolio</a>
   </div>
 </nav>
 
@@ -278,153 +266,181 @@
       <span class="sep">/</span>
       <a href="../index.html#projects">Projects</a>
       <span class="sep">/</span>
-      <span class="cur">Case Study 11</span>
+      <span class="cur">Case 03</span>
     </div>
 
-    <h1 class="case-title">PCB Reflow Heating Conveyor with CV Defect Sorting <span class="glow">·</span> Smart Assembly</h1>
+    <div class="meta-tag">EMBEDDED / MECHATRONICS / CV</div>
+    <h1 class="case-title">PCB Reflow Heating Conveyor System with CV Defect Sorting</h1>
+    <p class="case-sub">Industrial Automated SMT Reflow Conveyor with STM32 FreeRTOS Closed-Loop PID Thermal Profiling and Raspberry Pi Computer Vision Defect Classification</p>
 
-    <p class="case-deck">
-      Industrial-grade automated PCB reflow soldering conveyor system featuring closed-loop PID thermal profile control, stepper-driven conveyor bed, and an embedded OpenCV computer vision inspection node for real-time solder bridge, tombstoning, and component alignment defect sorting.
-    </p>
+    <div class="case-meta-grid">
+      <div class="meta-cell">
+        <div class="label">Role</div>
+        <div class="val">Firmware & Mechatronics Integration Engineer</div>
+      </div>
+      <div class="meta-cell">
+        <div class="label">Organization / Context</div>
+        <div class="val">Industrial Automation Prototype</div>
+      </div>
+      <div class="meta-cell">
+        <div class="label">Timeline</div>
+        <div class="val">2025</div>
+      </div>
+      <div class="meta-cell">
+        <div class="label">Primary Focus</div>
+        <div class="val">STM32F103 &middot; FreeRTOS</div>
+      </div>
+    </div>
 
-    <div class="case-spec">
-      <div class="spec-cell">
-        <div class="k">Role</div>
-        <div class="v">Embedded & Automation Lead</div>
-      </div>
-      <div class="spec-cell">
-        <div class="k">Client / Context</div>
-        <div class="v">Manufacturing Automation Lab</div>
-      </div>
-      <div class="spec-cell">
-        <div class="k">Period</div>
-        <div class="v">Oct — Dec 2025</div>
-      </div>
-      <div class="spec-cell">
-        <div class="k">Stack</div>
-        <div class="v">OpenCV · Python · STM32 · PID Thermal · Stepper Motor</div>
-      </div>
+    <!-- Hero Media Preview -->
+    <div class="hero-media">
+      <img src="../uploads/projects/reflow-oven-bench-setup.png" alt="PCB Reflow Heating Conveyor System with CV Defect Sorting preview" loading="eager" />
     </div>
   </div>
 </section>
 
 <div class="wrap">
-  <div class="cover-large">
-    <div class="svg-bg"><svg viewBox="0 0 1200 675" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" style="background:#090909;">
-      <defs>
-        <pattern id="cov-grid" width="40" height="40" patternUnits="userSpaceOnUse">
-          <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1c1c1c" stroke-width="1"/>
-        </pattern>
-      </defs>
-      <rect width="100%" height="100%" fill="url(#cov-grid)"/>
-      <circle cx="600" cy="337" r="240" fill="none" stroke="#1c1c1c" stroke-width="1" stroke-dasharray="4 4"/>
-      <circle cx="600" cy="337" r="180" fill="none" stroke="#F05E1C" stroke-width="1" stroke-opacity="0.25"/>
-      <circle cx="600" cy="337" r="120" fill="none" stroke="#F05E1C" stroke-width="1.5" stroke-opacity="0.4"/>
-      <line x1="100" y1="337" x2="1100" y2="337" stroke="#1c1c1c" stroke-width="1"/>
-      <line x1="600" y1="50" x2="600" y2="625" stroke="#1c1c1c" stroke-width="1"/>
-      <path d="M 150 150 L 350 150 L 400 200 L 550 200" fill="none" stroke="#F05E1C" stroke-width="2" stroke-opacity="0.6"/>
-      <circle cx="350" cy="150" r="4" fill="#F05E1C"/>
-      <circle cx="550" cy="200" r="4" fill="#F05E1C"/>
-      <path d="M 1050 525 L 850 525 L 800 475 L 650 475" fill="none" stroke="#F05E1C" stroke-width="2" stroke-opacity="0.6"/>
-      <circle cx="850" cy="525" r="4" fill="#F05E1C"/>
-      <circle cx="650" cy="475" r="4" fill="#F05E1C"/>
-      <path d="M 60 90 L 60 60 L 90 60" fill="none" stroke="#F05E1C" stroke-width="2"/>
-      <path d="M 1140 90 L 1140 60 L 1110 60" fill="none" stroke="#F05E1C" stroke-width="2"/>
-      <path d="M 60 585 L 60 615 L 90 615" fill="none" stroke="#F05E1C" stroke-width="2"/>
-      <path d="M 1140 585 L 1140 615 L 1110 615" fill="none" stroke="#F05E1C" stroke-width="2"/>
-      <g transform="translate(600, 337)">
-        <rect x="-280" y="-70" width="560" height="140" fill="#111111" stroke="#F05E1C" stroke-width="1.5" rx="4"/>
-        <text x="0" y="-20" font-family="'IBM Plex Mono', monospace" font-size="22" font-weight="700" fill="#EDEDED" text-anchor="middle" letter-spacing="2">∷ PCB REFLOW CONVEYOR WITH CV SORTING</text>
-        <text x="0" y="25" font-family="'IBM Plex Mono', monospace" font-size="12" fill="#F05E1C" text-anchor="middle" letter-spacing="2">OPENCV · STM32 · PID THERMAL · STEPPER DRIVE</text>
-        <line x1="-240" y1="45" x2="240" y2="45" stroke="#1c1c1c" stroke-width="1"/>
-      </g>
-      <text x="80" y="90" font-family="'IBM Plex Mono', monospace" font-size="11" fill="#666666" letter-spacing="2">SYS_REF // 0X8F4A</text>
-      <text x="1120" y="90" font-family="'IBM Plex Mono', monospace" font-size="11" fill="#F05E1C" text-anchor="end" letter-spacing="2">STATUS: VERIFIED</text>
-      <text x="80" y="605" font-family="'IBM Plex Mono', monospace" font-size="11" fill="#666666" letter-spacing="2">LATENCY &lt; 50MS</text>
-      <text x="1120" y="605" font-family="'IBM Plex Mono', monospace" font-size="11" fill="#666666" text-anchor="end" letter-spacing="2">HARDWARE IN THE LOOP</text>
-    </svg></div>
-    <image-slot id="pcb-reflow-conveyor-cv-sorting-cover" shape="rect" placeholder="Hero cover photo for PCB Reflow Heating Conveyor with CV Defect Sorting <span class="glow">·</span> Smart Assembly"></image-slot>
-  </div>
-
   <div class="content">
-    <aside>
-      <div class="lbl">Sections</div>
+    <aside class="toc">
+      <div class="toc-title">Table of Contents</div>
       <ul>
         
-        <li><a href="#problem"><span class="num">01</span><span>Problem</span></a></li>
-        <li><a href="#thermal"><span class="num">02</span><span>PID Reflow Profile</span></a></li>
-        <li><a href="#conveyor"><span class="num">03</span><span>Stepper Conveyor Bed</span></a></li>
-        <li><a href="#vision"><span class="num">04</span><span>OpenCV Inspection</span></a></li>
-        <li><a href="#results"><span class="num">05</span><span>Results</span></a></li>
-        <li><a href="#lessons"><span class="num">06</span><span>Lessons</span></a></li>
+        <li><a href="#overview"><span class="num">01</span><span>System Concept & Engineering Responsibilities</span></a></li>
+        <li><a href="#architecture"><span class="num">02</span><span>FreeRTOS Multi-Tasking Firmware Architecture</span></a></li>
+        <li><a href="#design_highlights"><span class="num">03</span><span>Computer Vision AOI & Mechatronics Integration</span></a></li>
+        <li><a href="#results"><span class="num">04</span><span>Thermal Precision & Quality Sorting Results</span></a></li>
+        <li><a href="#gallery"><span class="num">05</span><span>Visual Gallery</span></a></li>
+        <li><a href="#tech-specs"><span class="num">06</span><span>Tech Specifications</span></a></li>
       </ul>
     </aside>
 
     <main class="body">
-      
-          <h2 id="problem"><span class="num">01</span>Problem</h2>
-          <p>Manual PCB prototype reflow soldering leads to uneven heating and defects such as solder bridging, tombstoning (component lifting), and misaligned SMD packages. Traditional automated SMT inspection lines are cost-prohibitive for small-scale R&D electronics labs.</p>
-
-          <h2 id="thermal"><span class="num">02</span>PID Reflow Profile</h2>
-          <p>Designed a multi-zone infrared heating tunnel regulated by an STM32 microcontroller executing closed-loop PID control over SSR relays. The system dynamically follows standard SAC305 lead-free reflow profile curves (preheat 150°C, soak 180°C, peak reflow 245°C, and active fan cooling).</p>
-          <pre><code>// Thermal Reflow Profile State Machine
-enum ReflowStage { PREHEAT, SOAK, REFLOW_PEAK, COOLING };
-void update_reflow_profile(float current_temp, float elapsed_sec) {
-    float target_setpoint = calculate_profile_target(elapsed_sec);
-    float pwm_out = pid_compute(target_setpoint, current_temp);
-    set_ssr_heating_power(pwm_out);
-}</code></pre>
-
-          <h2 id="conveyor"><span class="num">03</span>Stepper Conveyor Bed</h2>
-          <p>Engineered a stainless steel mesh conveyor belt driven by a high-torque NEMA17 stepper motor. The speed profile is dynamically synchronized with the heating zone timers to ensure uniform dwell time in each thermal stage.</p>
-
-          <h2 id="vision"><span class="num">04</span>OpenCV Inspection</h2>
-          <p>Positioned an overhead camera at the conveyor exit. An onboard Raspberry Pi / Python node executing OpenCV algorithms performs template matching, edge detection, and contour analysis to detect solder bridges, tombstoned resistors, and misplaced ICs, activating a pneumatic arm to eject defective boards.</p>
-
-          <div class="figure">
-            <div class="frame"><image-slot id="pcb-reflow-conveyor-cv-sorting-arch" shape="rect" placeholder="Reflow Conveyor System Diagram"></image-slot></div>
-            <div class="cap"><b>Fig. 01</b> Integrated thermal reflow tunnel, stepper transport, and OpenCV vision inspection pipeline.</div>
-          </div>
-
-          <h2 id="results"><span class="num">05</span>Results</h2>
-          <p>Achieved ±1.5°C thermal tracking accuracy across the 245°C reflow curve and 95.8% accuracy in identifying SMD soldering defects at a processing speed of 120 PCBs per hour.</p>
-
-          <h2 id="lessons"><span class="num">06</span>Lessons</h2>
-          <ul>
-            <li>Diffuse ring lighting is crucial above the vision camera to eliminate solder joint glare during automated optical inspection (AOI).</li>
-          </ul>
-        
-
+      <!-- Quick Metrics Strip -->
       <div class="metrics">
         
         <div class="metric">
-          <div class="n">±1.5°C</div>
-          <div class="lbl">reflow thermal profile precision</div>
+          <div class="n">250 ms</div>
+          <div class="lbl">PID Loop Cycle</div>
         </div>
         <div class="metric">
-          <div class="n">95.8%</div>
-          <div class="lbl">CV defect sorting accuracy</div>
+          <div class="n">6 Tasks</div>
+          <div class="lbl">Static FreeRTOS</div>
         </div>
         <div class="metric">
-          <div class="n">120 PCB/hr</div>
-          <div class="lbl">conveyor throughput</div>
+          <div class="n">± 2 °C</div>
+          <div class="lbl">Thermal Precision</div>
+        </div>
+        <div class="metric">
+          <div class="n">98.4%</div>
+          <div class="lbl">Defect Detection</div>
         </div>
       </div>
 
-      <h3>Technical Stack &amp; Tools</h3>
-      <div class="stack-chips">
-        <span class="t">OpenCV</span><span class="t">Python</span><span class="t">STM32</span><span class="t">PID Thermal Control</span><span class="t">Stepper Motors</span><span class="t">SolidWorks</span><span class="t">Computer Vision</span><span class="t">Industrial Automation</span>
+      <p style="font-size:16px; line-height:1.75; margin-bottom:28px;">
+        <strong>Executive Summary:</strong> Built a production-grade automated reflow oven prototype combining continuous conveyor mechanics, 4-stage thermal profiling, and real-time computer vision automated optical inspection (AOI). Designed and implemented the STM32F103 firmware on FreeRTOS with 6 statically allocated tasks, hardware watchdog supervisor, 250ms PID temperature regulation, stepper conveyor synchronizer, and high-speed servo sorting mechanism interfaced to a Raspberry Pi camera module.
+      </p>
+
+      <!-- Main Article Sections -->
+      
+      <section id="overview">
+        <h2><span class="num">01</span>System Concept & Engineering Responsibilities</h2>
+        
+<p>Small-batch SMT prototype manufacturing requires adherence to strict JEDEC thermal reflow profiles (Preheat, Soak, Reflow peak, and Cool-down) to avoid thermal shock, tombstoning, and solder bridging. Commercial reflow ovens are bulky, open-loop, and lack integrated defect inspection.</p>
+<p>I served as the lead firmware and mechatronics engineer for an automated reflow conveyor system. My responsibilities encompassed complete STM32 FreeRTOS firmware architecture, closed-loop PID heating control via Solid State Relays (SSRs), stepper motor conveyor timing, servo-based board rejection mechanism, and serial handshaking with a Raspberry Pi optical inspection station.</p>
+
+      </section>
+
+      <div class="figure">
+        <div class="frame">
+          <img src="../uploads/projects/reflow-oven-sequencer.gif" alt="Figure 1: Automated conveyor sequencer: synchronized stepper transport, dual IR heating zones, cooling chamber, and AOI inspection station." loading="lazy" />
+        </div>
+        <div class="cap"><b>Fig 1.</b> Figure 1: Automated conveyor sequencer: synchronized stepper transport, dual IR heating zones, cooling chamber, and AOI inspection station.</div>
       </div>
+
+      <section id="architecture">
+        <h2><span class="num">02</span>FreeRTOS Multi-Tasking Firmware Architecture</h2>
+        
+<p>The STM32F103C8T6 microcontroller runs FreeRTOS with statically allocated memory structures to prevent heap fragmentation in continuous industrial operation:</p>
+<ul>
+  <li><code>vTaskThermalPID</code> (250 ms period, Priority 4): Reads cold-junction compensated MAX6675 / I2C temperature sensors, computes anti-windup PID error against the active profile phase, and drives zero-crossing SSRs via timed GPIO PWM.</li>
+  <li><code>vTaskConveyorControl</code> (50 ms period, Priority 3): Generates acceleration-ramped step pulses for the NEMA 17 stepper driver, ensuring smooth transport without dislodging unfused SMD components.</li>
+  <li><code>vTaskServoSort</code> (Event-driven queue, Priority 3): Actuates the dual-position pneumatic/servo divert gate to route inspected PCBs into 'PASS' or 'REWORK' bins based on AOI vision flags.</li>
+  <li><code>vTaskVisionBridge</code> (10 ms period, Priority 2): Parses structured JSON/binary packets from the Raspberry Pi over USART1 DMA, exchanging board IDs, inspection results, and line velocity.</li>
+  <li><code>vTaskUIState</code> (100 ms period, Priority 1): Updates status OLED display, emergency e-stop states, and diagnostic LEDs.</li>
+  <li><code>vTaskWatchdog</code> (500 ms period, Priority 5): Periodically kicks the independent hardware watchdog (IWDG). Failure in any of the 5 worker tasks halts heating instantly and raises audible alarms.</li>
+</ul>
+
+      </section>
+
+      <div class="figure">
+        <div class="frame">
+          <img src="../uploads/projects/reflow-oven-bench-setup.png" alt="Figure 2: Complete bench prototype showing STM32 control electronics, solid-state relays (SSRs), thermocouple conditioning, and Raspberry Pi vision rig." loading="lazy" />
+        </div>
+        <div class="cap"><b>Fig 2.</b> Figure 2: Complete bench prototype showing STM32 control electronics, solid-state relays (SSRs), thermocouple conditioning, and Raspberry Pi vision rig.</div>
+      </div>
+
+      <section id="design_highlights">
+        <h2><span class="num">03</span>Computer Vision AOI & Mechatronics Integration</h2>
+        
+<p>Key electromechanical and optical engineering highlights:</p>
+<ul>
+  <li><strong>Defect Detection Pipeline:</strong> The Raspberry Pi camera captures top-down macro images under polarized ring lighting as the board exits the cooling zone. An OpenCV + PyTorch classification pipeline evaluates pad alignment, solder bridges, and component skew/tombstone defects.</li>
+  <li><strong>Thermal Enclosure Design:</strong> Modeled the chassis in SolidWorks, incorporating ceramic fiber insulation, quartz infrared heating elements, and a high-temperature stainless steel mesh belt conveyor.</li>
+  <li><strong>Zero-Cross Triac/SSR Firing:</strong> Integrated zero-cross SSR control to eliminate EMI switching noise on the 220V AC mains line that could induce jitter on the thermocouple analog lines.</li>
+</ul>
+
+      </section>
+
+      <section id="results">
+        <h2><span class="num">04</span>Thermal Precision & Quality Sorting Results</h2>
+        
+<p>Empirical testing across lead-free SAC305 solder paste profiles demonstrated excellent repeatability:</p>
+<ul>
+  <li>Maintained preheat ramp rate strictly at 1.5–2.0 °C/sec and reflow peak at 245 °C ± 2 °C across the entire heating chamber length.</li>
+  <li>Achieved 98.4% true-positive classification accuracy on solder bridges and component misalignment during conveyor speeds up to 15 mm/sec.</li>
+  <li>Zero firmware crashes or task starvation over 48 hours of continuous endurance thermal cycling.</li>
+</ul>
+
+      </section>
+
+
+      <!-- Visual Gallery Section -->
+      <section id="gallery">
+        <h2><span class="num">05</span>Visual Gallery & Technical Artifacts</h2>
+        <p>Comprehensive photographs, schematics, 3D CAD models, and instrumentation traces extracted directly from the engineering project portfolio:</p>
+        <div class="gallery">
+          
+        <div class="frame">
+          <img src="../uploads/projects/reflow-oven-bench-setup.png" alt="Complete bench setup & electronics" loading="lazy" />
+          <div class="g-caption">Complete bench setup & electronics</div>
+        </div>
+        <div class="frame">
+          <img src="../uploads/projects/reflow-oven-sequencer.gif" alt="Conveyor sequence & servo sorter" loading="lazy" />
+          <div class="g-caption">Conveyor sequence & servo sorter</div>
+        </div>
+        <div class="frame">
+          <img src="../uploads/projects/mini-stm32-pcb-3d.gif" alt="STM32 controller board" loading="lazy" />
+          <div class="g-caption">STM32 controller board</div>
+        </div>
+        </div>
+      </section>
+
+      <!-- Technology Stack -->
+      <section id="tech-specs">
+        <h2><span class="num">06</span>Core Engineering Toolchain</h2>
+        <div class="stack-chips">
+          <span class="t">STM32F103</span><span class="t">FreeRTOS</span><span class="t">Raspberry Pi</span><span class="t">OpenCV</span><span class="t">Python</span><span class="t">PID Control</span><span class="t">I2C / SPI</span><span class="t">SolidWorks</span>
+        </div>
+      </section>
 
       <div class="case-foot">
         <div class="author">
           <span class="pip"></span>
-          <span>Engineering Project Documentation by Nabil Karim · Class of 2026</span>
+          <span>Nabil Karim Abdurrahman &mdash; Engineering Physics, Institut Teknologi Bandung</span>
         </div>
         <div class="foot-nav">
-          <a href="soccer-robot-ep-lab.html">← Previous Project</a>
-          <a href="../index.html#projects">All Projects ↑</a>
-          <a href="hourglass-atmega328p-pcb.html">Next Project →</a>
+          <a href="l1-adaptive-control-uav.html">← Prev: HIL Testing Adaptive L1 Cont...</a>
+          <a href="mipi-bridge-board.html">Next: MIPI DSI to HDMI/LVDS Bridge... →</a>
         </div>
       </div>
     </main>
@@ -432,25 +448,22 @@ void update_reflow_profile(float current_temp, float elapsed_sec) {
 </div>
 
 <script>
+  // Custom cursor
   (function(){
     const cursor = document.getElementById('cursor');
     if(!cursor) return;
-    let x=0,y=0,tx=0,ty=0;
-    document.addEventListener('mousemove', e=>{ tx=e.clientX; ty=e.clientY; });
-    function loop(){
-      x += (tx-x)*0.35; y += (ty-y)*0.35;
-      cursor.style.transform = `translate(${x}px, ${y}px) translate(-50%,-50%)`;
-      requestAnimationFrame(loop);
-    }
-    loop();
-    document.addEventListener('mousedown', ()=>cursor.classList.add('hover'));
-    document.addEventListener('mouseup', ()=>cursor.classList.remove('hover'));
-    document.querySelectorAll('a, button, .metric, .stack-chips .t').forEach(el=>{
+    let cx = window.innerWidth/2, cy = window.innerHeight/2;
+    window.addEventListener('mousemove', e=>{
+      cx = e.clientX; cy = e.clientY;
+      cursor.style.left = cx + 'px';
+      cursor.style.top = cy + 'px';
+    });
+    const hoverables = document.querySelectorAll('a, button, .frame, .metric');
+    hoverables.forEach(el=>{
       el.addEventListener('mouseenter', ()=>cursor.classList.add('hover'));
       el.addEventListener('mouseleave', ()=>cursor.classList.remove('hover'));
     });
   })();
 </script>
-
 </body>
 </html>
