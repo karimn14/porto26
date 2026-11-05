@@ -1056,6 +1056,60 @@
     color: var(--accent);
   }
 
+
+  /* Language Switcher Buttons */
+  .corner-lang-btn {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 9999;
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: var(--fg);
+    background: rgba(18, 18, 18, 0.94);
+    border: 1px solid var(--accent);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.65), 0 0 12px var(--accent-glow);
+    padding: 9px 16px;
+    border-radius: 24px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    backdrop-filter: blur(14px);
+    transition: all .25s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .corner-lang-btn:hover {
+    transform: translateY(-2px) scale(1.03);
+    background: var(--accent);
+    color: #000;
+    box-shadow: 0 8px 24px rgba(240, 94, 28, 0.5);
+  }
+  .corner-lang-btn .flag { font-size: 14px; }
+
+  .nav-lang-btn {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--fg);
+    background: #141414;
+    border: 1px solid var(--divider);
+    padding: 6px 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    transition: all .2s ease;
+    border-radius: 2px;
+  }
+  .nav-lang-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: #1a1a1a;
+  }
+
 </style>
   <!-- Vercel Web Analytics -->
   <script>
@@ -1077,6 +1131,7 @@
       <a href="#awards">Awards</a>
       <a href="#projects">Projects</a>
       <a href="#contact">Contact</a>
+      <button class="nav-lang-btn" id="navLangToggle" aria-label="Switch Language"><span id="navLangText">🇰🇷 한국어</span></button>
       <a href="#" class="cta">CV ↗</a>
     </div>
     <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span></button>
@@ -1090,6 +1145,7 @@
   <a href="#projects" data-close>Projects<span>.</span></a>
   <a href="#contact" data-close>Contact<span>.</span></a>
   <a href="#" data-close>Download CV ↗</a>
+  <a href="#" onclick="window.toggleLanguage(); return false;" id="mobileLangToggle" style="color:var(--accent); font-family:var(--mono); font-size:16px;">🌐 <span id="mobileLangText">한국어 (KO)</span></a>
   <div class="meta">
     <span>NKA / 2026</span>
     <span>Bandung, ID</span>
@@ -1218,7 +1274,7 @@
           <h4>Tooling</h4>
           <div class="pills">
             <span class="pill">Git</span><span class="pill">SITL / HIL</span><span class="pill">Gazebo</span>
-            <span class="pill">PSCAD</span><span class="pill">LaTeX</span><span class="pill">Proteus</span>
+            <span class="pill">LTSpice</span><span class="pill">OrCAD</span><span class="pill">Onshape</span><span class="pill">AutoCAD</span><span class="pill">LaTeX</span><span class="pill">Proteus</span>
           </div>
         </div>
         <div class="stack-group">
@@ -1716,108 +1772,6 @@
 </section>
 
 
-<!-- ARCHIVED: LEARNING JOURNAL (Preserved in repository, hidden from public UI) -->
-<!--
-<!-- LEARNING JOURNAL -->
-<section id="learning" data-num="06">
-  <div class="side-label">06 / Field Notes</div>
-  <div class="wrap">
-    <div class="sec-head fade-in">
-      <span class="sec-num">06</span>
-      <span class="sec-kicker">Learning Journal / Field Notes</span>
-      <span class="sec-rule"></span>
-    </div>
-
-    <div class="journal-meta fade-in">
-      <p>Six running channels of study. Each is its own log, with episodes that build on each other. Open a channel to see all of its entries.</p>
-      <span class="counter">— 6 CHANNELS · 30 EPISODES</span>
-    </div>
-
-    <div class="cat-grid">
-
-      <a class="cat-card fade-in" href="journal/language/index.html">
-        <div class="cat-top">
-          <span class="cat-num">CH / 01</span>
-          <span class="cat-meta"><span class="pip"></span> Live</span>
-        </div>
-        <h4><span class="glyph">中</span>Language Lab — Mandarin</h4>
-        <p class="cat-desc">HSK 1→ and beyond. Tones, structure, hanzi memory hierarchy — treated as a system problem rather than a memorization grind.</p>
-        <div class="cat-latest">
-          <span class="lbl">5 episodes</span>
-          <span class="read">Open log →</span>
-        </div>
-      </a>
-
-      <a class="cat-card fade-in" href="journal/control/index.html">
-        <div class="cat-top">
-          <span class="cat-num">CH / 02</span>
-          <span class="cat-meta"><span class="pip"></span> Live</span>
-        </div>
-        <h4><span class="glyph">◈</span>Control Theory</h4>
-        <p class="cat-desc">Lyapunov, ISS, MPC weighting, observers, event-triggered control. The math that has to be right before HIL has any chance.</p>
-        <div class="cat-latest">
-          <span class="lbl">5 episodes</span>
-          <span class="read">Open log →</span>
-        </div>
-      </a>
-
-      <a class="cat-card fade-in" href="journal/pcb/index.html">
-        <div class="cat-top">
-          <span class="cat-num">CH / 03</span>
-          <span class="cat-meta"><span class="pip"></span> Live</span>
-        </div>
-        <h4><span class="glyph">∷</span>PCB &amp; Signal Integrity</h4>
-        <p class="cat-desc">Field notes from KiCad layouts — return paths, decoupling, crystal load caps, USB diff pairs, the pre-flight checklist.</p>
-        <div class="cat-latest">
-          <span class="lbl">5 episodes</span>
-          <span class="read">Open log →</span>
-        </div>
-      </a>
-
-      <a class="cat-card fade-in" href="journal/energy/index.html">
-        <div class="cat-top">
-          <span class="cat-num">CH / 04</span>
-          <span class="cat-meta"><span class="pip"></span> Live</span>
-        </div>
-        <h4><span class="glyph">⚡</span>Renewable Energy</h4>
-        <p class="cat-desc">Solar, micro-hydro, GIC in grids, battery modeling, wind turbine aerodynamics. Engineering for the energy transition, from the bench up.</p>
-        <div class="cat-latest">
-          <span class="lbl">5 episodes</span>
-          <span class="read">Open log →</span>
-        </div>
-      </a>
-
-      <a class="cat-card fade-in" href="journal/impact/index.html">
-        <div class="cat-top">
-          <span class="cat-num">CH / 05</span>
-          <span class="cat-meta"><span class="pip"></span> Live</span>
-        </div>
-        <h4><span class="glyph">⊕</span>Impact Engineering</h4>
-        <p class="cat-desc">Engineering for community and impact — sociopreneur work, appropriate technology for 3T regions, SDG-aligned design, and the parts of engineering you only learn outside the textbook.</p>
-        <div class="cat-latest">
-          <span class="lbl">5 episodes</span>
-          <span class="read">Open log →</span>
-        </div>
-      </a>
-
-      <a class="cat-card fade-in" href="journal/strategy/index.html">
-        <div class="cat-top">
-          <span class="cat-num">CH / 06</span>
-          <span class="cat-meta"><span class="pip"></span> Live</span>
-        </div>
-        <h4><span class="glyph">◇</span>Deeptech Strategy</h4>
-        <p class="cat-desc">From research bench to market — reading list, TRL ladder for hardware founders, patents, pricing, the Indonesian landscape.</p>
-        <div class="cat-latest">
-          <span class="lbl">5 episodes</span>
-          <span class="read">Open log →</span>
-        </div>
-      </a>
-
-    </div>
-  </div>
-</section>
--->
-
 <!-- CONTACT -->
 <section id="contact" class="contact" data-num="06">
   <div class="side-label">06 / Signal Out</div>
@@ -1949,5 +1903,253 @@
     track.innerHTML = track.innerHTML + track.innerHTML;
   })();
 </script>
+
+<!-- Language Switcher Script (English / Korean) -->
+<button class="corner-lang-btn" id="cornerLangToggle" aria-label="Toggle Language between English and Korean" title="Switch language to Korean / 한국어 전환">
+  <span class="flag" id="cornerLangFlag">🇰🇷</span>
+  <span class="txt" id="cornerLangText">한국어 (KO)</span>
+</button>
+
+<script>
+(function(){
+  const translations = {
+    en: {
+      nav: {
+        about: "About",
+        experience: "Experience",
+        awards: "Awards",
+        projects: "Projects",
+        contact: "Contact",
+        cv: "CV ↓"
+      },
+      hero: {
+        status: "OPEN FOR HIRE · HARDWARE / FIRMWARE / DRONE",
+        kicker: "01 / Engineering Physics · ITB",
+        name: "Nabil Karim",
+        sub: "Engineering Physics graduate from Institut Teknologi Bandung specializing in embedded firmware, custom PCB design, and autonomous robotics. Proven track record in UAV systems, RTOS controllers, FPGA accelerators, and industrial automation.",
+        stat1_lbl: "Years Building",
+        stat2_lbl: "Engineering Projects",
+        stat3_lbl: "Tier-1 Competitions",
+        stat4_lbl: "International Patent",
+        cta_projects: "Explore Projects ↓",
+        cta_log: "Read Engineering Log →"
+      },
+      sections: {
+        about_kicker: "About / Technical Profile",
+        exp_kicker: "Experience / Career Path",
+        awards_kicker: "Honors / Competitions & Patents",
+        proj_kicker: "Projects / Engineering Build Log",
+        contact_kicker: "Contact / Outbound Channel",
+        contact_headline: "Let's build<br/>something that <span class=\"glow\">matters.</span>",
+        contact_msg: "Send a message →",
+        contact_cv: "Download CV ↓"
+      },
+      filters: {
+        all: "All",
+        drone: "Drone / Control",
+        embedded: "Embedded / Firmware",
+        pcb: "PCB / Hardware",
+        fpga: "FPGA / Digital",
+        iiot: "IIoT / HMI"
+      },
+      tools: {
+        hardware: "Hardware",
+        firmware: "Firmware / Software",
+        web: "Web / Data",
+        tooling: "Tooling",
+        certs: "Certifications",
+        langs: "Languages"
+      },
+      btn_more: "View All Projects (18) ↓",
+      corner_btn: "한국어 (KO)",
+      corner_flag: "🇰🇷",
+      nav_btn: "🇰🇷 한국어"
+    },
+    ko: {
+      nav: {
+        about: "소개",
+        experience: "경력",
+        awards: "수상",
+        projects: "프로젝트",
+        contact: "연락처",
+        cv: "이력서 ↓"
+      },
+      hero: {
+        status: "채용 가능 · 하드웨어 / 펌웨어 / 자율 비행 드론",
+        kicker: "01 / 공학물리학 · 반둥공과대학교 (ITB)",
+        name: "나빌 카림 (Nabil Karim)",
+        sub: "인도네시아 반둥공과대학교(ITB) 공학물리학 전공. 임베디드 펌웨어, 고속·고신뢰성 PCB 설계, 자율 비행 로보틱스 전문 엔지니어입니다. UAV 제어 시스템, RTOS 기반 컨트롤러, FPGA 가속기 및 산업용 스마트 팩토리 제어 분야에서 검증된 실무 역량을 보유하고 있습니다.",
+        stat1_lbl: "개발 실무 경력",
+        stat2_lbl: "완성 엔지니어링 프로젝트",
+        stat3_lbl: "주요 경진대회 입상",
+        stat4_lbl: "국제 특허 및 실용신안",
+        cta_projects: "프로젝트 탐색 ↓",
+        cta_log: "엔지니어링 빌드 로그 →"
+      },
+      sections: {
+        about_kicker: "엔지니어 소개 / 기술 프로필",
+        exp_kicker: "실무 경력 / 산업 프로젝트 이력",
+        awards_kicker: "수상 내역 / 경진대회 및 특허",
+        proj_kicker: "프로젝트 / 엔지니어링 빌드 로그",
+        contact_kicker: "연락처 / 협업 및 채용 문의",
+        contact_headline: "가치 있고 혁신적인<br/>시스템을 <span class=\"glow\">함께 구축합니다.</span>",
+        contact_msg: "이메일 보내기 →",
+        contact_cv: "이력서 다운로드 ↓"
+      },
+      filters: {
+        all: "전체",
+        drone: "드론 / 제어",
+        embedded: "임베디드 / 펌웨어",
+        pcb: "PCB / 하드웨어",
+        fpga: "FPGA / 디지털",
+        iiot: "IIoT / 스마트 HMI"
+      },
+      tools: {
+        hardware: "하드웨어 (Hardware)",
+        firmware: "펌웨어 / 소프트웨어",
+        web: "웹 / 데이터 플랫폼",
+        tooling: "엔지니어링 툴 (Tooling)",
+        certs: "전문 자격증",
+        langs: "구사 언어"
+      },
+      btn_more: "전체 프로젝트 보기 (18) ↓",
+      corner_btn: "English (EN)",
+      corner_flag: "🇺🇸",
+      nav_btn: "🇺🇸 English"
+    }
+  };
+
+  let curLang = localStorage.getItem('site_lang') || 'en';
+
+  function applyLanguage(lang) {
+    curLang = lang;
+    localStorage.setItem('site_lang', lang);
+    const t = translations[lang];
+
+    // Nav Links
+    const navLinks = document.querySelectorAll('#nav .nav-links a');
+    if(navLinks.length >= 6) {
+      navLinks[0].textContent = t.nav.about;
+      navLinks[1].textContent = t.nav.experience;
+      navLinks[2].textContent = t.nav.awards;
+      navLinks[3].textContent = t.nav.projects;
+      navLinks[4].textContent = t.nav.contact;
+      navLinks[5].textContent = t.nav.cv;
+    }
+
+    // Hero
+    const statusChip = document.querySelector('.status-chip .status-text');
+    if(statusChip) statusChip.textContent = t.hero.status;
+
+    const heroKicker = document.querySelector('.hero-kicker');
+    if(heroKicker) heroKicker.textContent = t.hero.kicker;
+
+    const heroSub = document.querySelector('.hero-sub');
+    if(heroSub) heroSub.textContent = t.hero.sub;
+
+    const statLabels = document.querySelectorAll('.hero-stats .stat .lbl');
+    if(statLabels.length >= 4) {
+      statLabels[0].textContent = t.hero.stat1_lbl;
+      statLabels[1].textContent = t.hero.stat2_lbl;
+      statLabels[2].textContent = t.hero.stat3_lbl;
+      statLabels[3].textContent = t.hero.stat4_lbl;
+    }
+
+    const heroCta1 = document.querySelector('.hero-actions .btn.primary');
+    if(heroCta1) heroCta1.innerHTML = t.hero.cta_projects;
+
+    const heroCta2 = document.querySelector('.hero-actions .btn:not(.primary)');
+    if(heroCta2) heroCta2.innerHTML = t.hero.cta_log;
+
+    // Section kickers
+    const aboutKicker = document.querySelector('#about .sec-kicker');
+    if(aboutKicker) aboutKicker.textContent = t.sections.about_kicker;
+
+    const expKicker = document.querySelector('#experience .sec-kicker');
+    if(expKicker) expKicker.textContent = t.sections.exp_kicker;
+
+    const awardsKicker = document.querySelector('#awards .sec-kicker');
+    if(awardsKicker) awardsKicker.textContent = t.sections.awards_kicker;
+
+    const projKicker = document.querySelector('#projects .sec-kicker');
+    if(projKicker) projKicker.textContent = t.sections.proj_kicker;
+
+    const contactKicker = document.querySelector('#contact .sec-kicker');
+    if(contactKicker) contactKicker.textContent = t.sections.contact_kicker;
+
+    const contactHeadline = document.querySelector('.contact-headline');
+    if(contactHeadline) contactHeadline.innerHTML = t.sections.contact_headline;
+
+    // Filters
+    const filterBtns = document.querySelectorAll('#filters .filter');
+    filterBtns.forEach(btn => {
+      const f = btn.getAttribute('data-filter');
+      const countSpan = btn.querySelector('.count');
+      const countText = countSpan ? countSpan.textContent : '';
+      if(t.filters[f]) {
+        btn.childNodes[0].nodeValue = t.filters[f] + ' ';
+      }
+    });
+
+    // Tooling Group Titles
+    const stackHeadings = document.querySelectorAll('.stack-group h4');
+    if(stackHeadings.length >= 6) {
+      stackHeadings[0].textContent = t.tools.hardware;
+      stackHeadings[1].textContent = t.tools.firmware;
+      stackHeadings[2].textContent = t.tools.web;
+      stackHeadings[3].textContent = t.tools.tooling;
+      stackHeadings[4].textContent = t.tools.certs;
+      stackHeadings[5].textContent = t.tools.langs;
+    }
+
+    // View more button
+    const moreBtn = document.getElementById('moreBtn');
+    if(moreBtn) {
+      const arr = document.getElementById('moreArr');
+      moreBtn.innerHTML = t.btn_more;
+      if(arr) moreBtn.appendChild(arr);
+    }
+
+    // Corner button & Nav button labels
+    const cornerText = document.getElementById('cornerLangText');
+    const cornerFlag = document.getElementById('cornerLangFlag');
+    if(cornerText) cornerText.textContent = t.corner_btn;
+    if(cornerFlag) cornerFlag.textContent = t.corner_flag;
+
+    const navBtnText = document.getElementById('navLangText');
+    const mobileText = document.getElementById('mobileLangText');
+    if(mobileText) mobileText.textContent = lang === 'en' ? '한국어 (KO)' : 'English (EN)';
+    if(navBtnText) navBtnText.textContent = t.nav_btn;
+  }
+
+  // Toggle function
+  window.toggleLanguage = function() {
+    const nextLang = curLang === 'en' ? 'ko' : 'en';
+    applyLanguage(nextLang);
+  };
+
+  document.addEventListener('DOMContentLoaded', function(){
+    const cornerBtn = document.getElementById('cornerLangToggle');
+    if(cornerBtn) cornerBtn.addEventListener('click', window.toggleLanguage);
+
+    const navBtn = document.getElementById('navLangToggle');
+    if(navBtn) navBtn.addEventListener('click', window.toggleLanguage);
+
+    if(curLang !== 'en') {
+      applyLanguage(curLang);
+    }
+  });
+
+  // Run on initial load
+  if(document.readyState !== 'loading') {
+    const cornerBtn = document.getElementById('cornerLangToggle');
+    if(cornerBtn) cornerBtn.addEventListener('click', window.toggleLanguage);
+    const navBtn = document.getElementById('navLangToggle');
+    if(navBtn) navBtn.addEventListener('click', window.toggleLanguage);
+    if(curLang !== 'en') applyLanguage(curLang);
+  }
+})();
+</script>
+
 </body>
 </html>
