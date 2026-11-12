@@ -281,15 +281,15 @@
     <div class="case-meta-grid">
       <div class="meta-cell">
         <div class="label">Role</div>
-        <div class="val">FPGA Digital Design Engineer</div>
+        <div class="val">CNN Architecture, Optimization & C# GUI</div>
       </div>
       <div class="meta-cell">
         <div class="label">Organization / Context</div>
-        <div class="val">Digital Systems Lab / Academic Research</div>
+        <div class="val">Work Training Project</div>
       </div>
       <div class="meta-cell">
         <div class="label">Timeline</div>
-        <div class="val">2025</div>
+        <div class="val">November 2026</div>
       </div>
       <div class="meta-cell">
         <div class="label">Primary Focus</div>
@@ -299,7 +299,7 @@
 
     <!-- Hero Media Preview -->
     <div class="hero-media">
-      <img src="../uploads/projects/fpga-cnn-block-diagram.png" alt="Basys 3 FPGA CNN Eye-State Classifier (Artix-7) preview" loading="eager" />
+      <img src="../uploads/projects/fpga-cnn-demo-app.png" alt="C# eye-state classifier demo app showing live eye detection and awake status" loading="eager" />
     </div>
   </div>
 </section>
@@ -342,7 +342,7 @@
       </div>
 
       <p style="font-size:16px; line-height:1.75; margin-bottom:28px;">
-        <strong>Executive Summary:</strong> Designed, synthesized, and verified an integer-only Convolutional Neural Network (CNN) accelerator in Verilog HDL on a Digilent Basys 3 (Xilinx Artix-7 XC7A35T) FPGA for driver drowsiness eye-state classification (open vs closed). Achieved 98.1% test accuracy and a bit-exact 100% numerical match with a PyTorch INT8 quantized golden model using an ultra-efficient single-MAC pipelined datapath that consumed zero dedicated DSP slices.
+        <strong>Project Summary:</strong> As part of a work training project in November 2026, I contributed to the CNN architecture for eye-state classification, optimized the design for the Basys 3 Artix-7 FPGA, and built the C# GUI used to demonstrate the classifier. The demo combines live eye-state feedback with FPGA test results; the figures below show the system block diagram, application, and hardware test.
       </p>
 
       <!-- Main Article Sections -->
@@ -357,9 +357,9 @@
 
       <div class="figure">
         <div class="frame">
-          <img src="../uploads/projects/fpga-cnn-architecture.png" alt="Figure 1: Hardware datapath block diagram: input BRAM buffer, single-MAC multiply-accumulate unit, ReLU thresholding, and state sequencer." loading="lazy" />
+          <img src="../uploads/projects/fpga-cnn-block-diagram.png" alt="CNN eye-state classifier system block diagram" loading="lazy" />
         </div>
-        <div class="cap"><b>Fig 1.</b> Figure 1: Hardware datapath block diagram: input BRAM buffer, single-MAC multiply-accumulate unit, ReLU thresholding, and state sequencer.</div>
+        <div class="cap"><b>Fig 1.</b> CNN classifier block diagram, from image input through inference to the eye-state output.</div>
       </div>
 
       <section id="architecture">
@@ -376,9 +376,9 @@
 
       <div class="figure">
         <div class="frame">
-          <img src="../uploads/projects/fpga-cnn-block-diagram.png" alt="Figure 2: Top-level Verilog hierarchy: control FSM, weight ROMs, feature map scratchpad, and classification decision logic." loading="lazy" />
+          <img src="../uploads/projects/fpga-cnn-demo-app.png" alt="C# GUI demo displaying live eye-state classification" loading="lazy" />
         </div>
-        <div class="cap"><b>Fig 2.</b> Figure 2: Top-level Verilog hierarchy: control FSM, weight ROMs, feature map scratchpad, and classification decision logic.</div>
+        <div class="cap"><b>Fig 2.</b> C# demo application showing live eye tracking and the classifier's awake status.</div>
       </div>
 
       <section id="design_highlights">
@@ -392,6 +392,13 @@
 </ul>
 
       </section>
+
+      <div class="figure">
+        <div class="frame">
+          <img src="../uploads/projects/fpga-cnn-demo-test.png" alt="Demo test showing eye-state classification and Basys 3 FPGA output" loading="lazy" />
+        </div>
+        <div class="cap"><b>Fig 3.</b> Demo test with open and closed eye cases shown alongside the Basys 3 board output.</div>
+      </div>
 
       <section id="results">
         <h2><span class="num">04</span>Synthesis Metrics & Classification Accuracy</h2>
@@ -413,12 +420,16 @@
         <div class="gallery">
           
         <div class="frame">
-          <img src="../uploads/projects/fpga-cnn-block-diagram.png" alt="Top-level block diagram" loading="lazy" />
-          <div class="g-caption">Top-level block diagram</div>
+          <img src="../uploads/projects/fpga-cnn-block-diagram.png" alt="CNN classifier block diagram" loading="lazy" />
+          <div class="g-caption">CNN classifier block diagram</div>
         </div>
         <div class="frame">
-          <img src="../uploads/projects/fpga-cnn-architecture.png" alt="Pipelined datapath architecture" loading="lazy" />
-          <div class="g-caption">Pipelined datapath architecture</div>
+          <img src="../uploads/projects/fpga-cnn-demo-app.png" alt="C# demo app" loading="lazy" />
+          <div class="g-caption">C# demo app</div>
+        </div>
+        <div class="frame">
+          <img src="../uploads/projects/fpga-cnn-demo-test.png" alt="FPGA classifier demo test" loading="lazy" />
+          <div class="g-caption">FPGA classifier demo test</div>
         </div>
         <div class="frame">
           <img src="../uploads/projects/mini-stm32-pcb-3d.gif" alt="Embedded integration reference" loading="lazy" />
